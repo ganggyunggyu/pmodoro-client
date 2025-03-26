@@ -25,22 +25,17 @@ export const KakaoCallbackPage = () => {
     const result = await axios.get(
       `http://localhost:3000/auth/kakao-callback?code=${code}`,
     );
-    // const result = await axios.get(
-    //   `https://pmodoro-web.vercel.app/api/auth/kakao?code=${code}`,
-    // );
 
-    const { userInfo, existingUser } = result.data;
+    const { userInfo, isUser } = result.data;
 
     console.log(result.data);
 
-    console.log(existingUser);
-
-    if (existingUser) {
+    if (isUser) {
       setUserInfo(userInfo);
       setIsAuth(true);
       navigate('/');
     }
-    if (!existingUser) {
+    if (!isUser) {
       setName(userInfo.nickname);
 
       navigate('/onboarding/user-info');

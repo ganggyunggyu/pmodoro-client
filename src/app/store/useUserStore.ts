@@ -1,13 +1,14 @@
 import { create } from 'zustand';
 
 export type UserInfo = {
-  id: string;
+  _id: string; //mongoid
+  userId: string; //kakaoid
   displayName: string;
   phoneNumber?: string;
   firstArea?: string;
   secondArea?: string;
   position: string;
-  detailPositionList: [];
+  detailPositionList: string[];
   career: number;
 };
 

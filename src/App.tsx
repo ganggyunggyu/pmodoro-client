@@ -5,7 +5,8 @@ import { OnboardingWidget } from './widgets/onboarding';
 import { LoginPage } from './pages/LoginPage';
 import { KakaoCallbackPage } from './pages/kakaoCallbackPage';
 import { ProfilePage } from './pages/ProfilePage';
-import { HomePage } from './pages/Homepage';
+import { HomePage } from './pages/HomePage';
+import { ChatPage } from './pages/ChatPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/profile/:userId" element={<ProfilePage />} />
       <Route path="/auth/kakao-callback" element={<KakaoCallbackPage />} />
+      <Route path="/chat/:userId/:roomId?" element={<ChatPage />} />
 
       <Route path="/onboarding/*" element={<OnboardingWidget />} />
     </Routes>

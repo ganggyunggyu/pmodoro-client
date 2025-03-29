@@ -13,7 +13,7 @@ const KakaoLoginButton = () => {
       onClick={handleKakaoLogin}
       className="w-full max-w-xs flex items-center justify-center gap-2 bg-[#FEE500] text-black font-bold py-3 px-4 rounded-lg shadow-md hover:bg-[#FAD800] transition"
     >
-      카카오 로그인
+      카카오로 시작하기
     </button>
   );
 };

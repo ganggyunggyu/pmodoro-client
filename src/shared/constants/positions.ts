@@ -1,3 +1,15 @@
+export const JOBS = [
+  { value: '소프트웨어 개발', label: '소프트웨어 개발' },
+  { value: 'UI/UX 디자인', label: 'UI/UX 디자인' },
+  { value: '프로젝트 매니저', label: '프로젝트 매니저' },
+  { value: '디지털 마케팅', label: '디지털 마케팅' },
+  { value: '데이터 분석', label: '데이터 분석' },
+  { value: '영업/세일즈', label: '영업/세일즈' },
+  { value: '인사/채용', label: '인사/채용' },
+  { value: '재무/회계', label: '재무/회계' },
+  { value: '고객 지원', label: '고객 지원' },
+];
+
 export const DEVELOPER_POSITIONS = [
   '프론트엔드',
   '백엔드',

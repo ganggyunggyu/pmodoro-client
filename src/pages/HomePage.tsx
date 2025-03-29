@@ -1,8 +1,7 @@
-import { useChatStore } from '@/app/store/useChatStore';
-import { useUserStore } from '@/app/store/useUserStore';
-import { PROJECT_NAME } from '@/shared/constants/core';
-import { mockUsers } from '@/shared/constants/dummy';
 import axios from 'axios';
+import { useChatStore } from '@/app/store/useChatStore';
+import { UserInfo, useUserStore } from '@/app/store/useUserStore';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
 export const ChatIcon = () => {
@@ -25,115 +24,166 @@ export const ChatIcon = () => {
 };
 
 export const HomePage = () => {
-  const navitate = useNavigate();
-  const { userInfo, isAuth } = useUserStore();
-  const { setRoomId, currentRoomId } = useChatStore();
+  const navigate = useNavigate();
+  const { userInfo } = useUserStore();
+  const { setRoomId } = useChatStore();
 
-  const handleLogoClick = () => {
-    navitate('/');
+  const getUsers = async () => {
+    return await axios.get('http://localhost:3000/users');
   };
 
-  const handleChatClick = () => {
-    navitate(`/chat/${userInfo._id}`);
-    console.log(userInfo);
+  const userUsersQuery = () => {
+    return useQuery({
+      queryKey: ['user-list'],
+      queryFn: getUsers,
+    });
   };
 
+  const { data: users, isLoading } = userUsersQuery();
+
+  const handleChatClick = (user: UserInfo) => async () => {
+    console.log('click'); // 버튼 클릭 확인을 위해 로그 찍어보기
+
+    const userId = userInfo.userId;
+
+    try {
+      const result = await axios.post('http://localhost:3000/chat/room', {
+        userId: userId,
+        otherUserId: user.userId,
+      });
+
+      const roomId = result.data.roomId;
+      console.log('채팅방 생성 성공, roomId:', roomId); // roomId 로그로 확인
+
+      setRoomId(roomId); // 상태 업데이트
+      navigate(`/chat/${userId}/${roomId}`); // 채팅 페이지로 이동
+    } catch (error) {
+      console.error('채팅방 생성 중 오류 발생:', error); // 오류 발생 시 콘솔에 로그 출력
+    }
+  };
+
+  const handleProfileClick = (user) => {
+    navigate(`/profile/${user._id}`);
+  };
+
+  if (isLoading) {
+    return <div>유저 불러오는중</div>;
+  }
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <button
-          onClick={handleLogoClick}
-          type="button"
-          className="text-2xl font-bold text-red-500"
-        >
-          {PROJECT_NAME}
-        </button>
-
-        {isAuth ? (
-          <article className="flex items-center gap-5">
-            <button onClick={handleChatClick}>
-              <ChatIcon />
-            </button>
-            <button
-              onClick={() => navitate('/my-page')}
-              className="bg-gray-300 px-4 py-2 rounded-lg text-sm font-semibold"
-            >
-              {userInfo.displayName}
-            </button>
-          </article>
-        ) : (
-          <button
-            onClick={() => navitate('/login')}
-            className="bg-gray-300 px-4 py-2 rounded-lg text-sm font-semibold"
-          >
-            로그인 / 회원가입
+    <main className="p-6 max-w-6xl mx-auto w-screen">
+      <section className="flex flex-col gap-5 mb-5 w-full overflow-scroll">
+        <p className="text-xl font-semibold">
+          원하는 팀원을 구체적으로 검색해요
+        </p>
+        <form className="flex items-center gap-5">
+          <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
+            상세 검색
           </button>
-        )}
-      </div>
 
-      <div className="flex gap-4 mb-6">
-        <select className="px-4 py-2 border rounded-lg">
-          <option>포지션</option>
-          <option>프론트엔드</option>
-          <option>백엔드</option>
-          <option>디자이너</option>
-        </select>
-        <select className="px-4 py-2 border rounded-lg">
-          <option>기술 스택</option>
-          <option>React</option>
-          <option>Node.js</option>
-          <option>Figma</option>
-        </select>
-        <input
-          type="text"
-          placeholder="검색어를 입력하세요"
-          className="flex-1 px-4 py-2 border rounded-lg"
-        />
-      </div>
-
-      <div className="grid grid-cols-3 gap-6">
-        {mockUsers.map((user) => (
-          <div key={user._id} className="bg-gray-200 p-4 rounded-lg shadow-md">
-            <div className="flex items-center gap-3 mb-4">
+          <div className="h-8 w-0.5 bg-neutral-300" />
+          <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
+            포지션
+          </button>
+          <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
+            기술 스택
+          </button>
+          <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
+            위치
+          </button>
+          <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
+            가능 시간
+          </button>
+          <div className="h-8 w-0.5 bg-neutral-300" />
+          <div className="flex items-center border p-1 border-neutral-300 rounded-md">
+            <label className="px-2" htmlFor="">
+              🔎
+            </label>
+            <input className=" h-full" placeholder="상세 검색" type="text" />
+          </div>
+        </form>
+      </section>
+      <section className="grid grid-cols-1 gap-6">
+        {users.data.map((user: UserInfo) => (
+          <article
+            key={user._id}
+            className="flex flex-col gap-3 p-3 rounded-lg border border-neutral-300"
+          >
+            <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-gray-400 rounded-full"></div>
               <span className="font-semibold">{user.displayName}</span>
+              <div className="flex ">
+                <p>
+                  {user.firstArea} {user.secondArea}
+                </p>
+                <p>{user.job}</p>
+              </div>
             </div>
-            <p className="text-gray-700 text-sm mb-2">{user.displayName}</p>
-            <div className="border-t border-gray-400 pt-2 text-sm">
-              <p>📌 {user.position}</p>
-              <p>
-                📍 {user.firstArea} {user.secondArea}
-              </p>
+            <div className="flex flex-col gap-5">
+              <p>{user.userId}</p>
+              <div className="flex gap-3 w-full overflow-y-scroll">
+                {user.detailPositionList?.map((pos, index) => {
+                  return (
+                    <figure
+                      key={index}
+                      className=" min-w-fit px-3 py-2 bg-red-100 rounded-full text-xs "
+                    >
+                      {pos}
+                    </figure>
+                  );
+                })}
+              </div>
             </div>
-            <button
-              onClick={async () => {
-                const userId = userInfo._id;
+            <div className="w-full flex items-center justify-between gap-5">
+              <button
+                className="w-full flex items-center justify-center border py-1 rounded-md border-neutral-200"
+                onClick={() => handleProfileClick(user)}
+              >
+                프로필 보기
+              </button>
+              <button
+                type="button"
+                className="w-full flex items-center justify-center py-1 rounded-md bg-red-100 cursor-pointer"
+                // onClick={() => handleChatClick(user)}
+                onClick={async () => {
+                  const isMe = userInfo._id === user._id;
+                  if (isMe) {
+                    navigate(`chat/${userInfo._id}`);
+                  } else {
+                    console.log('click'); // 버튼 클릭 확인을 위해 로그 찍어보기
 
-                const result = await axios.post(
-                  'http://localhost:3000/chat/room',
-                  {
-                    userId: userId,
-                    otherUserId: user._id,
-                  },
-                );
+                    const userId = userInfo._id;
 
-                const roomId = result.data;
+                    try {
+                      const result = await axios.post(
+                        'http://localhost:3000/chat/room',
+                        {
+                          userId: userId,
+                          otherUserId: user._id,
+                        },
+                      );
 
-                setRoomId(roomId);
+                      const roomId = result.data.roomId;
+                      console.log('채팅방 생성 성공, roomId:', roomId); // roomId 로그로 확인
 
-                navitate(`/chat/${userId}/${roomId}`);
-              }}
-            >
-              채팅하기
-            </button>
-          </div>
+                      setRoomId(roomId); // 상태 업데이트
+                      navigate(`/chat/${userId}/${roomId}`); // 채팅 페이지로 이동
+                    } catch (error) {
+                      console.error('채팅방 생성 중 오류 발생:', error); // 오류 발생 시 콘솔에 로그 출력
+                    }
+                  }
+                }}
+              >
+                채팅하기
+              </button>
+            </div>
+          </article>
         ))}
-      </div>
+      </section>
 
       <div className="mt-10 text-center text-gray-600 text-sm flex justify-center gap-6">
         <button className="hover:underline">이용약관</button>
         <button className="hover:underline">개인정보처리방침</button>
       </div>
-    </div>
+    </main>
   );
 };

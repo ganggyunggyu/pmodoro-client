@@ -1,8 +1,7 @@
-import React, { useId } from 'react';
+import React from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
 import { useUserStore } from '@/app/store/useUserStore';
-import { PROJECT_NAME } from '@/shared/constants/core';
 import useProjectStore from '@/app/store/useProjectStore';
 
 export const ProfilePage: React.FC = () => {
@@ -29,33 +28,10 @@ export const ProfilePage: React.FC = () => {
     skills: [],
     positions: userInfo?.detailPositionList || [],
   });
-
-  const [projects, setProjects] = React.useState(projectList);
-
-  const toggleEdit = () => setIsEditing((prev) => !prev);
   const togglePublic = () => setIsPublic((prev) => !prev);
 
   const updateProfile = (field: string, value: any) => {
     setProfile((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const addProject = () => {
-    setProjects((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
-        name: '',
-        startYear: '',
-        startMonth: '',
-        endYear: '',
-        endMonth: '',
-        description: '',
-      },
-    ]);
-  };
-
-  const removeProject = (id: number) => {
-    setProjects((prev) => prev.filter((project) => project.id !== id));
   };
 
   if (!isAuth) {
@@ -69,22 +45,21 @@ export const ProfilePage: React.FC = () => {
   }
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <button
-        onClick={() => navigate('/')}
-        type="button"
-        className="text-2xl font-bold text-red-500"
-      >
-        {PROJECT_NAME}
-      </button>
+    <main className="w-screen flex flex-col items-center justify-center">
+      <p className="w-8/12 text-left text-xl font-bold py-5">마이페이지</p>
+      <section className=" p-6 w-8/12 rounded-lg shadow-lg">
+        <article className="flex justify-between items-center w-full">
+          <h2 className="text-lg font-bold mb-4">프로필</h2>
+          <button>수정하기</button>
+        </article>
 
-      {/* 프로필 카드 */}
-      <div className="bg-gray-200 p-6 rounded-lg shadow-lg mt-6">
-        <h2 className="text-lg font-bold mb-4">내 정보</h2>
-
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 bg-gray-400 rounded-full" />
-          <div className="flex-1 space-y-2">
+        <article className="flex flex-col items-center gap-10">
+          <div className="flex w-full justify-start gap-10 items-center">
+            <p>프로필 이미지</p>
+            <div className="w-16 h-16 bg-gray-400 rounded-full" />
+          </div>
+          <div className="flex w-full justify-start gap-10 items-center">
+            <p className="min-w-fit w-16">닉네임</p>
             <input
               type="text"
               value={profile.name}
@@ -92,6 +67,9 @@ export const ProfilePage: React.FC = () => {
               className="w-full p-2 border rounded-lg"
               disabled={!isEditing}
             />
+          </div>
+          <div className="flex w-full justify-start gap-10 items-center">
+            <p className="min-w-fit w-16">위치</p>
             <input
               type="text"
               value={profile.region}
@@ -100,144 +78,129 @@ export const ProfilePage: React.FC = () => {
               disabled={!isEditing}
             />
           </div>
-        </div>
-
-        <textarea
-          value={profile.introduction}
-          onChange={(e) => updateProfile('introduction', e.target.value)}
-          className="w-full p-2 border rounded-lg mt-4"
-          placeholder="한 줄 소개"
-          disabled={!isEditing}
-        />
-
-        <div className="flex gap-4 mt-4">
-          <input
-            type="text"
-            value={profile.job}
-            onChange={(e) => updateProfile('job', e.target.value)}
-            className="w-1/2 p-2 border rounded-lg"
-            placeholder="직무"
-            disabled={!isEditing}
-          />
-          <input
-            type="text"
-            value={profile.career}
-            onChange={(e) => updateProfile('career', e.target.value)}
-            className="w-1/2 p-2 border rounded-lg"
-            placeholder="경력"
-            disabled={!isEditing}
-          />
-        </div>
-
-        <div className="flex gap-4 mt-4">
-          <input
-            type="text"
-            value={profile.positions.join(', ')}
-            onChange={(e) =>
-              updateProfile('positions', e.target.value.split(', '))
-            }
-            className="w-1/2 p-2 border rounded-lg"
-            placeholder="희망 포지션"
-            disabled={!isEditing}
-          />
-          <div>
-            <p className="text-sm text-gray-600">
-              실제 포지션: {userInfo?.detailPositionList.join(', ')}
-            </p>
-          </div>
-        </div>
-
-        <button onClick={toggleEdit} className="mt-4 text-blue-500 underline">
-          {isEditing ? '완료' : '수정하기'}
-        </button>
-      </div>
-
-      {/* 프로젝트 섹션 */}
-      <div className="bg-gray-200 p-6 rounded-lg shadow-lg mt-6">
-        <h2 className="text-lg font-bold mb-4">프로젝트 경험</h2>
-
-        {projects.map((project) => (
-          <div key={project.id} className="bg-gray-300 p-4 rounded-lg mb-4">
+          <div className="flex w-full justify-start gap-10 items-center">
+            <p className="min-w-fit w-16">이메일</p>
             <input
               type="text"
-              value={project.name}
-              onChange={(e) =>
-                setProjects((prev) =>
-                  prev.map((p) =>
-                    p.id === project.id ? { ...p, name: e.target.value } : p,
-                  ),
-                )
-              }
-              className="w-full p-2 border rounded-lg mb-2"
-              placeholder="프로젝트 명"
+              value={profile.region}
+              onChange={(e) => updateProfile('region', e.target.value)}
+              className="w-full p-2 border rounded-lg"
               disabled={!isEditing}
             />
-
-            <div className="flex gap-2 mb-2">
-              <select
-                className="w-1/4 p-2 border rounded-lg"
-                disabled={!isEditing}
-              >
-                <option>XXXX년</option>
-                <option>2024년</option>
-                <option>2023년</option>
-              </select>
-              <select
-                className="w-1/4 p-2 border rounded-lg"
-                disabled={!isEditing}
-              >
-                <option>XX월</option>
-                {[...Array(12)].map((_, i) => (
-                  <option key={i + 1}>{i + 1}월</option>
-                ))}
-              </select>
-              <span className="p-2">~</span>
-              <select
-                className="w-1/4 p-2 border rounded-lg"
-                disabled={!isEditing}
-              >
-                <option>XXXX년</option>
-                <option>2024년</option>
-                <option>2023년</option>
-              </select>
-              <select
-                className="w-1/4 p-2 border rounded-lg"
-                disabled={!isEditing}
-              >
-                <option>XX월</option>
-                {[...Array(12)].map((_, i) => (
-                  <option key={i + 1}>{i + 1}월</option>
-                ))}
-              </select>
-            </div>
-
-            <textarea
-              className="w-full p-2 border rounded-lg mb-2"
-              placeholder="프로젝트 설명"
-              disabled={!isEditing}
-            />
-
-            {isEditing && (
-              <button
-                onClick={() => removeProject(project.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded-md text-sm"
-              >
-                삭제
-              </button>
-            )}
           </div>
-        ))}
+          <div className="flex w-full justify-start gap-10 items-center">
+            <p className="min-w-fit w-16">자기소개</p>
+            <input
+              type="text"
+              value={profile.introduction}
+              onChange={(e) => updateProfile('introduction', e.target.value)}
+              className="w-full p-2 border rounded-lg"
+              disabled={!isEditing}
+            />
+          </div>
 
-        {isEditing && (
-          <button
-            onClick={addProject}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold"
-          >
-            + 추가
-          </button>
-        )}
-      </div>
+          <h2 className="text-lg font-bold mb-4 w-full text-left">
+            프로젝트 정보
+          </h2>
 
+          <div className="flex w-full justify-start gap-10 items-center">
+            <p className="min-w-fit w-16">현재 직무</p>
+            <input
+              type="text"
+              value={profile.job}
+              onChange={(e) => updateProfile('job', e.target.value)}
+              className="w-full p-2 border rounded-lg"
+              disabled={!isEditing}
+            />
+          </div>
+          <div className="flex w-full justify-start gap-10 items-center">
+            <p className="min-w-fit w-16">연차</p>
+            <input
+              type="text"
+              value={profile.career}
+              onChange={(e) => updateProfile('career', e.target.value)}
+              className="w-full p-2 border rounded-lg"
+              disabled={!isEditing}
+            />
+          </div>
+          <div className="flex w-full justify-start gap-10 items-center">
+            <p className="min-w-fit w-16">상세 포지션</p>
+            {profile.positions.map((position) => {
+              return (
+                <button className="py-2 px-5 rounded-full bg-red-100">
+                  {position}
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex w-full justify-start gap-10 items-center">
+            <p className="min-w-fit w-16">기술 스택</p>
+            {profile.skills.map((skil) => {
+              return (
+                <button className="py-2 px-5 rounded-full bg-red-100">
+                  {skil}
+                </button>
+              );
+            })}
+          </div>
+        </article>
+      </section>
+      <p className="w-8/12 text-left text-xl font-bold py-5">프로젝트 이력</p>
+      <section className=" p-6 w-8/12 rounded-lg shadow-lg">
+        {projectList.length !== 0 &&
+          projectList.map((project, index) => {
+            return (
+              <article key={index} className="flex flex-col gap-10">
+                <div className="flex w-full justify-start gap-10 items-center">
+                  <p className="min-w-fit w-16">프로젝트 이름</p>
+                  <input
+                    type="text"
+                    value={project.name}
+                    onChange={(e) =>
+                      updateProfile('positions', e.target.value.split(', '))
+                    }
+                    className="w-full p-2 border rounded-lg"
+                    disabled={!isEditing}
+                  />
+                </div>
+                <div className="flex w-full justify-start gap-10 items-center">
+                  <p className="min-w-fit w-16">프로젝트 설명</p>
+                  <input
+                    type="text"
+                    value={project.description}
+                    onChange={(e) =>
+                      updateProfile('positions', e.target.value.split(', '))
+                    }
+                    className="w-full p-2 border rounded-lg"
+                    disabled={!isEditing}
+                  />
+                </div>
+                <div className="flex w-full justify-start gap-10 items-center">
+                  <p className="min-w-fit w-16">프로젝트 기간</p>
+                  <input
+                    type="text"
+                    value={project.startYear}
+                    onChange={(e) =>
+                      updateProfile('positions', e.target.value.split(', '))
+                    }
+                    className="w-full p-2 border rounded-lg"
+                    disabled={!isEditing}
+                  />
+                  ~
+                  <input
+                    type="text"
+                    value={project.endYear}
+                    onChange={(e) =>
+                      updateProfile('positions', e.target.value.split(', '))
+                    }
+                    className="w-full p-2 border rounded-lg"
+                    disabled={!isEditing}
+                  />
+                </div>
+              </article>
+            );
+          })}
+      </section>
       <div className="mt-6 text-center">
         <p className="mb-2">
           프로필을 공개하여 프로젝트 제안을 받으시겠습니까?
@@ -251,6 +214,6 @@ export const ProfilePage: React.FC = () => {
           {isPublic ? '공개됨' : '공개하기'}
         </button>
       </div>
-    </div>
+    </main>
   );
 };

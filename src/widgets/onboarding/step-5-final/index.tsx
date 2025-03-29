@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/app/store/useUserStore';
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
+import axios from 'axios';
 
 export const Step5Final: React.FC = () => {
   const navigate = useNavigate();
@@ -11,16 +12,22 @@ export const Step5Final: React.FC = () => {
 
   const { userInfo, setIsAuth, setUserInfo } = useUserStore();
 
-  const handleComplete = () => {
-    console.log(userInfo);
-    console.log(onboardingData);
-    //온보딩 데이터를 기반으로 회원가입 요청 진행
+  const handleComplete = async () => {
+    const signupData = {
+      ...userInfo,
+      ...onboardingData,
+    };
+    console.log(signupData);
+    const result = await axios.post(
+      'http://localhost:3000/user/join',
+      signupData,
+    );
 
-    //회원가입 완료 후 클라이언트 측 데이터 저장 프로필 페이지로 다이렉트
-    setUserInfo(userInfo);
+    setUserInfo(result.data.userInfo);
+    console.log(result.data.userInfo);
     setIsAuth(true);
 
-    navigate(`/profile/${userInfo.id}`);
+    navigate(`/profile/${result.data.userInfo._id}`);
   };
 
   return (

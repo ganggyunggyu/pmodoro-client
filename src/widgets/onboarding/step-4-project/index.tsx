@@ -4,8 +4,13 @@ import { useOnboardingStore } from '@/app/store/useOnboardingStore';
 
 export const Step4Project: React.FC = () => {
   const navigate = useNavigate();
-  const { projectList, addProject, removeProject, updateProject } =
-    useOnboardingStore();
+
+  const {
+    onboardingData: { projectList },
+    addProject,
+    removeProject,
+    updateProject,
+  } = useOnboardingStore();
 
   const handleNextClick = () => {
     navigate('/onboarding/final');
@@ -38,10 +43,10 @@ export const Step4Project: React.FC = () => {
                   updateProject(project.id, 'startYear', e.target.value)
                 }
               >
-                <option>XXXX년</option>
-                <option>2024년</option>
-                <option>2023년</option>
-                <option>2022년</option>
+                <option value="">XXXX년</option>
+                <option value="2024년">2024년</option>
+                <option value="2023년">2023년</option>
+                <option value="2022년">2022년</option>
               </select>
 
               <select
@@ -51,9 +56,11 @@ export const Step4Project: React.FC = () => {
                   updateProject(project.id, 'startMonth', e.target.value)
                 }
               >
-                <option>XX월</option>
+                <option value="">XX월</option>
                 {[...Array(12)].map((_, i) => (
-                  <option key={i + 1}>{i + 1}월</option>
+                  <option key={i + 1} value={`${i + 1}월`}>
+                    {i + 1}월
+                  </option>
                 ))}
               </select>
 
@@ -66,10 +73,10 @@ export const Step4Project: React.FC = () => {
                   updateProject(project.id, 'endYear', e.target.value)
                 }
               >
-                <option>XXXX년</option>
-                <option>2024년</option>
-                <option>2023년</option>
-                <option>2022년</option>
+                <option value="">XXXX년</option>
+                <option value="2024년">2024년</option>
+                <option value="2023년">2023년</option>
+                <option value="2022년">2022년</option>
               </select>
 
               <select
@@ -79,9 +86,11 @@ export const Step4Project: React.FC = () => {
                   updateProject(project.id, 'endMonth', e.target.value)
                 }
               >
-                <option>XX월</option>
+                <option value="">XX월</option>
                 {[...Array(12)].map((_, i) => (
-                  <option key={i + 1}>{i + 1}월</option>
+                  <option key={i + 1} value={`${i + 1}월`}>
+                    {i + 1}월
+                  </option>
                 ))}
               </select>
             </div>

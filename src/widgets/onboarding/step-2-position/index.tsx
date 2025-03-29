@@ -4,9 +4,8 @@ import { useOnboardingStore } from '@/app/store/useOnboardingStore';
 
 export const Step2Position: React.FC = () => {
   const navigate = useNavigate();
-  const position = useOnboardingStore((state) => state.position);
-  const setPosition = useOnboardingStore((state) => state.setPosition);
-
+  const { onboardingData, setOnboardingField } = useOnboardingStore();
+  const [position, setPosition] = React.useState('');
   const positions = [
     { id: 'developer', label: '개발자', icon: '💻' },
     { id: 'designer', label: '디자이너', icon: '🎨' },
@@ -14,13 +13,15 @@ export const Step2Position: React.FC = () => {
     { id: 'marketer', label: '마케터', icon: '📢' },
   ];
 
-  const handleSelect = (posId: string) => {
-    setPosition(posId);
+  const handleSelect = (position: string) => {
+    setPosition(position);
   };
 
   const handleNextClick = () => {
     if (position) {
-      navigate(`/onboarding/position/${position}`);
+      setOnboardingField('position', position);
+      const id = positions.find((pos) => pos.label === position);
+      navigate(`/onboarding/position/${id.id}`);
     }
   };
 
@@ -35,9 +36,9 @@ export const Step2Position: React.FC = () => {
           {positions.map((pos) => (
             <button
               key={pos.id}
-              onClick={() => handleSelect(pos.id)}
+              onClick={() => handleSelect(pos.label)}
               className={`flex flex-col items-center justify-center p-4 border-2 rounded-lg transition ${
-                position === pos.id
+                position === pos.label
                   ? 'border-blue-500 bg-blue-100'
                   : 'border-gray-300 bg-white hover:bg-gray-50'
               }`}

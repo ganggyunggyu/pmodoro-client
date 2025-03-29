@@ -13,7 +13,10 @@ export const Step3PositionDetail: React.FC = () => {
   const navigate = useNavigate();
   const { position } = useParams();
 
-  const { detailPositionList, setDetailPositionList } = useOnboardingStore();
+  const {
+    onboardingData: { detailPositionList },
+    toggleDetailPosition,
+  } = useOnboardingStore();
 
   const getPositions = () => {
     if (position === 'developer') return DEVELOPER_POSITIONS;
@@ -46,7 +49,7 @@ export const Step3PositionDetail: React.FC = () => {
           {positions.map((pos) => (
             <button
               key={pos}
-              onClick={() => setDetailPositionList(pos)}
+              onClick={() => toggleDetailPosition(pos)}
               className={`px-4 py-2 rounded-full border-2 transition ${
                 detailPositionList.includes(pos)
                   ? 'bg-blue-500 text-white border-blue-500'

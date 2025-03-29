@@ -16,7 +16,7 @@ export const KakaoCallbackPage = () => {
 
   const hasFetched = useRef(false);
 
-  const { setName } = useOnboardingStore();
+  const { setOnboardingField } = useOnboardingStore();
   const { setUserInfo, setIsAuth } = useUserStore();
 
   const getKakaoAccessToken = async () => {
@@ -28,16 +28,14 @@ export const KakaoCallbackPage = () => {
 
     const { userInfo, isUser } = result.data;
 
-    console.log(result.data);
-
     if (isUser) {
       setUserInfo(userInfo);
       setIsAuth(true);
       navigate('/');
     }
     if (!isUser) {
-      setName(userInfo.nickname);
-
+      setOnboardingField('name', userInfo.name);
+      setUserInfo(userInfo);
       navigate('/onboarding/user-info');
     }
   };

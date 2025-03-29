@@ -1,17 +1,95 @@
 import KakaoLoginButton from '@/shared/components/KakaoLoginButton';
-import { Link } from 'react-router';
+import React from 'react';
+import { Link, useNavigate } from 'react-router';
+import axios from 'axios'; // axios 추가
+import { useUserStore } from '@/app/store/useUserStore';
 
 export const LoginPage = () => {
+  const [isLocalLogin, setIsLocalLogin] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const navigate = useNavigate();
+  const { setIsAuth, setUserInfo } = useUserStore();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      // 로그인 요청 보내기
+      const response = await axios.post('http://localhost:3000/login', {
+        email,
+        password,
+      });
+
+      // 로그인 성공시 처리
+
+      console.log(response);
+
+      if (response.status === 200) {
+        const userInfo = response.data;
+        setUserInfo(userInfo);
+        setIsAuth(true);
+
+        navigate(`/profile/${userInfo._id}`);
+
+        alert('로그인 성공');
+      }
+    } catch (error) {
+      alert('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
+    }
+  };
+
+  const handleLoginClick = () => {
+    setIsLocalLogin(true);
+  };
+
   return (
     <main className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center z-50">
-      <form className="w-120 h-100 flex flex-col items-center justify-center gap-5 bg-neutral-300">
-        <h1>프모도로</h1>
-        <p>프모도로에 오신 것을 환영합니다!</p>
-        <p>수동적인 팀 빌딩은 그만!</p>
-        <p>원하는 팀원을 찾고 효율적으로 푸로젝트를 수행하세요!</p>
-        <KakaoLoginButton />
-        <Link to={'/pages/onboarding'}>임시</Link>
-      </form>
+      {isLocalLogin ? (
+        <section className="flex flex-col gap-4 p-6">
+          <input
+            type="text"
+            placeholder="이메일 입력"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="border p-2 rounded"
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="비밀번호 입력"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border p-2 rounded"
+            required
+          />
+
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+          >
+            다음
+          </button>
+        </section>
+      ) : (
+        <form className="w-120 h-100 flex flex-col items-center justify-center gap-5 ">
+          <h1 className="text-2xl font-bold">로그인</h1>
+          <p>지금 로그인하고 여러 팀원들을 찾아보세요!</p>
+          <button
+            type="button"
+            onClick={handleLoginClick}
+            className="w-full max-w-xs flex items-center justify-center gap-2 text-black font-bold py-3 px-4 rounded-lg shadow-md transition"
+          >
+            로그인
+          </button>
+          <KakaoLoginButton />
+          <p>
+            계정이 없으십니까? <Link to={'/onboarding/auth'}>회원가입</Link>
+          </p>
+        </form>
+      )}
     </main>
   );
 };

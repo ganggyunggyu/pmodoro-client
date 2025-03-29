@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 
-// ✅ Project 타입 정의
 export type Project = {
   id: number;
   name: string;
@@ -11,142 +10,146 @@ export type Project = {
   description: string;
 };
 
-// ✅ 상태 타입
-export type OnboardingState = {
+export type OnboardingData = {
+  email: string;
+  password: string;
   name: string;
   position: string;
   detailPositionList: string[];
-  career: number;
+  career: number | string;
   firstArea: string;
   secondArea: string;
   projectList: Project[];
+  job: string;
 };
 
-// ✅ 액션 타입
+export type OnboardingState = {
+  onboardingData: OnboardingData;
+};
+
 export type OnboardingActions = {
-  setName: (name: string) => void;
-  setPosition: (position: string) => void;
-  setDetailPositionList: (position: string) => void;
-  setCareer: (career: number) => void;
-  setFirstArea: (firstArea: string) => void;
-  setSecondArea: (secondArea: string) => void;
+  setOnboardingField: <T extends keyof OnboardingData>(
+    field: T,
+    value: OnboardingData[T],
+  ) => void;
+  toggleDetailPosition: (position: string) => void;
   addProject: () => void;
   removeProject: (id: number) => void;
   updateProject: (id: number, field: keyof Project, value: string) => void;
   reset: () => void;
-
-  // ✅ 전체 온보딩 데이터 가져오기
   getOnboardingData: () => OnboardingData;
 };
 
-// ✅ getter 함수의 리턴 타입 (state 전체와 동일)
-export type OnboardingData = OnboardingState;
-
-// ✅ zustand store 생성
 export const useOnboardingStore = create<OnboardingState & OnboardingActions>(
   (set, get) => ({
-    // 상태 초기값
-    name: '',
-    position: '',
-    detailPositionList: [],
-    career: 0,
-    firstArea: '',
-    secondArea: '',
-    projectList: [
-      {
-        id: 1,
-        name: '',
-        startYear: '',
-        startMonth: '',
-        endYear: '',
-        endMonth: '',
-        description: '',
-      },
-    ],
+    onboardingData: {
+      email: '',
+      password: '',
+      name: '',
+      position: '',
+      detailPositionList: [],
+      career: 0,
+      firstArea: '',
+      secondArea: '',
+      projectList: [],
+      job: '',
+      techStacks: [],
+    },
 
-    // 액션 구현
-    setName: (name) => set(() => ({ name })),
-    setPosition: (position) => set(() => ({ position })),
-    setDetailPositionList: (position) =>
+    // 특정 필드 업데이트 액션
+    setOnboardingField: (field, value) =>
       set((state) => ({
-        detailPositionList: state.detailPositionList.includes(position)
-          ? state.detailPositionList.filter((p) => p !== position)
-          : [...state.detailPositionList, position],
+        onboardingData: {
+          ...state.onboardingData,
+          [field]: value,
+        },
       })),
-    setCareer: (career) => set(() => ({ career })),
-    setFirstArea: (firstArea) => set(() => ({ firstArea })),
-    setSecondArea: (secondArea) => set(() => ({ secondArea })),
 
+    // 세부 직무 토글 액션
+    toggleDetailPosition: (position) =>
+      set((state) => ({
+        onboardingData: {
+          ...state.onboardingData,
+          detailPositionList: state.onboardingData.detailPositionList.includes(
+            position,
+          )
+            ? state.onboardingData.detailPositionList.filter(
+                (p) => p !== position,
+              )
+            : [...state.onboardingData.detailPositionList, position],
+        },
+      })),
+
+    // 프로젝트 추가 액션
     addProject: () =>
       set((state) => ({
-        projectList: [
-          ...state.projectList,
-          {
-            id: Date.now(),
-            name: '',
-            startYear: '',
-            startMonth: '',
-            endYear: '',
-            endMonth: '',
-            description: '',
-          },
-        ],
+        onboardingData: {
+          ...state.onboardingData,
+          projectList: [
+            ...state.onboardingData.projectList,
+            {
+              id: Date.now(),
+              name: '',
+              startYear: '',
+              startMonth: '',
+              endYear: '',
+              endMonth: '',
+              description: '',
+            },
+          ],
+        },
       })),
 
+    // 프로젝트 삭제 액션
     removeProject: (id) =>
       set((state) => ({
-        projectList: state.projectList.filter((project) => project.id !== id),
+        onboardingData: {
+          ...state.onboardingData,
+          projectList: state.onboardingData.projectList.filter(
+            (project) => project.id !== id,
+          ),
+        },
       })),
 
+    // 프로젝트 업데이트 액션
     updateProject: (id, field, value) =>
       set((state) => ({
-        projectList: state.projectList.map((project) =>
-          project.id === id ? { ...project, [field]: value } : project,
-        ),
+        onboardingData: {
+          ...state.onboardingData,
+          projectList: state.onboardingData.projectList.map((project) =>
+            project.id === id ? { ...project, [field]: value } : project,
+          ),
+        },
       })),
 
+    // 상태 초기화 액션
     reset: () =>
       set({
-        name: '',
-        position: '',
-        detailPositionList: [],
-        career: 0,
-        firstArea: '',
-        secondArea: '',
-        projectList: [
-          {
-            id: 1,
-            name: '',
-            startYear: '',
-            startMonth: '',
-            endYear: '',
-            endMonth: '',
-            description: '',
-          },
-        ],
+        onboardingData: {
+          email: '',
+          password: '',
+          name: '',
+          position: '',
+          detailPositionList: [],
+          career: 0,
+          firstArea: '',
+          secondArea: '',
+          job: '',
+          projectList: [
+            {
+              id: Date.now(),
+              name: '',
+              startYear: '',
+              startMonth: '',
+              endYear: '',
+              endMonth: '',
+              description: '',
+            },
+          ],
+        },
       }),
 
-    // ✅ 온보딩 데이터 getter
-    getOnboardingData: () => {
-      const {
-        name,
-        position,
-        detailPositionList,
-        career,
-        firstArea,
-        secondArea,
-        projectList,
-      } = get();
-
-      return {
-        name,
-        position,
-        detailPositionList,
-        career,
-        firstArea,
-        secondArea,
-        projectList,
-      };
-    },
+    // 온보딩 데이터 getter
+    getOnboardingData: () => get().onboardingData,
   }),
 );

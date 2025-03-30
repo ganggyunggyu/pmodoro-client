@@ -1,0 +1,43 @@
+.bg-green {
+}
+.bg-yellow {
+}
+.bg-primary {
+  background: #f25e51;
+}
+.text-primary {
+  color: #f25e51;
+}
+.border-primary {
+  border-color: #f25e51;
+}
+.border-alt {
+  border-color: #eaeaea;
+}
+
+.bg-alt {
+  background-color: #eaeaea;
+}
+.text-alt {
+  color: #eaeaea;
+}
+
+.border-primary-mute {
+  border-color: rgba(242, 160, 152, 0.15);
+}
+.text-black-alt {
+  color: rgba(55, 56, 60, 0.61); /* 텍스트 색상에 투명도 */
+  opacity: 61%;
+}
+
+.text-black-assist {
+  color: #37383c;
+  opacity: 28%;
+}
+.bg-black-assist {
+  background-color: #37383c;
+  opacity: 28%;
+}
+.bg-primary-mute {
+  background-color: #ea877a;
+}

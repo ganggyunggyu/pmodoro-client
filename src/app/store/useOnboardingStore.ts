@@ -21,6 +21,7 @@ export type OnboardingData = {
   secondArea: string;
   projectList: Project[];
   job: string;
+  skills: string[];
 };
 
 export type OnboardingState = {
@@ -33,6 +34,7 @@ export type OnboardingActions = {
     value: OnboardingData[T],
   ) => void;
   toggleDetailPosition: (position: string) => void;
+  toggleSkill: (skil: string) => void;
   addProject: () => void;
   removeProject: (id: number) => void;
   updateProject: (id: number, field: keyof Project, value: string) => void;
@@ -54,6 +56,7 @@ export const useOnboardingStore = create<OnboardingState & OnboardingActions>(
       projectList: [],
       job: '',
       techStacks: [],
+      skills: [],
     },
 
     // 특정 필드 업데이트 액션
@@ -77,6 +80,17 @@ export const useOnboardingStore = create<OnboardingState & OnboardingActions>(
                 (p) => p !== position,
               )
             : [...state.onboardingData.detailPositionList, position],
+        },
+      })),
+    toggleSkill: (skil) =>
+      set((state) => ({
+        onboardingData: {
+          ...state.onboardingData,
+          detailPositionList: state.onboardingData.detailPositionList.includes(
+            skil,
+          )
+            ? state.onboardingData.detailPositionList.filter((p) => p !== skil)
+            : [...state.onboardingData.detailPositionList, skil],
         },
       })),
 
@@ -135,6 +149,7 @@ export const useOnboardingStore = create<OnboardingState & OnboardingActions>(
           firstArea: '',
           secondArea: '',
           job: '',
+          skills: [],
           projectList: [
             {
               id: Date.now(),

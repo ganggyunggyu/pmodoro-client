@@ -14,20 +14,20 @@ export type ChatRoom = {
 
 export const fetchMessages = async (roomId: string) => {
   const res = await axios.get(
-    `http://localhost:3000/api/chat/messages?roomId=${roomId}`,
+    `http://localhost:3000/chat/messages?roomId=${roomId}`,
   );
   return res.data;
 };
-
 export const fetchChatRooms = async (userId: string): Promise<ChatRoom[]> => {
   const res = await axios.get(
-    `http://localhost:3000/api/chat/rooms?userId=${userId}`,
+    `http://localhost:3000/chat/rooms?userId=${userId}`,
   );
 
   return res.data;
 };
 
 export const ChatPage: React.FC = () => {
+  const [curOtherName, setCurOtherName] = React.useState('');
   const { currentRoomId, setRoomId } = useChatStore();
 
   const queryClient = useQueryClient();
@@ -43,7 +43,11 @@ export const ChatPage: React.FC = () => {
 
   const [input, setInput] = React.useState('');
 
-  const { data: chatRooms, isLoading } = useQuery({
+  const {
+    data: chatRooms,
+    isLoading,
+    isSuccess,
+  } = useQuery({
     queryKey: ['chatRooms', currentUserId],
     queryFn: () => fetchChatRooms(currentUserId),
     enabled: !!currentUserId,
@@ -112,6 +116,8 @@ export const ChatPage: React.FC = () => {
               <li
                 key={roomId}
                 onClick={() => {
+                  setCurOtherName(otherUser.displayName);
+
                   setRoomId(roomId);
                   navigate(`/chat/${currentUserId}/${roomId}`);
                 }}
@@ -137,8 +143,8 @@ export const ChatPage: React.FC = () => {
         </aside>
 
         {currentRoomId && isMessages && (
-          <section className="flex flex-col w-2/3 h-full">
-            <div className="flex flex-col flex-1 p-6 overflow-y-auto bg-gray-50">
+          <section className="flex flex-col w-10/12 h-full">
+            <div className="flex flex-col flex-1 p-6 overflow-y-auto bg-gray-50 min-h-full">
               {messages?.map((msg, idx) =>
                 msg.senderId === currentUserId ? (
                   <div key={idx} className="self-end mb-2">
@@ -154,7 +160,9 @@ export const ChatPage: React.FC = () => {
                   <div key={idx} className="flex items-start gap-2 mb-2">
                     <div className="w-8 h-8 rounded-full bg-gray-300"></div>
                     <div className="flex flex-col">
-                      <div className="text-xs text-gray-500 mb-1">상대방</div>
+                      <div className="text-xs text-gray-500 mb-1">
+                        {curOtherName}
+                      </div>
                       <div className="bg-gray-200 rounded-xl px-4 py-2 text-sm max-w-xs">
                         {msg.content}
                       </div>

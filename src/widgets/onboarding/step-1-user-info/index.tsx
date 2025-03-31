@@ -4,6 +4,33 @@ import { useOnboardingStore } from '@/app/store/useOnboardingStore';
 import { REGIONS } from '@/shared/constants/regions';
 import { CAREERS, JOBS } from '@/shared/constants/positions';
 
+export const NextIcon = () => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M15 12L10 17"
+        stroke="#37383C"
+        strokeOpacity="0.28"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M15 12L10 7"
+        stroke="#37383C"
+        strokeOpacity="0.28"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};
+
 export const Step1UserInfo: React.FC = () => {
   const navigate = useNavigate();
   const [selectedRegion, setSelectedRegion] = React.useState('');
@@ -34,14 +61,11 @@ export const Step1UserInfo: React.FC = () => {
         <p className="text-black-alt">
           경력 정보는 세무적인 팀원을 찾는 데 도움이 돼요.
         </p>
+        <button className="p-3 w-6/12 text-left text-black-alt border border-alt rounded-lg">
+          <p>경력</p>
+        </button>
       </article>
 
-      <section className="w-6/12 flex flex-col gap-3">
-        <div className="p-3 w-6/12 border border-alt rounded-lg"></div>
-        <span className="text-xs text-black-alt">
-          닉네임은 몇 글자 이상으로 해주세요.
-        </span>
-      </section>
       {/* <form className="p-6 rounded-lg shadow-lg w-full max-w-lg">
         <div className="mb-4">
           <label className="block font-semibold text-gray-700 mb-1">

@@ -9,9 +9,6 @@ export const KakaoCallbackPage = () => {
   const [searchParams] = useSearchParams();
   const code = searchParams.get('code');
 
-  console.log(searchParams);
-  console.log(useParams());
-
   const navigate = useNavigate();
 
   const hasFetched = useRef(false);

@@ -39,7 +39,7 @@ export const OnboardingWidget = () => {
 
   return (
     <React.Fragment>
-      <section className="w-full max-h-fit flex items-center mb-10">
+      <section className="w-full max-h-fit flex items-center pt-10 mb-10">
         <div className=" w-full flex items-center justify-center gap-7">
           <p
             className={`transition-all
@@ -96,7 +96,7 @@ export const OnboardingWidget = () => {
         <Route path="project" element={<Step4Project />} />
         <Route path="final" element={<Step5Final />} />
       </Routes>
-      <section className="absolute bottom-4/12 w-6/12 flex itmes-center justify-between left-1/2 -translate-x-1/2">
+      <section className="absolute bottom-3/12 w-6/12 flex itmes-center justify-between left-1/2 -translate-x-1/2">
         <button
           onClick={handlePrevClick}
           className="border border-primary text-primary px-3 py-1 text-sm rounded-lg"

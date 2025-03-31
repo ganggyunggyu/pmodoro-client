@@ -30,15 +30,43 @@ export const NextIcon = () => {
     </svg>
   );
 };
-
+export const XIcon = () => {
+  return (
+    <svg
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M25 7L7.00001 25"
+        stroke="#131415"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M25 25L7.00001 7.00001"
+        stroke="#131415"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};
 export const Step1UserInfo: React.FC = () => {
-  const navigate = useNavigate();
-  const [selectedRegion, setSelectedRegion] = React.useState('');
-  const [selectedCity, setSelectedCity] = React.useState('');
+  const [isCareearSelect, setIsCareearSelect] = React.useState(false);
   const { onboardingData, setOnboardingField } = useOnboardingStore();
 
-  const handleNextClick = () => {
-    navigate('/onboarding/position');
+  const handleCareearClick = (career) => {
+    setOnboardingField('career', career);
+
+    console.log(onboardingData.career);
+  };
+  const handleCloseCareearSelect = () => {
+    setIsCareearSelect(false); // 이 함수로 클릭 시 상태 변경
+
+    console.log(isCareearSelect);
   };
 
   return (
@@ -56,118 +84,89 @@ export const Step1UserInfo: React.FC = () => {
           닉네임은 몇 글자 이상으로 해주세요.
         </span>
       </section>
-      <article className="flex flex-col gap-3 w-6/12">
+      <article className="flex flex-col gap-3 w-6/12 relative">
         <p className="text-lg">현재 경력이 어떻게 되시나요?</p>
         <p className="text-black-alt">
           경력 정보는 세무적인 팀원을 찾는 데 도움이 돼요.
         </p>
-        <button className="p-3 w-6/12 text-left text-black-alt border border-alt rounded-lg">
-          <p>경력</p>
-        </button>
-      </article>
-
-      {/* <form className="p-6 rounded-lg shadow-lg w-full max-w-lg">
-        <div className="mb-4">
-          <label className="block font-semibold text-gray-700 mb-1">
-            사용하실 닉네임을 입력해주세요{' '}
-            <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-            placeholder="닉네임 입력"
-            value={onboardingData.name}
-            onChange={(e) => setOnboardingField('name', e.target.value)}
-          />
-        </div>
-        <section>
-          <label className="block font-semibold text-gray-700 mb-1">
-            거주 지역을 입력해주세요
-          </label>
-
-          <select
-            className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg"
-            value={selectedRegion}
-            onChange={(e) => {
-              setSelectedRegion(e.target.value);
-              setOnboardingField('firstArea', e.target.value);
-              setSelectedCity(''); // 지역 변경 시 도시 초기화
-            }}
-          >
-            <option value="">지역 선택 (시·도)</option>
-            {REGIONS.map((region) => (
-              <option key={region.name} value={region.name}>
-                {region.name}
-              </option>
-            ))}
-          </select>
-
-          <select
-            className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg"
-            value={selectedCity}
-            onChange={(e) => {
-              setOnboardingField('secondArea', e.target.value);
-              setSelectedCity(e.target.value);
-            }}
-            disabled={!selectedRegion} // 시·도 선택 전 비활성화
-          >
-            <option value="">지역 선택 (시·군·구)</option>
-            {selectedRegion &&
-              REGIONS.find(
-                (region) => region.name === selectedRegion,
-              )?.cities.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-          </select>
-        </section>
-
-        <section className="mb-4 flex gap-2">
-          <div className="w-1/2">
-            <label className="block font-semibold text-gray-700 mb-1">
-              직무를 입력해주세요 <span className="text-red-500">*</span>
-            </label>
-            <select
-              onChange={(e) => setOnboardingField('job', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-            >
-              {JOBS.map((job) => {
-                return (
-                  <option key={job.value} value={job.value}>
-                    {job.label}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
-          <div className="w-1/2">
-            <label className="block font-semibold text-gray-700 mb-1">
-              경력을 입력해주세요 <span className="text-red-500">*</span>
-            </label>
-            <select
-              onChange={(e) => setOnboardingField('career', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-            >
-              {CAREERS.map((career) => {
-                return (
-                  <option key={career} value={career}>
-                    {career}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-        </section>
         <button
-          onClick={handleNextClick}
-          type="button"
-          className="w-full bg-gray-500 text-white py-3 rounded-lg font-semibold hover:bg-gray-600 transition"
+          onClick={() => setIsCareearSelect(true)}
+          className="flex justify-between p-3 w-6/12 text-left border border-alt rounded-lg"
         >
-          다음으로
+          <p
+            className={`${
+              onboardingData.career ? 'text-black' : 'text-black-alt'
+            }`}
+          >
+            {onboardingData.career ? onboardingData.career : '경력'}
+          </p>
+          <NextIcon />
         </button>
-      </form> */}
+        {isCareearSelect && (
+          <React.Fragment>
+            <div
+              onClick={handleCloseCareearSelect}
+              className="fixed top-0 left-0 w-screen h-screen bg-black opacity-30 z-10"
+            />
+            <article className="z-10">
+              <div className="absolute w-120 h-90  bg-white -right-1/4 top-1/2 rounded-md">
+                <header className="py-3 px-3 w-full flex justify-between">
+                  <p className="text-black text-lg font-semibold">경력</p>
+                  <button onClick={handleCloseCareearSelect}>
+                    <XIcon />
+                  </button>
+                </header>
+                <ul className="p-3 h-60 flex flex-col gap-2 overflow-y-scroll ">
+                  {CAREERS.map((career, index) => {
+                    return (
+                      <li
+                        className={`p-3 border rounded-md text-sm flex justify-between items-center transition-all
+                                ${
+                                  career === onboardingData.career
+                                    ? 'border-primary'
+                                    : 'border-alt'
+                                }
+                                ${
+                                  index === CAREERS.length - 1
+                                    ? 'last:opacity-50'
+                                    : ''
+                                }
+        `}
+                        key={career}
+                        onClick={() => handleCareearClick(career)}
+                      >
+                        <p
+                          className={`transition-all
+          ${career === onboardingData.career ? 'text-primary' : 'text-black'}`}
+                        >
+                          {career}
+                        </p>
+                        <div
+                          className={`w-5 h-5 border border-primary rounded-full transition-all
+                              ${
+                                career === onboardingData.career
+                                  ? 'border-4'
+                                  : 'border-1'
+                              }
+                              `}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div
+                  onClick={handleCloseCareearSelect}
+                  className="w-full flex items-center justify-center"
+                >
+                  <button className="px-20 py-3 bg-primary text-white rounded-md text-sm">
+                    선택완료
+                  </button>
+                </div>
+              </div>
+            </article>
+          </React.Fragment>
+        )}
+      </article>
     </main>
   );
 };

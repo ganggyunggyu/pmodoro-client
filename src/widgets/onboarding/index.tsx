@@ -50,7 +50,7 @@ export const OnboardingWidget = () => {
             }
             `}
           >
-            닉네임 입력
+            기본 정보
           </p>
           <div
             className={`w-16 h-0.5 transition-all
@@ -65,7 +65,7 @@ export const OnboardingWidget = () => {
                 : 'text-black-assist'
             }`}
           >
-            희망 직무선택
+            희망 직무 정보
           </p>
           <div
             className={`w-16 h-0.5 transition-all
@@ -80,7 +80,7 @@ export const OnboardingWidget = () => {
                 : 'text-black-assist'
             }`}
           >
-            경력 입력
+            참가 정보
           </p>
         </div>
       </section>

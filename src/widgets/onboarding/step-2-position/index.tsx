@@ -5,7 +5,7 @@ import { useOnboardingStore } from '@/app/store/useOnboardingStore';
 export const Step2Position: React.FC = () => {
   const navigate = useNavigate();
   const { onboardingData, setOnboardingField } = useOnboardingStore();
-  const [position, setPosition] = React.useState('');
+
   const positions = [
     { id: 'developer', label: '개발자', icon: '💻' },
     { id: 'designer', label: '디자이너', icon: '🎨' },
@@ -14,20 +14,41 @@ export const Step2Position: React.FC = () => {
   ];
 
   const handleSelect = (position: string) => {
-    setPosition(position);
+    // setPosition(position);
+    setOnboardingField('position', position);
   };
 
   const handleNextClick = () => {
-    if (position) {
-      setOnboardingField('position', position);
-      const id = positions.find((pos) => pos.label === position);
+    if (onboardingData.position) {
+      const id = positions.find((pos) => pos.label === onboardingData.position);
       navigate(`/onboarding/position/${id.id}`);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-gray-200 p-6 rounded-lg shadow-lg w-full max-w-md text-center">
+    <div className="flex flex-col w-full h-[46%] justify-center items-center gap-6">
+      <article className="flex flex-col gap-3 w-6/12">
+        <p className="text-lg">희망하는 직무를 선택해주세요.</p>
+      </article>
+      <section className="w-6/12 h-full grid grid-cols-2 gap-3">
+        {positions.map((pos) => {
+          return (
+            <button
+              key={pos.id}
+              onClick={() => handleSelect(pos.label)}
+              className={`flex flex-col items-center justify-center p-4 border-2 rounded-lg transition cursor-pointer hover:bg-rose-100 
+                ${
+                  onboardingData.position === pos.label
+                    ? 'border-primary bg-paimary-mute'
+                    : 'border-alt bg-white'
+                }`}
+            >
+              {pos.label}
+            </button>
+          );
+        })}
+      </section>
+      {/* <div className="bg-gray-200 p-6 rounded-lg shadow-lg w-full max-w-md text-center">
         <h2 className="text-lg font-bold text-gray-700 mb-4">
           희망하시는 포지션을 선택해 주세요
         </h2>
@@ -60,7 +81,7 @@ export const Step2Position: React.FC = () => {
         >
           다음으로
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

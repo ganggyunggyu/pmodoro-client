@@ -15,8 +15,22 @@ export const Step1UserInfo: React.FC = () => {
   };
 
   return (
-    <main className="w-screen h-screen flex items-center justify-center">
-      <form className="p-6 rounded-lg shadow-lg w-full max-w-lg">
+    <main className="w-full flex flex-col items-center gap-10 ">
+      <article className="flex flex-col gap-3 w-6/12">
+        <p className="text-lg">프모도로에서 사용할 닉네임을 입력해주세요.</p>
+        <p className="text=black-alt">닉네임은 몇 글자 이상으로 해주세요.</p>
+      </article>
+
+      <section className="w-6/12 flex flex-col gap-3">
+        <div className="p-3 w-6/12 border border-alt rounded-lg">
+          <input type="text" placeholder="닉네임" className="w-full" />
+        </div>
+        <span className="text-xs text-black-alt">
+          닉네임은 몇 글자 이상으로 해주세요.
+        </span>
+      </section>
+
+      {/* <form className="p-6 rounded-lg shadow-lg w-full max-w-lg">
         <div className="mb-4">
           <label className="block font-semibold text-gray-700 mb-1">
             사용하실 닉네임을 입력해주세요{' '}
@@ -117,7 +131,7 @@ export const Step1UserInfo: React.FC = () => {
         >
           다음으로
         </button>
-      </form>
+      </form> */}
     </main>
   );
 };

@@ -17,11 +17,11 @@ export const Header = () => {
   };
 
   return (
-    <header className="w-screen flex justify-between items-cetner py-3 relative px-30 border-b">
+    <header className="fixed  top-0 left-0 bg-white z-10 w-screen flex justify-between items-cetner h-16 px-30 border-b border-primary-mute">
       <button
         onClick={handleLogoClick}
         type="button"
-        className="text-2xl font-bold text-red-500"
+        className="text-2xl font-bold text-primary logo-font"
       >
         {PROJECT_NAME}
       </button>
@@ -39,12 +39,14 @@ export const Header = () => {
           </button>
         </article>
       ) : (
-        <button
-          onClick={() => navigate('/login')}
-          className="bg-red-100 px-4 py-2 rounded-lg text-sm font-semibold"
-        >
-          로그인 / 회원가입
-        </button>
+        <article className="flex items-center gap-5">
+          <button onClick={() => navigate('/login')} className="h-8/12 text-xs">
+            공지사항
+          </button>
+          <button onClick={() => navigate('/login')} className="h-8/12 text-xs">
+            로그인
+          </button>
+        </article>
       )}
     </header>
   );

@@ -70,12 +70,12 @@ export const HomePage = () => {
     return <div>유저 불러오는중</div>;
   }
   return (
-    <main className="p-6 max-w-6xl mx-auto w-screen">
+    <main className="p-6 max-w-6xl mx-auto w-10/12">
       <section className="flex flex-col gap-5 mb-5 w-full overflow-scroll">
         <p className="text-xl font-semibold">
           원하는 팀원을 구체적으로 검색해요
         </p>
-        <form className="flex items-center gap-5">
+        <form className="flex items-center lg:gap-5 md:gap-3 sm:gap-1 transition-all">
           <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
             상세 검색
           </button>
@@ -102,30 +102,32 @@ export const HomePage = () => {
           </div>
         </form>
       </section>
-      <section className="grid grid-cols-1 gap-6">
+      <section className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 transition-all">
         {users.data.map((user: UserInfo) => (
           <article
             key={user._id}
             className="flex flex-col gap-3 p-3 rounded-lg border border-neutral-300"
           >
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gray-400 rounded-full"></div>
-              <span className="font-semibold">{user.displayName}</span>
-              <div className="flex ">
-                <p>
+            <div className="flex gap-3">
+              <div className="w-12 h-12 bg-alt rounded-full"></div>
+              <div className="flex flex-col justify-center">
+                <span className="flex-1 text-sm">{user.displayName}</span>
+                <span className="text-xs">{user.job}</span>
+              </div>
+              <div className="flex-1 relative">
+                <p className="w-full text-right absolute bottom-0 text-xs">
                   {user.firstArea} {user.secondArea}
                 </p>
-                <p>{user.job}</p>
               </div>
             </div>
             <div className="flex flex-col gap-5">
-              <p>{user.userId}</p>
+              <p className="text-balance overflow-hidden">{user.userId}</p>
               <div className="flex gap-3 w-full overflow-y-scroll">
                 {user.detailPositionList?.map((pos, index) => {
                   return (
                     <figure
                       key={index}
-                      className=" min-w-fit px-3 py-2 bg-red-100 rounded-full text-xs "
+                      className=" min-w-fit px-3 py-2 border border-alt rounded-full text-xs"
                     >
                       {pos}
                     </figure>
@@ -135,14 +137,14 @@ export const HomePage = () => {
             </div>
             <div className="w-full flex items-center justify-between gap-5">
               <button
-                className="w-full flex items-center justify-center border py-1 rounded-md border-neutral-200"
+                className="w-full flex items-center justify-center border py-1 rounded-md border-alt"
                 onClick={() => handleProfileClick(user)}
               >
                 프로필 보기
               </button>
               <button
                 type="button"
-                className="w-full flex items-center justify-center py-1 rounded-md bg-red-100 cursor-pointer"
+                className="w-full flex items-center justify-center py-1 rounded-md border border-primary text-primary cursor-pointer"
                 // onClick={() => handleChatClick(user)}
                 onClick={async () => {
                   const isMe = userInfo._id === user._id;

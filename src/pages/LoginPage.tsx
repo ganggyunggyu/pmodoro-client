@@ -15,15 +15,10 @@ export const LoginPage = () => {
     e.preventDefault();
 
     try {
-      // 로그인 요청 보내기
-      const response = await axios.post('http://localhost:3000/login', {
+      const response = await axios.post('http://localhost:3000/user/login', {
         email,
         password,
       });
-
-      // 로그인 성공시 처리
-
-      console.log(response);
 
       if (response.status === 200) {
         const userInfo = response.data;
@@ -31,11 +26,9 @@ export const LoginPage = () => {
         setIsAuth(true);
 
         navigate(`/profile/${userInfo._id}`);
-
-        alert('로그인 성공');
       }
     } catch (error) {
-      alert('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
+      alert('이메일과 비밀번호를 확인해주세요.');
     }
   };
 

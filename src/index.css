@@ -1,11 +1,17 @@
 @import 'tailwindcss';
 @import './app/style/color.css';
+@import url('https://fastly.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css');
+
 @font-face {
   font-family: 'Ownglyph_StudyHard-Rg';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_StudyHard-Rg.woff2')
     format('woff2');
   font-weight: normal;
   font-style: normal;
+}
+body {
+  font-family: 'Wanted Sans Variable', sans-serif;
+  /* font-family: 'BMHANNAPro', sans-serif; */
 }
 div,
 section {

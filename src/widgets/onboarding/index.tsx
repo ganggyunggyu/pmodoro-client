@@ -29,7 +29,6 @@ export const OnboardingWidget = () => {
       navigate('/onboarding/position');
     }
     if (pathname.includes('position')) {
-      // const id = positions.find((pos) => pos.label === position);
       navigate(`/onboarding/other-info`);
     }
     if (pathname.includes('other-info')) {

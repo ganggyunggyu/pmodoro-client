@@ -77,8 +77,16 @@ export const Step1UserInfo: React.FC = () => {
       </article>
 
       <section className="w-6/12 flex flex-col gap-3">
-        <div className="p-3 w-6/12 border border-alt rounded-lg">
-          <input type="text" placeholder="닉네임" className="w-full" />
+        <div className="p-3 w-10/12 border border-alt rounded-lg">
+          <input
+            value={onboardingData.name}
+            onChange={(event) => {
+              setOnboardingField('name', event.target.value);
+            }}
+            type="text"
+            placeholder="닉네임"
+            className="w-full"
+          />
         </div>
         <span className="text-xs text-black-alt">
           닉네임은 몇 글자 이상으로 해주세요.
@@ -91,7 +99,7 @@ export const Step1UserInfo: React.FC = () => {
         </p>
         <button
           onClick={() => setIsCareearSelect(true)}
-          className="flex justify-between p-3 w-6/12 text-left border border-alt rounded-lg"
+          className="flex justify-between p-3 w-10/12 text-left border border-alt rounded-lg"
         >
           <p
             className={`${
@@ -109,7 +117,7 @@ export const Step1UserInfo: React.FC = () => {
               className="fixed top-0 left-0 w-screen h-screen bg-black opacity-30 z-10"
             />
             <article className="z-10">
-              <div className="absolute w-120 h-90  bg-white -right-1/4 top-1/2 rounded-md">
+              <div className="absolute w-full h-90  bg-white left-0 top-2/4 rounded-md">
                 <header className="py-3 px-3 w-full flex justify-between">
                   <p className="text-black text-lg font-semibold">경력</p>
                   <button onClick={handleCloseCareearSelect}>

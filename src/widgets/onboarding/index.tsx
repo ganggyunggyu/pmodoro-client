@@ -29,8 +29,11 @@ export const OnboardingWidget = () => {
       navigate('/onboarding/position');
     }
     if (pathname.includes('position')) {
-      const id = positions.find((pos) => pos.label === position);
-      navigate(`/onboarding/position/${id.id}`);
+      // const id = positions.find((pos) => pos.label === position);
+      navigate(`/onboarding/other-info`);
+    }
+    if (pathname.includes('other-info')) {
+      navigate('/onboarding/final');
     }
   };
   const handlePrevClick = () => {
@@ -75,7 +78,7 @@ export const OnboardingWidget = () => {
           />
           <p
             className={`transition-all ${
-              pathname.includes('carrear')
+              pathname.includes('other-info')
                 ? 'text-primary'
                 : 'text-black-assist'
             }`}
@@ -93,7 +96,7 @@ export const OnboardingWidget = () => {
           path="position/developer/tech-stack"
           element={<Step3_1PositionDeveloper />}
         />
-        <Route path="project" element={<Step4Project />} />
+        <Route path="other-info" element={<Step4Project />} />
         <Route path="final" element={<Step5Final />} />
       </Routes>
       <section className="absolute bottom-3/12 w-6/12 flex itmes-center justify-between left-1/2 -translate-x-1/2">

@@ -12,6 +12,7 @@ export const Step4Project: React.FC = () => {
 
   const [onOffPreference, setOnOffPreference] = React.useState({
     label: '',
+    isOnline: false,
   });
 
   const handleNextClick = () => {
@@ -95,12 +96,11 @@ export const Step4Project: React.FC = () => {
                   {[
                     {
                       label: '온라인을 선호해요!',
+                      isOnline: true,
                     },
                     {
                       label: '오프라인을 선호해요!',
-                    },
-                    {
-                      label: '그닥 상관 없어요!',
+                      isOnline: false,
                     },
                   ].map((onOff, index) => {
                     return (
@@ -294,6 +294,25 @@ export const Step4Project: React.FC = () => {
           </React.Fragment>
         )}
       </article>
+      <article className="flex flex-col gap-3 w-6/12 py-5">
+        <p className="text-lg">
+          당신은 어떤 사람인가요? 간단한 자기 소개를 적어주세요!
+        </p>
+      </article>
+
+      <section className="w-6/12 flex flex-col gap-3">
+        <div className="p-3 w-10/12 border border-alt rounded-lg">
+          <input
+            value={onboardingData.detailPositionList.join('')}
+            onChange={(event) => {
+              setOnboardingField('description', event.target.value);
+            }}
+            type="text"
+            placeholder="닉네임"
+            className="w-full"
+          />
+        </div>
+      </section>
     </section>
   );
 };

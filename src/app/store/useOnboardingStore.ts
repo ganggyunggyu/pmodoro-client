@@ -7,7 +7,6 @@ export type Project = {
   startMonth: string;
   endYear: string;
   endMonth: string;
-  description: string;
 };
 
 export type OnboardingData = {
@@ -22,6 +21,7 @@ export type OnboardingData = {
   projectList: Project[];
   job: string;
   skills: string[];
+  description: string;
 };
 
 export type OnboardingState = {
@@ -57,6 +57,7 @@ export const useOnboardingStore = create<OnboardingState & OnboardingActions>(
       job: '',
       techStacks: [],
       skills: [],
+      description: '',
     },
 
     // 특정 필드 업데이트 액션
@@ -150,6 +151,7 @@ export const useOnboardingStore = create<OnboardingState & OnboardingActions>(
           secondArea: '',
           job: '',
           skills: [],
+          description: '',
           projectList: [
             {
               id: Date.now(),
@@ -158,7 +160,6 @@ export const useOnboardingStore = create<OnboardingState & OnboardingActions>(
               startMonth: '',
               endYear: '',
               endMonth: '',
-              description: '',
             },
           ],
         },

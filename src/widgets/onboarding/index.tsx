@@ -14,15 +14,6 @@ export const OnboardingWidget = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
-  const {
-    onboardingData: { position },
-  } = useOnboardingStore();
-  const positions = [
-    { id: 'developer', label: '개발자', icon: '💻' },
-    { id: 'designer', label: '디자이너', icon: '🎨' },
-    { id: 'planner', label: '기획자', icon: '📝' },
-    { id: 'marketer', label: '마케터', icon: '📢' },
-  ];
 
   const handleNextClick = () => {
     if (pathname.includes('user-info')) {
@@ -98,20 +89,22 @@ export const OnboardingWidget = () => {
         <Route path="other-info" element={<Step4Project />} />
         <Route path="final" element={<Step5Final />} />
       </Routes>
-      <section className="absolute bottom-3/12 w-6/12 flex itmes-center justify-between left-1/2 -translate-x-1/2">
-        <button
-          onClick={handlePrevClick}
-          className="border border-primary text-primary px-3 py-1 text-sm rounded-lg"
-        >
-          이전
-        </button>
-        <button
-          onClick={handleNextClick}
-          className="border border-primary bg-primary text-white px-3 py-1 text-sm rounded-lg"
-        >
-          다음
-        </button>
-      </section>
+      {!pathname.includes('final') && (
+        <section className="absolute bottom-3/12 w-6/12 flex itmes-center justify-between left-1/2 -translate-x-1/2">
+          <button
+            onClick={handlePrevClick}
+            className="border border-primary text-primary px-3 py-1 text-sm rounded-lg"
+          >
+            이전
+          </button>
+          <button
+            onClick={handleNextClick}
+            className="border border-primary bg-primary text-white px-3 py-1 text-sm rounded-lg"
+          >
+            다음
+          </button>
+        </section>
+      )}
     </React.Fragment>
   );
 };

@@ -36,3 +36,6 @@ input {
   font-size: 16px; /* 기본 폰트 크기 설정 */
   outline: none; /* 포커스 시 아웃라인 제거 */
 }
+p {
+  line-height: 24px;
+}

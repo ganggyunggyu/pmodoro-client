@@ -90,7 +90,7 @@ export const Step2Position: React.FC = () => {
                 className="fixed top-0 left-0 w-screen h-screen bg-black opacity-30 z-10"
               />
               <article className="z-10">
-                <div className="absolute w-120 h-90  bg-white -right-1/4 top-1/2 rounded-md">
+                <div className="absolute w-full h-90  bg-white left-0 top-10 rounded-md">
                   <header className="py-3 px-3 w-full flex justify-between">
                     <p className="text-black text-lg font-semibold">
                       기술 스택

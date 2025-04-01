@@ -68,7 +68,7 @@ export const OnboardingWidget = () => {
           />
           <p
             className={`transition-all ${
-              pathname.includes('other-info')
+              pathname.includes('other-info') || pathname.includes('final')
                 ? 'text-primary'
                 : 'text-black-assist'
             }`}

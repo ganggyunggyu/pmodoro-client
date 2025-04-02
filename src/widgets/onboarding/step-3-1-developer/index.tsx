@@ -3,31 +3,30 @@ import { useNavigate } from 'react-router-dom';
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
 
 export const Step3_1PositionDeveloper: React.FC = () => {
-  const navigate = useNavigate();
-  const { detailPositionList, setDetailPositionList } = useOnboardingStore();
+  // const navigate = useNavigate();
 
-  const positions = [
-    '프론트엔드 개발자',
-    '백엔드 개발자',
-    '풀스택 개발자',
-    '앱 개발자',
-    'AI 개발자',
-    '게임 개발자',
-  ];
+  // const positions = [
+  //   '프론트엔드 개발자',
+  //   '백엔드 개발자',
+  //   '풀스택 개발자',
+  //   '앱 개발자',
+  //   'AI 개발자',
+  //   '게임 개발자',
+  // ];
 
-  const toggleSelect = (pos: string) => {
-    setDetailPositionList(pos); // 토글 함수면 내부에서 포함 여부 처리
-  };
+  // const toggleSelect = (pos: string) => {
+  //   setDetailPositionList(pos); // 토글 함수면 내부에서 포함 여부 처리
+  // };
 
-  const handleNext = () => {
-    if (detailPositionList.length > 0) {
-      navigate('/onboarding/project');
-    }
-  };
+  // const handleNext = () => {
+  //   if (detailPositionList.length > 0) {
+  //     navigate('/onboarding/project');
+  //   }
+  // };
 
   return (
     <main className="flex justify-center items-center min-h-screen bg-gray-100">
-      <section className="bg-gray-200 p-6 rounded-lg shadow-lg w-full max-w-md text-center">
+      {/* <section className="bg-gray-200 p-6 rounded-lg shadow-lg w-full max-w-md text-center">
         <h2 className="text-lg font-bold text-gray-700 mb-4">
           개발 포지션을 선택해주세요
         </h2>
@@ -59,7 +58,7 @@ export const Step3_1PositionDeveloper: React.FC = () => {
         >
           다음으로
         </button>
-      </section>
+      </section> */}
     </main>
   );
 };

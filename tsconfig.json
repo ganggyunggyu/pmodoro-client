@@ -1,28 +1,25 @@
 {
+  //test
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    //kakao types
+    // "types": ["kakao.maps.d.ts"],
 
     // 절대경로
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@views/*": ["src/views/*"],
-      "@shared/*": ["src/shared/*"],
-      "@entities/*": ["src/entities/*"],
-      "@features/*": ["src/features/*"],
-      "@resource/*": ["public/resource/*"],
-      "@public/*": ["public/*"]
+      "@/*": ["src/*"]
     },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    // "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
 

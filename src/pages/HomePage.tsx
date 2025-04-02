@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axios } from '@/app/config';
 import { useChatStore } from '@/app/store/useChatStore';
 import { UserInfo, useUserStore } from '@/app/store/useUserStore';
 import { useQuery } from '@tanstack/react-query';
@@ -29,7 +29,7 @@ export const HomePage = () => {
   const { setRoomId } = useChatStore();
 
   const getUsers = async () => {
-    return await axios.get('http://localhost:3000/users');
+    return await axios.get('/users');
   };
 
   const userUsersQuery = () => {
@@ -38,7 +38,7 @@ export const HomePage = () => {
       queryFn: getUsers,
     });
   };
-
+  axios;
   const { data: users, isLoading } = userUsersQuery();
 
   const handleChatClick = (user: UserInfo) => async () => {
@@ -103,7 +103,7 @@ export const HomePage = () => {
         </form>
       </section>
       <section className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 transition-all">
-        {users.data.map((user: UserInfo) => (
+        {users.data?.map((user: UserInfo) => (
           <article
             key={user._id}
             className="flex flex-col gap-3 p-3 rounded-lg border border-neutral-300"

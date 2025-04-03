@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
 import { REGIONS } from '@/shared/constants/regions';
 import { CAREERS, JOBS } from '@/shared/constants/positions';
+import { OnboardingInput } from '../ui';
 
 export const NextIcon = () => {
   return (
@@ -54,6 +55,7 @@ export const XIcon = () => {
     </svg>
   );
 };
+
 export const Step1UserInfo: React.FC = () => {
   const [isCareearSelect, setIsCareearSelect] = React.useState(false);
   const { onboardingData, setOnboardingField } = useOnboardingStore();
@@ -76,22 +78,16 @@ export const Step1UserInfo: React.FC = () => {
         <p className="text-black-alt">닉네임은 몇 글자 이상으로 해주세요.</p>
       </article>
 
-      <section className="w-6/12 flex flex-col gap-3">
-        <div className="p-3 w-10/12 border border-alt rounded-lg">
-          <input
-            value={onboardingData.name}
-            onChange={(event) => {
-              setOnboardingField('name', event.target.value);
-            }}
-            type="text"
-            placeholder="닉네임"
-            className="w-full"
-          />
-        </div>
-        <span className="text-xs text-black-alt">
-          닉네임은 몇 글자 이상으로 해주세요.
-        </span>
-      </section>
+      <OnboardingInput
+        value={onboardingData.name}
+        onChange={(event) => {
+          setOnboardingField('name', event.target.value);
+        }}
+        type="text"
+        placeholder="닉네임"
+        className="w-full"
+        helper="닉네임은 몇 글자 이상으로 해주세요."
+      />
       <article className="flex flex-col gap-3 w-6/12 relative">
         <p className="text-lg">현재 경력이 어떻게 되시나요?</p>
         <p className="text-black-alt">

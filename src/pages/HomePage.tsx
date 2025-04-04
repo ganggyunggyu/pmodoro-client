@@ -1,6 +1,8 @@
 import { axios } from '@/app/config';
 import { useChatStore } from '@/app/store/useChatStore';
 import { UserInfo, useUserStore } from '@/app/store/useUserStore';
+import { UserSearchForm } from '@/features/user';
+import { UserSearchWidget } from '@/widgets/user-search-widget';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
@@ -71,37 +73,7 @@ export const HomePage = () => {
   }
   return (
     <main className="p-6 max-w-6xl mx-auto w-10/12">
-      <section className="flex flex-col gap-5 mb-5 w-full overflow-scroll">
-        <p className="text-xl font-semibold">
-          원하는 팀원을 구체적으로 검색해요
-        </p>
-        <form className="flex items-center lg:gap-5 md:gap-3 sm:gap-1 transition-all">
-          <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
-            상세 검색
-          </button>
-
-          <div className="h-8 w-0.5 bg-neutral-300" />
-          <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
-            포지션
-          </button>
-          <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
-            기술 스택
-          </button>
-          <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
-            위치
-          </button>
-          <button className="py-2 px-3 bg-neutral-100 text-sm rounded-md min-w-fit">
-            가능 시간
-          </button>
-          <div className="h-8 w-0.5 bg-neutral-300" />
-          <div className="flex items-center border p-1 border-neutral-300 rounded-md">
-            <label className="px-2" htmlFor="">
-              🔎
-            </label>
-            <input className=" h-full" placeholder="상세 검색" type="text" />
-          </div>
-        </form>
-      </section>
+      <UserSearchWidget />
       <section className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 transition-all">
         {users.data?.map((user: UserInfo) => (
           <article

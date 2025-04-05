@@ -79,9 +79,9 @@ export const Step1UserInfo: React.FC = () => {
       </article>
 
       <OnboardingInput
-        value={onboardingData.name}
+        value={onboardingData.displayName}
         onChange={(event) => {
-          setOnboardingField('name', event.target.value);
+          setOnboardingField('displayName', event.target.value);
         }}
         type="text"
         placeholder="닉네임"

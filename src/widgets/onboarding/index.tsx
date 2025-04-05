@@ -11,6 +11,10 @@ import { Step0Auth } from './step-0-auth';
 
 import { StatusBar, ActionButtonList } from './ui';
 
+export const OnboardingProvider = ({ children }) => {
+  <div className="pt-20">{children}</div>;
+};
+
 export const OnboardingWidget = () => {
   const location = useLocation();
   const { pathname } = location;
@@ -20,6 +24,7 @@ export const OnboardingWidget = () => {
   return (
     <React.Fragment>
       <StatusBar />
+      <div className="pt-10" />
       <Routes>
         <Route path="auth" element={<Step0Auth />} />
         <Route path="user-info" element={<Step1UserInfo />} />
@@ -32,6 +37,7 @@ export const OnboardingWidget = () => {
         <Route path="other-info" element={<Step4Project />} />
         <Route path="final" element={<Step5Final />} />
       </Routes>
+
       {isFinalStep && <ActionButtonList />}
     </React.Fragment>
   );

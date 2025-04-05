@@ -2,32 +2,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/app/store/useUserStore';
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
-import axios from 'axios';
+import { axios } from '@/app/config';
 
 export const Step5Final: React.FC = () => {
   const navigate = useNavigate();
 
-  const { getOnboardingData } = useOnboardingStore();
-  const onboardingData = getOnboardingData();
+  const handleHomeClick = () => {
+    navigate('/');
+  };
 
-  const { userInfo, setIsAuth, setUserInfo } = useUserStore();
-
-  const handleComplete = async () => {
-    const signupData = {
-      ...userInfo,
-      ...onboardingData,
-    };
-    console.log(signupData);
-    const result = await axios.post(
-      'http://localhost:3000/user/join',
-      signupData,
-    );
-
-    setUserInfo(result.data.userInfo);
-    console.log(result.data.userInfo);
-    setIsAuth(true);
-
-    navigate(`/profile/${result.data.userInfo._id}`);
+  const handleOtherInfoClick = () => {
+    navigate(`/my-page`);
   };
 
   return (
@@ -41,7 +26,10 @@ export const Step5Final: React.FC = () => {
         <button className="bg-primary px-4 py-2 text-white rounded-md text-sm">
           세부 정보 입력하기
         </button>
-        <button className="bg-white border border-primary text-primary px-4 py-2 rounded-md text-sm">
+        <button
+          onClick={handleHomeClick}
+          className="bg-white border border-primary text-primary px-4 py-2 rounded-md text-sm"
+        >
           홈으로
         </button>
       </div>

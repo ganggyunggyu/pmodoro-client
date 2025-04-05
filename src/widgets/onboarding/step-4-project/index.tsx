@@ -49,7 +49,7 @@ export const Step4Project: React.FC = () => {
   };
 
   const getCitys = () => {
-    if (onboardingData.firstArea !== '') {
+    if (onboardingData.firstArea) {
       return REGIONS.find((el) => el.name === onboardingData.firstArea)?.cities;
     } else {
       return [];
@@ -213,7 +213,7 @@ ${skills.join(', ')}을 사용하고 ${
                 <div className="absolute w-full h-90  bg-white left-0 top-10 rounded-md">
                   <header className="py-3 px-3 w-full flex justify-between">
                     <p className="text-black text-lg font-semibold">
-                      {onboardingData.firstArea.length === 0
+                      {onboardingData.firstArea?.length === 0
                         ? '지역'
                         : onboardingData.firstArea}
                     </p>
@@ -222,7 +222,7 @@ ${skills.join(', ')}을 사용하고 ${
                     </button>
                   </header>
                   <ul className="p-3 h-60 flex flex-col gap-2 overflow-y-scroll ">
-                    {onboardingData.firstArea.length === 0 &&
+                    {!onboardingData.firstArea &&
                       REGIONS.map((regions, index) => {
                         return (
                           <li
@@ -245,7 +245,7 @@ ${skills.join(', ')}을 사용하고 ${
                             <p
                               className={`transition-all
                   ${
-                    regions.name === onboardingData.firstArea
+                    regions.name === onboardingData?.firstArea
                       ? 'text-primary'
                       : 'text-black'
                   }`}
@@ -256,7 +256,7 @@ ${skills.join(', ')}을 사용하고 ${
                               className={`w-5 h-5 border border-primary rounded-full transition-all
                                       ${
                                         regions.name ===
-                                        onboardingData.firstArea
+                                        onboardingData?.firstArea
                                           ? 'border-4'
                                           : 'border-1'
                                       }
@@ -265,7 +265,7 @@ ${skills.join(', ')}을 사용하고 ${
                           </li>
                         );
                       })}
-                    {onboardingData.firstArea.length !== 0 &&
+                    {onboardingData?.firstArea &&
                       citys.map((city, index) => {
                         return (
                           <li

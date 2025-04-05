@@ -55,7 +55,7 @@ export const LoginPage = () => {
       {!isLocalLogin ? (
         <form
           onClick={handleFormClick}
-          className="relative py-30 px-50 flex flex-col items-center justify-center gap-5 bg-white rounded-md"
+          className="relative py-20 px-40 mb-[30%] flex flex-col items-center justify-center gap-5 bg-white rounded-md"
         >
           <button
             onClick={handleCloseClick}
@@ -82,7 +82,7 @@ export const LoginPage = () => {
       ) : (
         <form
           onClick={handleFormClick}
-          className="relative py-30 px-50 flex flex-col items-center justify-center gap-5 bg-white rounded-md"
+          className="relative py-30 px-50 mb-[30%] flex flex-col items-center justify-center gap-5 bg-white rounded-md"
         >
           <input
             value={email}

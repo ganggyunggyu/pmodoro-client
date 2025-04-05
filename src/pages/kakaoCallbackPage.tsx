@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useUserStore } from '../app/store/useUserStore';
 import { useOnboardingStore } from '../app/store/useOnboardingStore';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
+import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 
 export const KakaoCallbackPage = () => {
   const [searchParams] = useSearchParams();
@@ -43,5 +44,5 @@ export const KakaoCallbackPage = () => {
     if (code && !hasFetched.current) getKakaoAccessToken();
   }, []);
 
-  return <main>카카오 로그인 진행중</main>;
+  return <PulseLoaderSpinner />;
 };

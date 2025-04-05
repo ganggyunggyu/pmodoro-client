@@ -5,6 +5,7 @@ import { useUserStore } from '@/app/store/useUserStore';
 import useProjectStore from '@/app/store/useProjectStore';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 
 export const getUser = async (userId: string) => {
   const result = await axios.get(`http://localhost:3000/user/${userId}`);
@@ -59,7 +60,7 @@ export const Mypage: React.FC = () => {
   const userQuery = useGetUserQuery(userId);
 
   if (userQuery.isLoading) {
-    return <div>유저 정보 불러오는중</div>;
+    return <PulseLoaderSpinner />;
   }
 
   const sideItem = [
@@ -159,7 +160,7 @@ export const Mypage: React.FC = () => {
               <p className="w-30 text-black-alt">상세 포지션</p>
               {userQuery.data.skills?.map((position) => {
                 return (
-                  <button className="text-xs py-2 px-5 rounded-full bg-alt">
+                  <button className="text-xs py-2 px-3 rounded-full bg-white border border-alt">
                     {position}
                   </button>
                 );

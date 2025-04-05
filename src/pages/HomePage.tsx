@@ -2,8 +2,10 @@ import { axios } from '@/app/config';
 import { useChatStore } from '@/app/store/useChatStore';
 import { UserInfo, useUserStore } from '@/app/store/useUserStore';
 import { UserSearchForm } from '@/features/user';
+import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 import { UserSearchWidget } from '@/widgets/user-search-widget';
 import { useQuery } from '@tanstack/react-query';
+import { CSSProperties } from 'react';
 import { useNavigate } from 'react-router';
 
 export const ChatIcon = () => {
@@ -69,7 +71,7 @@ export const HomePage = () => {
   };
 
   if (isLoading) {
-    return <div>유저 불러오는중</div>;
+    return <PulseLoaderSpinner />;
   }
   return (
     <main className="max-w-6xl mx-auto">
@@ -78,7 +80,7 @@ export const HomePage = () => {
         {users.data?.map((cardUser: UserInfo) => (
           <article
             key={cardUser._id}
-            className="flex flex-col gap-3 p-3 rounded-lg border border-neutral-300"
+            className="relative flex flex-col gap-3 py-3 px-5 rounded-lg border border-neutral-300"
           >
             <div className="flex gap-3">
               <div className="w-12 h-12 bg-alt rounded-full"></div>

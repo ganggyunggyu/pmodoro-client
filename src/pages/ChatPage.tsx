@@ -144,7 +144,9 @@ export const ChatPage: React.FC = () => {
                   <div className="flex flex-col text-sm">
                     <span className="">{otherUser.displayName}</span>
                     <span className="text-xs text-gray-500">
-                      {lastMessage.content}
+                      {lastMessage
+                        ? lastMessage.content
+                        : '채팅을 시작해보세요.'}
                     </span>
                   </div>
                   <span className="ml-auto text-xs text-gray-400">11:55</span>

@@ -1,10 +1,9 @@
-import axios from 'axios';
-
 import { useEffect, useRef } from 'react';
 import { useUserStore } from '../app/store/useUserStore';
 import { useOnboardingStore } from '../app/store/useOnboardingStore';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
+import { axios } from '../app/config';
 
 export const KakaoCallbackPage = () => {
   const [searchParams] = useSearchParams();
@@ -20,9 +19,7 @@ export const KakaoCallbackPage = () => {
   const getKakaoAccessToken = async () => {
     hasFetched.current = true;
     console.log(code);
-    const result = await axios.get(
-      `http://localhost:3000/auth/kakao-callback?code=${code}`,
-    );
+    const result = await axios.get(`/auth/kakao-callback?code=${code}`);
 
     const { isUser } = result.data;
 

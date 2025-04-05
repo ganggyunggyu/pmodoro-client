@@ -1,11 +1,13 @@
-export const LOCAL_CALLBACK =
-  'https://kauth.kakao.com/oauth/authorize?client_id=592b7c49df0845263bf62a37723069f2&redirect_uri=https://localhost:5173/auth/kakao-callback&response_type=code';
-export const DEV_CALLBACK =
-  'https://kauth.kakao.com/oauth/authorize?client_id=592b7c49df0845263bf62a37723069f2&redirect_uri=https://pmodoro-web.vercel.app/auth/kakao-callback&response_type=code';
+import { KAKAO_REDIRECT_URI } from '../constants/env-config';
+
 const KakaoLoginButton = () => {
+  const CALLBACK = `https://kauth.kakao.com/oauth/authorize?client_id=592b7c49df0845263bf62a37723069f2&redirect_uri=${
+    import.meta.env.VITE_KAKAO_REDIRECT_URI
+  }&response_type=code`;
   const handleKakaoLogin = () => {
-    window.location.href = LOCAL_CALLBACK;
+    window.location.href = CALLBACK;
   };
+  console.log(CALLBACK);
 
   return (
     <button

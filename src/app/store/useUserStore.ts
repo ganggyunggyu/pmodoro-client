@@ -1,31 +1,31 @@
 import { create } from 'zustand';
 
+type KakaoAuthInfo = {
+  kakaoId: string;
+  profileImg: string;
+  auth_time: number;
+  exp: number;
+  iat: number;
+  iss: string;
+  sub: string;
+  aud: string;
+};
+
 export type UserInfo = {
   _id: string;
-  userId: string;
   displayName: string;
-  phoneNumber?: string;
+  position: string;
+  skills: string[];
+  isOnline: boolean;
+  career: number | string;
+  description: string;
+
+  email?: string;
+  password?: string;
   firstArea?: string;
   secondArea?: string;
-  position: string;
-  detailPositionList: string[];
-  career: number;
-  job: string;
-  Introduce: string;
 
-  //로컬 로그인 스테이트
-  email: string;
-  password: string;
-
-  // 카카오 관련 선택 필드
-  kakaoId?: number;
-  profileImg?: string;
-  auth_time?: number;
-  exp?: number;
-  iat?: number;
-  iss?: string;
-  sub?: string;
-  aud?: string;
+  kakaoAuthInfo?: KakaoAuthInfo;
 };
 
 export type UserState = {

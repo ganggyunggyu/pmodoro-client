@@ -23,16 +23,18 @@ export const KakaoCallbackPage = () => {
       `http://localhost:3000/auth/kakao-callback?code=${code}`,
     );
 
-    const { userInfo, isUser } = result.data;
+    const { isUser } = result.data;
 
     if (isUser) {
+      const { userInfo } = result.data;
       setUserInfo(userInfo);
       setIsAuth(true);
       navigate('/');
     }
     if (!isUser) {
-      setOnboardingField('name', userInfo.name);
-      setUserInfo(userInfo);
+      const { kakaoAuthInfo, displayName } = result.data;
+      setOnboardingField('displayName', displayName);
+      setOnboardingField('kakaoAuthInfo', kakaoAuthInfo);
       navigate('/onboarding/user-info');
     }
   };

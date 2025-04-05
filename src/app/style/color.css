@@ -41,3 +41,16 @@
 .bg-primary-mute {
   background-color: #ea877a;
 }
+
+.bg-primary-opacity {
+  background-color: rgba(
+    243,
+    184,
+    179,
+    0.27
+  ); /* #f3b8b3의 RGBA 값으로 투명도만 조정 */
+}
+
+.border-black-alt {
+  border-color: rgba(55, 56, 60, 0.61); /* 텍스트 색상에 투명도 */
+}

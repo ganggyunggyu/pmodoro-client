@@ -5,6 +5,7 @@ import axios from 'axios';
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { io } from 'socket.io-client';
+import { getUser } from './Mypage';
 
 export type ChatRoom = {
   roomId: string;
@@ -32,7 +33,7 @@ export const ChatPage: React.FC = () => {
 
   const queryClient = useQueryClient();
 
-  const { userInfo } = useUserStore();
+  const { userInfo, isAuth } = useUserStore();
 
   const currentUserId = userInfo._id;
 
@@ -43,11 +44,7 @@ export const ChatPage: React.FC = () => {
 
   const [input, setInput] = React.useState('');
 
-  const {
-    data: chatRooms,
-    isLoading,
-    isSuccess,
-  } = useQuery({
+  const { data: chatRooms, isLoading } = useQuery({
     queryKey: ['chatRooms', currentUserId],
     queryFn: () => fetchChatRooms(currentUserId),
     enabled: !!currentUserId,
@@ -98,6 +95,9 @@ export const ChatPage: React.FC = () => {
     setInput('');
   };
 
+  if (!isAuth) {
+    return <div>로그인 필요</div>;
+  }
   if (isLoading) {
     return <div>loading..</div>;
   }
@@ -107,98 +107,103 @@ export const ChatPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="flex flex-1 overflow-hidden">
-        <aside className="w-1/3 border-r overflow-y-auto">
-          <div className="p-4 border-b text-sm text-gray-500">채팅 요청</div>
-          <ul>
-            {chatRooms.map(({ otherUser, roomId }) => (
+    <main className="flex w-full justify-center px-[10%] gap-5 mt-10">
+      <aside className="w-1/3 overflow-y-auto">
+        <div className=" flex gap-5 py-3 text-gray-500">
+          <p>채팅</p>
+          <p>채팅 요청</p>
+        </div>
+        <ul>
+          {chatRooms.map(({ otherUser: otherUserList, members, roomId }) => {
+            const otherUser = otherUserList[0];
+
+            const otherUserId = members.filter(
+              (member) => currentUserId !== member,
+            );
+
+            if (curOtherName === '') {
+              setCurOtherName(otherUser?.displayName);
+            }
+
+            return (
               <li
                 key={roomId}
-                onClick={() => {
-                  setCurOtherName(otherUser.displayName);
-
+                onClick={async () => {
+                  setCurOtherName(otherUser?.displayName);
                   setRoomId(roomId);
                   navigate(`/chat/${currentUserId}/${roomId}`);
                 }}
-                className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-100 cursor-pointer border-b
-                  ${
-                    roomId === currentRoomId
-                      ? 'bg-black text-white'
-                      : 'bg-white text-black'
-                  }
+                className={`flex items-center gap-3 px-2 py-3 hover:bg-gray-100 cursor-pointer border rounded-md
+                  ${roomId === currentRoomId ? 'border-primary' : 'border-alt'}
                   `}
               >
-                <div className="w-10 h-10 rounded-full bg-gray-300"></div>
+                <div className="w-10 h-10 rounded-full bg-alt"></div>
                 <div className="flex flex-col text-sm">
-                  <span className="font-semibold">{otherUser.displayName}</span>
+                  <span className="">{otherUser.displayName}</span>
                   <span className="text-xs text-gray-500">
                     즉시 프로젝트 가능하신가요?
                   </span>
                 </div>
                 <span className="ml-auto text-xs text-gray-400">11:55</span>
               </li>
-            ))}
-          </ul>
-        </aside>
+            );
+          })}
+        </ul>
+      </aside>
 
-        {currentRoomId && isMessages && (
-          <section className="flex flex-col w-10/12 h-full">
-            <div className="flex flex-col flex-1 p-6 overflow-y-auto bg-gray-50 min-h-full">
-              {messages?.map((msg, idx) =>
-                msg.senderId === currentUserId ? (
-                  <div key={idx} className="self-end mb-2">
+      {currentRoomId && isMessages && (
+        <section className="flex flex-col gap-5 min-w-9/12 min-h-[70vh]">
+          <div className="flex flex-col flex-1  p-6 overflow-y-auto border border-alt  rounded-md  shadow-md min-h-full">
+            {messages?.map((msg, idx) =>
+              msg.senderId === currentUserId ? (
+                <div key={idx} className="self-end mb-2">
+                  <div className="text-xs text-gray-500 mb-1">
+                    {userInfo.displayName}
+                  </div>
+
+                  <div className="bg-primary text-white rounded-md px-4 py-2 text-sm max-w-xs">
+                    {msg.content}
+                  </div>
+                </div>
+              ) : (
+                <div key={idx} className="flex items-start gap-2 mb-2">
+                  <div className="w-8 h-8 rounded-full bg-alt"></div>
+                  <div className="flex flex-col">
                     <div className="text-xs text-gray-500 mb-1">
-                      {userInfo.displayName}
+                      {curOtherName}
                     </div>
-
-                    <div className="bg-red-200 rounded-xl px-4 py-2 text-sm max-w-xs">
+                    <div className="bg-primary-opacity rounded-md px-4 py-2 text-sm max-w-xs">
                       {msg.content}
                     </div>
                   </div>
-                ) : (
-                  <div key={idx} className="flex items-start gap-2 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-gray-300"></div>
-                    <div className="flex flex-col">
-                      <div className="text-xs text-gray-500 mb-1">
-                        {curOtherName}
-                      </div>
-                      <div className="bg-gray-200 rounded-xl px-4 py-2 text-sm max-w-xs">
-                        {msg.content}
-                      </div>
-                    </div>
-                  </div>
-                ),
-              )}
-              <div ref={bottomRef} />
-            </div>
+                </div>
+              ),
+            )}
+            <div ref={bottomRef} />
+          </div>
 
-            <form
-              className="flex items-center border-t p-4"
-              onSubmit={handleSubmit}
-            >
+          <form
+            className="flex gap-5 items-center rounded-md"
+            onSubmit={handleSubmit}
+          >
+            <div className="p-3 flex-1 w-full rounded-md border border-primary">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="메시지를 입력해보세요."
-                className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring"
+                placeholder="입력하기"
+                className=" focus:outline-none"
               />
-              <button
-                type="submit"
-                className="ml-4 text-xl text-main hover:scale-110"
-              >
-                ➤
-              </button>
-            </form>
-          </section>
-        )}
-      </div>
-
-      <footer className="flex justify-between items-center text-xs text-gray-400 px-6 py-3 border-t">
-        <p>개인정보 처리방침 | 이용약관</p>
-        <button className="hover:underline">문제 신고</button>
-      </footer>
-    </div>
+            </div>
+            <button
+              type="submit"
+              className="rounded-md p-3 bg-primary text-white"
+            >
+              전송
+            </button>
+          </form>
+        </section>
+      )}
+    </main>
   );
 };

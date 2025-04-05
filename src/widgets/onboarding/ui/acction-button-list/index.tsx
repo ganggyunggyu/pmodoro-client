@@ -79,6 +79,7 @@ export const ActionButtonList = () => {
         className={` text-white px-3 py-1 text-sm rounded-lg transition-colors
           ${isActive ? 'bg-primary border border-primary' : 'bg-neutral-300'}
           `}
+        disabled={!isActive}
       >
         다음
       </button>

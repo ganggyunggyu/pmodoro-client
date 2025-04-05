@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Routes } from 'react-router';
+import React, { ReactNode } from 'react';
+import { Route, Routes, useLocation } from 'react-router';
 import './App.css';
 
 import { OnboardingWidget } from './widgets/onboarding';
@@ -28,13 +28,32 @@ export const Footer = () => {
   );
 };
 
+interface RouteProviderProps {
+  children: ReactNode;
+}
+
+export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
+  return (
+    <main className="fixed w-screen h-[calc(100vh-var(--spacing)*16)] overflow-y-scroll pt-24 px-[10%]">
+      {children}
+    </main>
+  );
+};
+
 function App() {
-  const { isLoginWidgetOpen } = useWidgetStore();
+  const location = useLocation();
+  const { pathname } = location;
+  const { isLoginWidgetOpen, setIsLoginWidgetOpen } = useWidgetStore();
+
+  React.useEffect(() => {
+    if (isLoginWidgetOpen) setIsLoginWidgetOpen(false);
+  }, [pathname]);
+
   return (
     <React.Fragment>
       <Header />
       {isLoginWidgetOpen && <LoginPage />}
-      <main className="fixed w-screen h-[calc(100vh-var(--spacing)*16)] overflow-y-scroll pt-24 px-[10%]">
+      <RouteProvider>
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/my-page/:userId" element={<Mypage />} />
@@ -44,7 +63,7 @@ function App() {
 
           <Route path="/onboarding/*" element={<OnboardingWidget />} />
         </Routes>
-      </main>
+      </RouteProvider>
       <Footer />
     </React.Fragment>
   );

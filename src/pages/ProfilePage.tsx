@@ -1,14 +1,17 @@
 import { useParams } from 'react-router';
-import { getUser, useGetUserQuery } from './Mypage';
+import { getUser, ProjectCard, useGetUserQuery } from './Mypage';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 import React from 'react';
 import { UserInfo } from '@/app/store/useUserStore';
 import { useUserSearchQuery } from '@/shared/components/TabComponent';
 import { UserCard } from './HomePage';
+import { useWidgetStore } from '@/app/store';
+import { useGetProjectByUser } from '@/entities';
 
 export const ProfileImage = () => {
   const params = useParams();
   const { data: user, isLoading } = useGetUserQuery(params.userId);
+
   if (isLoading) return <PulseLoaderSpinner />;
   return (
     <React.Fragment>
@@ -57,6 +60,8 @@ export const ProfilePage = () => {
 
   const { data: user, isLoading } = useGetUserQuery(params.userId);
   const { data: users, isLoading: isUsersLoading } = useUserSearchQuery();
+  const { data: projectList, isLoading: isProjectListLoading } =
+    useGetProjectByUser(params.userId);
 
   if (isLoading) return <PulseLoaderSpinner />;
 
@@ -119,10 +124,28 @@ export const ProfilePage = () => {
         </article>
         <article className="flex">
           <p className="text-black-alt w-50">참가 경험</p>
-          <p>0회</p>
+          <p>
+            {isProjectListLoading
+              ? '로딩 중...'
+              : projectList?.length
+              ? `${projectList.length}회`
+              : '프로젝트 경험 없음'}
+          </p>
         </article>
       </section>
 
+      <section className="w-12/12 flex flex-col gap-3">
+        {isProjectListLoading ? (
+          <div className="flex">
+            <PulseLoaderSpinner />
+          </div>
+        ) : (
+          projectList &&
+          projectList.map((project) => {
+            return <ProjectCard key={project?._id} project={project} />;
+          })
+        )}
+      </section>
       <section className="flex flex-col gap-4 lg:gap-7">
         <p className="text-lg font-semibold">더 찾아보기</p>
 
@@ -132,7 +155,9 @@ export const ProfilePage = () => {
               <PulseLoaderSpinner />
             </div>
           ) : (
-            users?.map((cardUser: UserInfo) => <UserCard cardUser={cardUser} />)
+            users?.map((cardUser: UserInfo) => (
+              <UserCard key={cardUser._id} cardUser={cardUser} />
+            ))
           )}
         </section>
       </section>

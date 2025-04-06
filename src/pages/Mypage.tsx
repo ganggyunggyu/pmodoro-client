@@ -9,6 +9,53 @@ import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 import { getIsMobile } from '@/shared/lib';
 import { ProfileImage } from './ProfilePage';
 import { axios } from '../app/config';
+import { ProjectForm } from '@/features/project/ui/project-form';
+import { delay } from '@/shared/lib/delay';
+import { useWidgetStore } from '@/app/store';
+import { Project, useGetProjectByUser } from '@/entities';
+
+interface ProjectCardProps {
+  project: Project;
+}
+
+export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+  return (
+    <article className="flex flex-col gap-6 w-full border border-alt p-6 rounded-lg">
+      <div className="flex w-full justify-start lg:gap-30 items-center">
+        <p className="min-w-30 text-black-alt">이름</p>
+        <span className="w-full p-2 rounded-lg">{project.name}</span>
+      </div>
+
+      <div className="flex w-full justify-start lg:gap-30 items-center">
+        <p className="min-w-30 text-black-alt">직무</p>
+        <span className="w-full p-2 rounded-lg">{project.position}</span>
+      </div>
+
+      <div className="flex w-full justify-start lg:gap-30 items-center">
+        <p className="min-w-30 text-black-alt">내용</p>
+        <span className="w-full p-2 rounded-lg">{project.description}</span>
+      </div>
+
+      <div className="flex w-full justify-start lg:gap-30 items-center">
+        <p className="min-w-30 text-black-alt">기간</p>
+        <span className="w-full p-2 rounded-lg">
+          {formatDate(project.duration.startDate)}
+        </span>
+        <span className="w-full p-2 rounded-lg">
+          {formatDate(project.duration.endDate)}
+        </span>
+      </div>
+    </article>
+  );
+};
+
+export const formatDate = (date: string): string => {
+  const formattedDate = new Date(date);
+  const year = formattedDate.getFullYear();
+  const month = formattedDate.getMonth() + 1; // 0부터 시작하므로 1을 더해줘
+  const day = formattedDate.getDate();
+  return `${year}년 ${month}월 ${day}일`;
+};
 
 export const getUser = async (userId: string): Promise<UserInfo> => {
   const result = await axios.get(`/user/${userId}`);
@@ -49,9 +96,11 @@ export const Mypage: React.FC = () => {
   const isMobile = getIsMobile();
   const navigate = useNavigate();
 
-  const { userId } = useParams();
+  const { isProjectForm, setIsProjectForm } = useWidgetStore();
 
-  const { projectList } = useProjectStore((state) => state);
+  const { userId } = useParams();
+  const { data: projectList, isLoading: isProjectListLoading } =
+    useGetProjectByUser(userId);
 
   const [isEditing, setIsEditing] = React.useState(false);
 
@@ -78,6 +127,10 @@ export const Mypage: React.FC = () => {
     { label: '알림', path: '/alram' },
     { label: '설정', path: '/setting' },
   ];
+
+  const handleProjectAddClick = async () => {
+    setIsProjectForm(!isProjectForm);
+  };
 
   return (
     <main className="w-full flex lg:gap-5 pb-10">
@@ -183,63 +236,24 @@ export const Mypage: React.FC = () => {
           </article>
         </div>
         <p className="w-full text-left text-xl font-bold py-5">프로젝트 이력</p>
-        <section className=" p-6 w-12/12 rounded-lg border border-alt">
-          {projectList.length !== 0 &&
-            projectList.map((project, index) => {
-              return (
-                <article key={index} className="flex flex-col gap-10  w-full">
-                  <div className="flex w-full justify-start gap-30 items-center">
-                    <p className="min-w-30 text-black-alt">이름</p>
-                    <input
-                      type="text"
-                      value={project.name}
-                      // onChange={(e) =>
-                      // updateProfile('positions', e.target.value.split(', '))
-                      // }
-                      className="w-full p-2 border rounded-lg"
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="flex w-full justify-start gap-30 items-center">
-                    <p className="min-w-30 text-black-alt">직무</p>
-                    <input
-                      type="text"
-                      value={project.description}
-                      // onChange={(e) =>
-                      //   updateProfile('positions', e.target.value.split(', '))
-                      // }
-                      className="w-full p-2 border rounded-lg"
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="flex w-full justify-start gap-30 items-center">
-                    <p className="min-w-30 text-black-alt">기간</p>
-                    <input
-                      type="text"
-                      value={project.startYear}
-                      // onChange={(e) =>
-                      //   updateProfile('positions', e.target.value.split(', '))
-                      // }
-                      className="w-full p-2 border rounded-lg"
-                      disabled={!isEditing}
-                    />
-                    <input
-                      type="text"
-                      value={project.endYear}
-                      // onChange={(e) =>
-                      //   updateProfile('positions', e.target.value.split(', '))
-                      // }
-                      className="w-full p-2 border rounded-lg"
-                      disabled={!isEditing}
-                    />
-                  </div>
-                </article>
-              );
-            })}
+        <section className="w-12/12 flex flex-col gap-3">
+          {isProjectListLoading ? (
+            <div className="flex">
+              <PulseLoaderSpinner />
+            </div>
+          ) : (
+            projectList &&
+            projectList.map((project) => {
+              return <ProjectCard key={project._id} project={project} />;
+            })
+          )}
         </section>
-
-        <button className="w-full h-20 bg-primary-opacity text-primary mt-10">
-          <p>눌러서 추가하기</p>
+        {isProjectForm && <ProjectForm />}
+        <button
+          onClick={handleProjectAddClick}
+          className="w-full h-20 bg-primary-opacity text-primary mt-10"
+        >
+          <p>{!isProjectForm ? '눌러서 추가하기' : '닫기'}</p>
         </button>
         <button
           onClick={handleLogoutClick}

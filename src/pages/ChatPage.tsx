@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import { io } from 'socket.io-client';
 import { getUser } from './Mypage';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
+import { getIsMobile } from '@/shared/lib';
 
 export type Message = {
   content: string;
@@ -35,7 +36,7 @@ export const fetchChatRooms = async (userId: string): Promise<ChatRoom[]> => {
 
 export const ChatPage: React.FC = () => {
   const [curOtherName, setCurOtherName] = React.useState('');
-  const { currentRoomId, setRoomId } = useChatStore();
+  const { currentRoomId, setRoomId, setOtherUserInfo } = useChatStore();
 
   const queryClient = useQueryClient();
 
@@ -101,6 +102,8 @@ export const ChatPage: React.FC = () => {
     setInput('');
   };
 
+  const isMobile = getIsMobile();
+
   if (!isAuth) {
     return <div>로그인 필요</div>;
   }
@@ -113,8 +116,8 @@ export const ChatPage: React.FC = () => {
   }
 
   return (
-    <main className="flex w-full justify-center gap-5 mt-3">
-      <aside className="w-3/12 overflow-y-auto">
+    <main className="flex w-full justify-center gap-5">
+      <aside className="w-full lg:w-3/12 overflow-y-auto">
         <div className="w-full flex gap-5 py-3 text-gray-500">
           <p>채팅</p>
           <p>채팅 요청</p>
@@ -133,6 +136,7 @@ export const ChatPage: React.FC = () => {
                   key={roomId}
                   onClick={async () => {
                     setCurOtherName(otherUser?.displayName);
+                    setOtherUserInfo(otherUser);
                     setRoomId(roomId);
                     navigate(`/chat/${currentUserId}/${roomId}`);
                   }}
@@ -156,58 +160,114 @@ export const ChatPage: React.FC = () => {
           )}
         </ul>
       </aside>
-
-      <section className="flex flex-col gap-5 min-w-9/12 h-[70vh] py-10">
-        <div className="flex flex-col flex-1  p-6 overflow-y-auto border border-alt  rounded-md  shadow-md min-h-full">
-          {messages?.map((msg, idx) =>
-            msg.senderId === currentUserId ? (
-              <div key={idx} className="self-end mb-2">
-                <div className="text-xs text-gray-500 mb-1">
-                  {userInfo.displayName}
-                </div>
-
-                <div className="bg-primary text-white rounded-md px-4 py-2 text-sm max-w-xs">
-                  {msg.content}
-                </div>
-              </div>
-            ) : (
-              <div key={idx} className="flex items-start gap-2 mb-2">
-                <div className="w-8 h-8 rounded-full bg-alt"></div>
-                <div className="flex flex-col">
+      {!isMobile && (
+        <section className="flex flex-col gap-5 min-w-9/12 h-[70vh] py-10">
+          <div className="flex flex-col flex-1  p-6 overflow-y-auto border border-alt  rounded-md  shadow-md min-h-full">
+            {messages?.map((msg, idx) =>
+              msg.senderId === currentUserId ? (
+                <div key={idx} className="self-end mb-2">
                   <div className="text-xs text-gray-500 mb-1">
-                    {curOtherName}
+                    {userInfo.displayName}
                   </div>
-                  <div className="bg-primary-opacity rounded-md px-4 py-2 text-sm max-w-xs">
+
+                  <div className="bg-primary text-white rounded-md px-4 py-2 text-sm max-w-xs">
                     {msg.content}
                   </div>
                 </div>
-              </div>
-            ),
-          )}
-          <div ref={bottomRef} />
-        </div>
-
-        <form
-          className="flex gap-5 items-center rounded-md"
-          onSubmit={handleSubmit}
-        >
-          <div className="p-3 flex-1 w-full rounded-md border border-primary">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="입력하기"
-              className=" focus:outline-none"
-            />
+              ) : (
+                <div key={idx} className="flex items-start gap-2 mb-2">
+                  <div className="w-8 h-8 rounded-full bg-alt"></div>
+                  <div className="flex flex-col">
+                    <div className="text-xs text-gray-500 mb-1">
+                      {curOtherName}
+                    </div>
+                    <div className="bg-primary-opacity rounded-md px-4 py-2 text-sm max-w-xs">
+                      {msg.content}
+                    </div>
+                  </div>
+                </div>
+              ),
+            )}
+            <div ref={bottomRef} />
           </div>
-          <button
-            type="submit"
-            className="rounded-md p-3 bg-primary text-white"
+
+          <form
+            className="flex gap-5 items-center rounded-md"
+            onSubmit={handleSubmit}
           >
-            전송
-          </button>
-        </form>
-      </section>
+            <div className="p-3 flex-1 w-full rounded-md border border-primary">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="입력하기"
+                className=" focus:outline-none"
+              />
+            </div>
+            <button
+              type="submit"
+              className="rounded-md p-3 bg-primary text-white"
+            >
+              전송
+            </button>
+          </form>
+        </section>
+      )}
+      {isMobile && currentRoomId && (
+        <React.Fragment>
+          <section className="fixed top-0 left-0  bg-white z-10 flex flex-col gap-5 w-full h-[95vh] py-10">
+            <div className="flex flex-col flex-1  p-6 overflow-y-auto border border-alt  rounded-md min-h-full">
+              {messages?.map((msg, idx) =>
+                msg.senderId === currentUserId ? (
+                  <div key={idx} className="self-end mb-2">
+                    <div className="text-xs text-gray-500 mb-1">
+                      {userInfo.displayName}
+                    </div>
+
+                    <div className="bg-primary text-white rounded-md px-4 py-2 text-sm max-w-xs">
+                      {msg.content}
+                    </div>
+                  </div>
+                ) : (
+                  <div key={idx} className="flex items-start gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-alt"></div>
+                    <div className="flex flex-col">
+                      <div className="text-xs text-gray-500 mb-1">
+                        {curOtherName}
+                      </div>
+                      <div className="bg-primary-opacity rounded-md px-4 py-2 text-sm max-w-xs">
+                        {msg.content}
+                      </div>
+                    </div>
+                  </div>
+                ),
+              )}
+              <div ref={bottomRef} />
+            </div>
+
+            <form
+              className="flex gap-5 items-center rounded-md px-4"
+              onSubmit={handleSubmit}
+            >
+              <div className="p-3 flex-1 w-full rounded-md border border-primary">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="입력하기"
+                  className=" focus:outline-none"
+                />
+              </div>
+              <button
+                type="submit"
+                className="rounded-md p-3 bg-primary text-white"
+              >
+                전송
+              </button>
+            </form>
+          </section>
+        </React.Fragment>
+      )}
     </main>
   );
 };

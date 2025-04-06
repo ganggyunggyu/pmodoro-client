@@ -1,6 +1,6 @@
+import './App.css';
 import React, { ReactNode } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router';
-import './App.css';
 
 import { OnboardingWidget } from './widgets/onboarding';
 import { LoginPage } from './pages/LoginPage';
@@ -13,6 +13,8 @@ import { Mypage } from './pages/Mypage';
 import { ProfilePage } from './pages/ProfilePage';
 import { axios } from './app/config';
 import { useUserStore } from './app/store/useUserStore';
+import { useChatStore } from './app/store/useChatStore';
+import { LeftArrow } from './shared/icons';
 
 export const Footer = () => {
   return (
@@ -48,9 +50,32 @@ interface RouteProviderProps {
 
 export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
   return (
-    <main className="fixed w-screen h-[calc(100vh-var(--spacing)*16)] overflow-y-scroll pt-24 px-[10%]">
+    <main className="fixed w-screen h-[calc(100vh-var(--spacing)*16)] overflow-y-scroll pt-24 pb-20 lg:px-[10%] px-[7%]">
       {children}
     </main>
+  );
+};
+
+export const AuthProvider: React.FC = () => {
+  return <main></main>;
+};
+
+export const ChatHeader = () => {
+  const { setRoomId, otherUserInfo } = useChatStore();
+  const handleClearRoomClick = () => {
+    setRoomId(null);
+  };
+
+  return (
+    <header className="fixed  top-0 left-0 bg-white z-10 w-screen flex gap-6 items-cetner h-16 px-[5%] border-b border-primary-mute">
+      <button onClick={handleClearRoomClick}>
+        <LeftArrow />
+      </button>
+      <div className="flex flex-col   items-start justify-center">
+        <p>{otherUserInfo?.position}</p>
+        <p>{otherUserInfo.displayName}</p>
+      </div>
+    </header>
   );
 };
 
@@ -60,6 +85,7 @@ function App() {
   const { isLoginWidgetOpen, setIsLoginWidgetOpen } = useWidgetStore();
 
   const { setIsAuth, setUserInfo, userInfo } = useUserStore();
+  const { currentRoomId } = useChatStore();
 
   const getKakaoLoginCheck = async (authTime, userId) => {
     try {
@@ -85,18 +111,18 @@ function App() {
     const authTime = localStorage.getItem('auth_time');
     const userId = localStorage.getItem('userId');
 
-    console.log(userInfo);
-    console.log(authTime);
     if (authTime) {
       getKakaoLoginCheck(authTime, userId);
     }
     if (!authTime) {
-      console.log('정보 없음');
+      console.log('기존 로그인 정보 없음');
     }
   }, []);
+
+  const isChat = location.pathname.includes('chat');
   return (
     <React.Fragment>
-      <Header />
+      {isChat && currentRoomId ? <ChatHeader /> : <Header />}
       {isLoginWidgetOpen && <LoginPage />}
       <RouteProvider>
         <Routes>
@@ -109,7 +135,7 @@ function App() {
           <Route path="/onboarding/*" element={<OnboardingWidget />} />
         </Routes>
       </RouteProvider>
-      <Footer />
+      {!isChat && <Footer />}
     </React.Fragment>
   );
 }

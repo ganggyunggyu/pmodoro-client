@@ -40,7 +40,7 @@ export const Header = () => {
 
       {isAuth ? (
         <article className="flex items-center gap-5">
-          <button onClick={handleChatClick}>공지사항</button>
+          {/* <button onClick={handleChatClick}>공지사항</button> */}
           <button onClick={handleChatClick}>채팅</button>
           {userInfo?.kakaoAuthInfo?.profileImg ? (
             <img

@@ -1,37 +1,72 @@
 import { create } from 'zustand';
 
-type SearchState = {
-  searchQuery: string;
-  searchResults: string[]; // 예시로 string 배열을 사용, 실제로는 객체 배열이나 다른 형태일 수 있어
-  isLoading: boolean;
-
-  selectedPosition: string;
+type SearchQuery = {
+  position: string;
+  skills: string[];
+  carrear: string;
+  isOnline: boolean | null;
+  firstArea: string;
+  secondArea: string;
+  q: string;
 };
 
-type SearchActions = {
-  setSearchQuery: (query: string) => void;
-  setSearchResults: (results: string[]) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  resetSearch: () => void;
-
-  setSelectedPosition: (position: string) => void;
+export type SearchQueryState = {
+  searchQuery: SearchQuery;
 };
 
-export const useSearchStore = create<SearchState & SearchActions>((set) => ({
-  searchQuery: '',
-  searchResults: [],
-  isLoading: false,
-  selectedPosition: '전체',
+export type SearchQueryActions = {
+  setSearchQueryField: <T extends keyof SearchQuery>(
+    field: T,
+    value: SearchQuery[T],
+  ) => void;
+  toggleSkill: (skill: string) => void;
+  reset: () => void;
+};
 
-  setSearchQuery: (query) => set(() => ({ searchQuery: query })),
-  setSearchResults: (results) => set(() => ({ searchResults: results })),
-  setIsLoading: (isLoading) => set(() => ({ isLoading })),
-  resetSearch: () =>
-    set(() => ({
-      searchQuery: '',
-      searchResults: [],
-      isLoading: false,
-    })),
+export const useSearchStore = create<SearchQueryState & SearchQueryActions>(
+  (set) => ({
+    searchQuery: {
+      position: '전체',
+      skills: [],
+      carrear: '',
+      isOnline: null,
+      firstArea: '',
+      secondArea: '',
+      q: '',
+    },
 
-  setSelectedPosition: (selectedPosition) => set(() => ({ selectedPosition })),
-}));
+    // 특정 필드 업데이트 액션
+    setSearchQueryField: (field, value) =>
+      set((state) => ({
+        searchQuery: {
+          ...state.searchQuery,
+          [field]: value,
+        },
+      })),
+
+    // 기술 선택/해제 토글
+    toggleSkill: (skill) =>
+      set((state) => ({
+        searchQuery: {
+          ...state.searchQuery,
+          skills: state.searchQuery.skills.includes(skill)
+            ? state.searchQuery.skills.filter((s) => s !== skill)
+            : [...state.searchQuery.skills, skill],
+        },
+      })),
+
+    // 상태 초기화 액션
+    reset: () =>
+      set({
+        searchQuery: {
+          position: '',
+          skills: [],
+          carrear: '',
+          isOnline: null,
+          firstArea: '',
+          secondArea: '',
+          q: '',
+        },
+      }),
+  }),
+);

@@ -42,7 +42,7 @@ export const ChatPage: React.FC = () => {
 
   const { userInfo, isAuth } = useUserStore();
 
-  const currentUserId = userInfo._id;
+  const currentUserId = userInfo?._id;
 
   const navigate = useNavigate();
 

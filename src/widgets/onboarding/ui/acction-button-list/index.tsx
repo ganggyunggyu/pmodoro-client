@@ -61,13 +61,17 @@ export const ActionButtonList = () => {
       return onboardingData.position && onboardingData.skills;
     }
     if (pathname.includes('other-info')) {
-      return onboardingData.description;
+      return (
+        onboardingData.isOnline !== null && onboardingData.description !== ''
+      );
     }
   };
   const isActive = getIsActive();
 
+  console.log(onboardingData);
+
   return (
-    <section className="absolute bottom-3/12 w-6/12 flex itmes-center justify-between left-1/2 -translate-x-1/2">
+    <section className="absolute lg:bottom-3/12 bottom-1/12 w-full flex itmes-center justify-between left-1/2 -translate-x-1/2 px-[10%] lg:px-[20%]">
       <button
         onClick={handlePrevClick}
         className="border border-primary text-primary px-3 py-1 text-sm rounded-lg"

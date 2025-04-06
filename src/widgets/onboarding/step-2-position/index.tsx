@@ -42,11 +42,11 @@ export const Step2Position: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col w-full justify-center items-center gap-6">
-      <article className="flex flex-col gap-3 w-6/12">
+    <div className="flex flex-col w-full justify-center items-center gap-6 px-[10%] lg:px[20%]">
+      <article className="w-full flex flex-col gap-3 ">
         <p className="text-lg">어떤 직무를 희망하시나요?</p>
       </article>
-      <section className="w-6/12 h-1/2 grid grid-cols-2 gap-3">
+      <section className="w-full h-1/2 grid grid-cols-2 gap-3">
         {positions.map((pos) => {
           return (
             <button
@@ -64,7 +64,7 @@ export const Step2Position: React.FC = () => {
           );
         })}
       </section>
-      <article className="flex flex-col gap-3 w-6/12 relative">
+      <article className="flex flex-col gap-3 w-full  relative">
         <p className="text-lg">주로 사용하는 기술 스택은 어떤 건가요?</p>
 
         <button

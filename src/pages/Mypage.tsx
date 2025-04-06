@@ -1,14 +1,17 @@
 import React from 'react';
 import { useNavigate, Link, useParams, useLocation } from 'react-router-dom';
 
-import { useUserStore } from '@/app/store/useUserStore';
+import { UserInfo, useUserStore } from '@/app/store/useUserStore';
 import useProjectStore from '@/app/store/useProjectStore';
-import axios from 'axios';
+
 import { useQuery } from '@tanstack/react-query';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
+import { getIsMobile } from '@/shared/lib';
+import { ProfileImage } from './ProfilePage';
+import { axios } from '../app/config';
 
-export const getUser = async (userId: string) => {
-  const result = await axios.get(`http://localhost:3000/user/${userId}`);
+export const getUser = async (userId: string): Promise<UserInfo> => {
+  const result = await axios.get(`/user/${userId}`);
   console.log(result);
   return result.data;
 };
@@ -26,9 +29,10 @@ export const MainSidebar = ({ sideItemList }) => {
   return (
     <aside className=" w-3/12 text-xl">
       <ul className=" sticky top-0 flex flex-col gap-7 items-start">
-        {sideItemList.map((item) => {
+        {sideItemList.map((item, index) => {
           return (
             <li
+              key={index}
               className={`
           ${pathname.includes(item.path) ? 'text-blck' : 'text-black-alt'}
           `}
@@ -42,22 +46,29 @@ export const MainSidebar = ({ sideItemList }) => {
   );
 };
 
-export const MainProvider = () => {
-  return <main></main>;
-};
-
 export const Mypage: React.FC = () => {
+  const isMobile = getIsMobile();
   const navigate = useNavigate();
 
   const { userId } = useParams();
 
-  const { isAuth } = useUserStore((state) => state);
   const { projectList } = useProjectStore((state) => state);
 
   const [isEditing, setIsEditing] = React.useState(false);
-  const [isPublic, setIsPublic] = React.useState(false);
 
   const userQuery = useGetUserQuery(userId);
+  const postLogout = () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('auth_time');
+
+    navigate('/');
+
+    window.location.reload();
+  };
+
+  const handleLogoutClick = () => {
+    postLogout();
+  };
 
   if (userQuery.isLoading) {
     return <PulseLoaderSpinner />;
@@ -70,34 +81,33 @@ export const Mypage: React.FC = () => {
   ];
 
   return (
-    <main className=" w-full flex gap-5 pb-10">
-      <MainSidebar sideItemList={sideItem} />
-      <section className=" flex-1">
-        <p className="w-full text-left text-lg font-bold py-5">마이페이지</p>
-        <div className="relative w-full p-6 rounded-lg border border-alt pb-20">
+    <main className="w-full flex lg:gap-5 pb-10">
+      {!isMobile && <MainSidebar sideItemList={sideItem} />}
+      <section className="lg:flex-1 w-full">
+        <p className="lg:w-full text-left text-lg font-bold py-5">마이페이지</p>
+        <div className="relative lg:w-full p-6 rounded-md border border-alt pb-20">
           <h2 className="text-lg font-bold mb-4">기본 정보</h2>
           <button className="absolute bottom-5 right-5 border border-alt rounded-md py-2 px-3">
             수정하기
           </button>
 
           <article className="flex flex-col items-center gap-8">
-            <div className="flex w-full justify-start gap-20 items-center">
+            <div className="flex w-full justify-start lg:gap-20 items-center">
               <p className="w-30 text-black-alt">프로필 이미지</p>
-              <div className="w-16 h-16 bg-alt rounded-full" />
+              <ProfileImage />
             </div>
-            <div className="flex w-full justify-start gap-30 items-center">
-              <p className="w-30 text-black-alt">닉네임</p>
+            <div className="flex w-full justify-start lg:gap-30 items-center">
+              <p className="w-40 text-black-alt">닉네임</p>
               <input
                 type="text"
                 value={userQuery.data.displayName}
-                // onChange={(e) => updateProfile('name', e.target.value)}
                 className="w-full p-2 border rounded-lg"
                 disabled={!isEditing}
               />
             </div>
 
-            <div className="flex w-full justify-start gap-30 items-center">
-              <p className="w-30 text-black-alt">위치</p>
+            <div className="flex w-full justify-start lg:gap-30 items-center">
+              <p className="w-40 text-black-alt">위치</p>
               <input
                 type="text"
                 value={
@@ -111,8 +121,8 @@ export const Mypage: React.FC = () => {
               />
             </div>
 
-            <div className="flex w-full justify-start gap-30 items-center">
-              <p className="w-30 text-black-alt">이메일</p>
+            <div className="flex w-full justify-start lg:gap-30 items-center">
+              <p className="w-40 text-black-alt">이메일</p>
               <input
                 type="text"
                 value={userQuery.data.email || '이메일 정보가 없습니다.'}
@@ -121,13 +131,13 @@ export const Mypage: React.FC = () => {
                 disabled={!isEditing}
               />
             </div>
-            <div className="flex w-full justify-start gap-30 items-center">
-              <p className="w-30 text-black-alt">자기소개</p>
+            <div className="flex w-full justify-start lg:gap-30 items-center">
+              <p className="w-40 text-black-alt">자기소개</p>
               <input
                 type="text"
                 value={userQuery.data.description || ''}
                 // onChange={(e) => updateProfile('introduction', e.target.value)}
-                className="w-full p-2 border rounded-lg"
+                className="max-w-full p-2 border rounded-lg"
                 disabled={!isEditing}
               />
             </div>
@@ -136,8 +146,8 @@ export const Mypage: React.FC = () => {
               프로젝트 정보
             </h2>
 
-            <div className="flex w-full justify-start gap-30 items-center">
-              <p className="w-30 text-black-alt">현재 직무</p>
+            <div className="flex w-full justify-start lg:gap-30 items-center">
+              <p className="w-40 text-black-alt">현재 직무</p>
               <input
                 type="text"
                 value={userQuery.data.position}
@@ -146,8 +156,8 @@ export const Mypage: React.FC = () => {
                 disabled={!isEditing}
               />
             </div>
-            <div className="flex w-full justify-start gap-30 items-center">
-              <p className="w-30 text-black-alt">경력</p>
+            <div className="flex w-full justify-start lg:gap-30 items-center">
+              <p className="w-40 text-black-alt">경력</p>
               <input
                 type="text"
                 value={userQuery.data.career}
@@ -156,15 +166,20 @@ export const Mypage: React.FC = () => {
                 disabled={!isEditing}
               />
             </div>
-            <div className="flex w-full justify-start gap-20 items-center">
+            <div className="flex w-full justify-start lg:gap-25 items-center">
               <p className="w-30 text-black-alt">상세 포지션</p>
-              {userQuery.data.skills?.map((position) => {
-                return (
-                  <button className="text-xs py-2 px-3 rounded-full bg-white border border-alt">
-                    {position}
-                  </button>
-                );
-              })}
+              <div className="flex gap-3">
+                {userQuery.data.skills?.map((position, index) => {
+                  return (
+                    <button
+                      key={index}
+                      className="text-xs py-2 px-3 rounded-full bg-white border border-alt"
+                    >
+                      {position}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </article>
         </div>
@@ -209,7 +224,6 @@ export const Mypage: React.FC = () => {
                       className="w-full p-2 border rounded-lg"
                       disabled={!isEditing}
                     />
-                    ~
                     <input
                       type="text"
                       value={project.endYear}
@@ -227,6 +241,12 @@ export const Mypage: React.FC = () => {
 
         <button className="w-full h-20 bg-primary-opacity text-primary mt-10">
           <p>눌러서 추가하기</p>
+        </button>
+        <button
+          onClick={handleLogoutClick}
+          className="w-full h-20 bg-primary-opacity text-primary mt-10"
+        >
+          <p>로그아웃</p>
         </button>
       </section>
     </main>

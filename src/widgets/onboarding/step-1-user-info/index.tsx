@@ -72,8 +72,8 @@ export const Step1UserInfo: React.FC = () => {
   };
 
   return (
-    <main className="w-full flex flex-col items-center gap-10 ">
-      <article className="flex flex-col gap-3 w-6/12">
+    <main className="w-full flex flex-col items-center gap-10 px-[5%] lg:px-[20%]">
+      <article className="w-full flex flex-col gap-3">
         <p className="text-lg">사이트에서 어떤 닉네임을 사용할까요?</p>
         <p className="text-black-alt">닉네임은 몇 글자 이상으로 해주세요.</p>
       </article>
@@ -88,14 +88,14 @@ export const Step1UserInfo: React.FC = () => {
         className="w-full"
         helper="닉네임은 몇 글자 이상으로 해주세요."
       />
-      <article className="flex flex-col gap-3 w-6/12 relative">
+      <article className="w-full flex flex-col gap-3 relative">
         <p className="text-lg">현재 경력이 어떻게 되시나요?</p>
         <p className="text-black-alt">
           경력 정보는 세무적인 팀원을 찾는 데 도움이 돼요.
         </p>
         <button
           onClick={() => setIsCareearSelect(true)}
-          className="flex justify-between p-3 w-10/12 text-left border border-alt rounded-lg"
+          className="flex justify-between p-3 w-full text-left border border-alt rounded-lg"
         >
           <p
             className={`${

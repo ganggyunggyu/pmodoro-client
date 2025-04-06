@@ -10,8 +10,8 @@ export const OnboardingInput: React.FC<OnboardingInputProps> = ({
   ...props // 나머지 props는 자동으로 전달
 }) => {
   return (
-    <section className="w-6/12 flex flex-col gap-3">
-      <div className="p-3 w-10/12 border border-alt rounded-lg">
+    <section className="w-full  flex flex-col gap-3">
+      <div className="p-3  border border-alt rounded-lg">
         <input
           {...props} // input의 나머지 속성들을 자동으로 전달
         />

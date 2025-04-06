@@ -55,7 +55,8 @@ export const LoginPage = () => {
       {!isLocalLogin ? (
         <form
           onClick={handleFormClick}
-          className="relative py-20 px-40 mb-[30%] flex flex-col items-center justify-center gap-5 bg-white rounded-md"
+          className="relative p-10
+            lg:py-20 lg:px-40 mb-[30%] flex flex-col items-center justify-center gap-5 bg-white rounded-md"
         >
           <button
             onClick={handleCloseClick}
@@ -74,7 +75,7 @@ export const LoginPage = () => {
             로그인
           </button>
           <KakaoLoginButton />
-          <p className="absolute bottom-10 flex gap-5">
+          <p className="absolute bottom-2 lg:bottom-10 flex gap-5">
             <span>계정이 없으신가요?</span>
             <Link to={'/onboarding/auth'}>회원가입</Link>
           </p>

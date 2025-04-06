@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 export const StatusBar = () => {
   const { pathname } = useLocation();
   return (
-    <div className=" w-full flex items-center justify-center gap-7 py-4">
+    <div className="text-xs lg:text-md w-full flex items-center justify-center gap-7 py-4">
       <p
         className={`transition-all
             ${
@@ -16,7 +16,7 @@ export const StatusBar = () => {
         기본 정보
       </p>
       <div
-        className={`w-16 h-0.5 transition-all
+        className={`w-8 lg:w-16 h-0.5 transition-all
             ${pathname.includes('user-info') ? 'bg-primary' : 'bg-black-assist'}
             
             `}
@@ -29,7 +29,7 @@ export const StatusBar = () => {
         희망 직무 정보
       </p>
       <div
-        className={`w-16 h-0.5 transition-all
+        className={`w-8 lg:w-16 h-0.5 transition-all
             ${pathname.includes('position') ? 'bg-primary' : 'bg-black-assist'}
             
             `}

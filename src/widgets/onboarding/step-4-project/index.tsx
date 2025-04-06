@@ -81,13 +81,13 @@ ${skills.join(', ')}을 사용하고 ${
   }, [onboardingData.isOnline]);
 
   return (
-    <section className="w-full flex flex-col items-center justify-center">
-      <article className="flex flex-col gap-3 w-6/12 relative">
+    <section className=" lg:text-md w-full flex flex-col items-center justify-center">
+      <article className="flex flex-col gap-3 w-full relative">
         <p className="text-lg">온/오프라인 선호도가 있나요?</p>
 
         <button
           onClick={toggleOnOffSelector}
-          className="flex justify-between p-3 w-6/12 text-left border border-alt rounded-lg"
+          className="flex justify-between p-3 w-full text-left border border-alt rounded-lg"
         >
           <p
             className={`${
@@ -182,12 +182,12 @@ ${skills.join(', ')}을 사용하고 ${
       </article>
 
       {!onboardingData.isOnline && (
-        <article className="flex flex-col gap-3 pt-4 w-6/12 relative">
+        <article className="flex flex-col gap-3 pt-4 w-full relative">
           <p className="text-lg">선호하는 지역이 있나요?</p>
 
           <button
             onClick={toggleAreaSelector}
-            className="flex justify-between p-3 w-6/12 text-left border border-alt rounded-lg"
+            className="flex justify-between p-3 w-full text-left border border-alt rounded-lg"
           >
             <p
               className={`${
@@ -321,23 +321,21 @@ ${skills.join(', ')}을 사용하고 ${
           )}
         </article>
       )}
-      <article className="flex flex-col gap-3 w-6/12 py-5">
+      <article className="flex flex-col gap-3 w-full py-5">
         <p className="text-lg">
           당신은 어떤 사람인가요? 간단한 자기 소개를 적어주세요!
         </p>
       </article>
 
-      <section className="w-6/12 flex flex-col gap-3">
-        <div className="p-3 w-10/12 border border-alt rounded-lg">
-          <textarea
-            value={onboardingData.description}
-            onChange={(event) => {
-              setOnboardingField('description', event.target.value);
-            }}
-            placeholder="닉네임"
-            className="w-full"
-          />
-        </div>
+      <section className="w-full flex flex-col gap-3">
+        <textarea
+          value={onboardingData.description}
+          onChange={(event) => {
+            setOnboardingField('description', event.target.value);
+          }}
+          placeholder="닉네임"
+          className="w-full border border-alt rounded-lg p-3"
+        />
       </section>
     </section>
   );

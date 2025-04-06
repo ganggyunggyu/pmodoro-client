@@ -51,7 +51,11 @@ export const ChatPage: React.FC = () => {
 
   const [input, setInput] = React.useState('');
 
-  const { data: chatRooms, isLoading } = useQuery({
+  const {
+    data: chatRooms,
+    isLoading,
+    refetch: chatRoomsFetch,
+  } = useQuery({
     queryKey: ['chatRooms', currentUserId],
     queryFn: () => fetchChatRooms(currentUserId),
     enabled: !!currentUserId,
@@ -85,6 +89,7 @@ export const ChatPage: React.FC = () => {
     };
   }, [currentRoomId]);
   React.useEffect(() => {
+    chatRoomsFetch();
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -122,7 +127,7 @@ export const ChatPage: React.FC = () => {
           <p>채팅</p>
           <p>채팅 요청</p>
         </div>
-        <ul className="w-full">
+        <ul className="w-full flex flex-col gap-2">
           {chatRooms.map(
             ({ otherUser: otherUserList, members, roomId, lastMessage }) => {
               const otherUser = otherUserList[0];
@@ -144,16 +149,16 @@ export const ChatPage: React.FC = () => {
                   ${roomId === currentRoomId ? 'border-primary' : 'border-alt'}
                   `}
                 >
-                  <div className="w-10 h-10 rounded-full bg-alt"></div>
-                  <div className="flex flex-col text-sm">
+                  <div className="min-w-10 h-10 rounded-full bg-alt"></div>
+                  <div className="flex w-10/12  flex-col text-sm">
                     <span className="">{otherUser?.displayName}</span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs w-full h-4 text-ellipsis overflow-hidden text-gray-500">
                       {lastMessage
                         ? lastMessage.content
                         : '채팅을 시작해보세요.'}
                     </span>
                   </div>
-                  <span className="ml-auto text-xs text-gray-400">11:55</span>
+                  {/* <span className="ml-auto text-xs text-gray-400">11:55</span> */}
                 </li>
               );
             },

@@ -15,6 +15,7 @@ import { axios } from './app/config';
 import { useUserStore } from './app/store/useUserStore';
 import { useChatStore } from './app/store/useChatStore';
 import { LeftArrow } from './shared/icons';
+import { getIsMobile } from './shared/lib';
 
 export const Footer = () => {
   return (
@@ -119,9 +120,11 @@ function App() {
   }, []);
 
   const isChat = location.pathname.includes('chat');
+
+  const isMobile = getIsMobile();
   return (
     <React.Fragment>
-      {isChat && currentRoomId ? <ChatHeader /> : <Header />}
+      {isMobile && isChat && currentRoomId ? <ChatHeader /> : <Header />}
       {isLoginWidgetOpen && <LoginPage />}
       <RouteProvider>
         <Routes>

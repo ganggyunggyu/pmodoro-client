@@ -52,7 +52,7 @@ export const TabItem: React.FC<TabItemProps> = ({ tab }) => {
   return (
     <div
       key={tab.id}
-      className={`cursor-pointer p-2 mx-2 text-sm ${
+      className={`cursor-pointer p-2 mx-2 text-xs lg:text-sm ${
         isActiveTemp
           ? 'text-red-500 border-b-2 border-red-500'
           : 'text-gray-500'

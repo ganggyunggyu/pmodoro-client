@@ -1,10 +1,11 @@
 import { BottomArrow, SelectCircle, TopArrow } from '@/shared/icons';
 import { TabComponent } from './TabComponent';
+import { useSearchStore } from '@/app/store/useSearchStore';
+import { useWidgetStore } from '@/app/store';
 
 interface DropDownButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string; // 추가적으로 전달받을 prop
-  isActive: boolean;
+  label: string;
 }
 interface DropDownItemProps {
   label: string;
@@ -19,20 +20,56 @@ interface DropDownOverlayProps {
 
 export const DropDownButton: React.FC<DropDownButtonProps> = ({
   label,
-  isActive,
   ...props
 }) => {
+  const isActive = true;
+
+  const isArrow = label !== '온라인' && label !== '오프라인';
+
+  const { setSearchQueryField, searchQuery } = useSearchStore();
+  const { setIsSearchDropDownOpen, isSearchDropDownOpen } = useWidgetStore();
+
+  const toggleOnlineOffline = () => {
+    if (searchQuery.isOnline === true && label === '온라인') {
+      setSearchQueryField('isOnline', null);
+    } else if (searchQuery.isOnline === false && label === '오프라인') {
+      setSearchQueryField('isOnline', null);
+    } else if (label === '온라인') {
+      setSearchQueryField('isOnline', true);
+    } else if (label === '오프라인') {
+      setSearchQueryField('isOnline', false);
+    }
+  };
+
+  const handleSearchClick = () => {
+    if (!isArrow) {
+      toggleOnlineOffline();
+    } else {
+      setIsSearchDropDownOpen(!isSearchDropDownOpen);
+    }
+  };
+
   return (
     <button
       key={label}
       className={`flex items-center gap-2 text-sm border border-alt px-2 py-1 rounded-md
         ${isActive ? 'z-10 bg-white' : ' '}
-        
+        ${
+          !isArrow && searchQuery.isOnline === true && label === '온라인'
+            ? 'z-10 bg-primary text-white'
+            : ' '
+        }
+        ${
+          !isArrow && searchQuery.isOnline === false && label === '오프라인'
+            ? 'z-10 bg-primary text-white'
+            : ' '
+        }
         `}
+      onClick={handleSearchClick}
       {...props}
     >
       <p>{label}</p>
-      <span>{isActive ? <TopArrow /> : <BottomArrow />}</span>
+      {isArrow && <span>{isActive ? <TopArrow /> : <BottomArrow />}</span>}
     </button>
   );
 };
@@ -60,17 +97,17 @@ export const DropDownOverlay: React.FC<DropDownOverlayProps> = ({
   toggleDropdown,
 }) => {
   const handleArticleClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // 이벤트 전파 막기
+    e.stopPropagation();
   };
 
   return (
     <main
       onClick={toggleDropdown}
-      className="fixed top-0 left-0 w-screen h-screen bg-black/30 backdrop-opacity-30"
+      className="fixed top-0 left-0 w-screen h-screen bg-black/30 backdrop-opacity-30 z-20"
     >
       <article
-        onClick={handleArticleClick} // article 클릭 시 이벤트 전파 막음
-        className="fixed p-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white"
+        onClick={handleArticleClick}
+        className="fixed p-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-md w-1/2"
       >
         <p>{label}</p>
 

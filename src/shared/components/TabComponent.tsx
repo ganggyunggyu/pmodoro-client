@@ -1,3 +1,6 @@
+import { axios } from '@/app/config';
+import { useSearchStore } from '@/app/store/useSearchStore';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
 export const TabComponent = ({ tabOptionList }) => {
@@ -22,14 +25,41 @@ interface TabItemProps {
   onClick: (tabId) => void;
 }
 
+export const useUserSearchQuery = () => {
+  const { searchQuery } = useSearchStore(); // zustand store에서 searchQuery 가져오기
+
+  return useQuery({
+    queryKey: ['searchUsers', searchQuery], // 쿼리 키로 searchQuery를 사용
+    queryFn: () => getSearchUsers(searchQuery), // 서버 요청
+  });
+};
+
+export const getSearchUsers = async (searchQuery: Record<string, any>) => {
+  const { data } = await axios.get('/users/search', { params: searchQuery });
+  return data;
+};
+
 export const TabItem: React.FC<TabItemProps> = ({ tab, isActive, onClick }) => {
+  const { setSearchQueryField, searchQuery } = useSearchStore();
+
+  const handleTabClick = (position) => {
+    setSearchQueryField('position', position);
+  };
+
+  const getIsActive = () => {
+    return searchQuery.position === tab.label;
+  };
+  const isActiveTemp = getIsActive();
+
   return (
     <div
       key={tab.id}
       className={`cursor-pointer p-2 mx-2 text-sm ${
-        isActive ? 'text-red-500 border-b-2 border-red-500' : 'text-gray-500'
+        isActiveTemp
+          ? 'text-red-500 border-b-2 border-red-500'
+          : 'text-gray-500'
       }`}
-      onClick={onClick}
+      onClick={() => handleTabClick(tab.label)}
     >
       <p className="">{tab.label}</p>
     </div>

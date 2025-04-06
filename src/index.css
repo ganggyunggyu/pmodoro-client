@@ -44,11 +44,11 @@ input {
   outline: none; /* 포커스 시 아웃라인 제거 */
 }
 p {
-  line-height: 24px;
+  line-height: 26px;
 }
 
 textarea {
-  all: unset; /* 모든 기본 스타일 초기화 */
+  /* all: unset; */
   resize: none; /* 크기 조정 비활성화 (선택사항) */
   width: 100%; /* 원하는 너비 설정 */
   height: 150px; /* 원하는 높이 설정 */

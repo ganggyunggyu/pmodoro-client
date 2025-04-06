@@ -127,9 +127,9 @@ export const ChatPage: React.FC = () => {
             ({ otherUser: otherUserList, members, roomId, lastMessage }) => {
               const otherUser = otherUserList[0];
 
-              if (curOtherName === '') {
-                setCurOtherName(otherUser?.displayName);
-              }
+              if (curOtherName === '') setCurOtherName(otherUser?.displayName);
+
+              if (!otherUser) setOtherUserInfo(otherUser);
 
               return (
                 <li

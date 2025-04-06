@@ -16,22 +16,24 @@ export const UserCard = ({ cardUser }) => {
   return (
     <article
       key={cardUser._id}
-      className="relative flex flex-col gap-3 py-3 px-5 rounded-lg border border-neutral-300 min-w-full lg:min-w-80"
+      className="relative flex flex-col justify-between gap-3 py-3 px-5 rounded-lg border border-neutral-300 min-w-full lg:min-w-80"
     >
       <div className="flex gap-3">
         <div className="w-12 h-12 bg-alt rounded-full"></div>
         <div className="flex flex-col justify-center">
-          <span className="flex-1 text-sm">{cardUser.displayName}</span>
-          <span className="text-xs">{cardUser.position}</span>
+          <span className="flex-1 font-semibold text-sm mt-2">
+            {cardUser.displayName}
+          </span>
+          <span className="text-sm text-black-alt">{cardUser.position}</span>
         </div>
         <div className="flex-1 relative">
-          <p className="w-full text-right absolute bottom-0 text-xs">
+          <p className="w-full text-right text-black-alt absolute -bottom-1 text-xs">
             {cardUser?.firstArea} {cardUser?.secondArea}
           </p>
         </div>
       </div>
       <div className="flex flex-col gap-5">
-        <p className="text-pretty ">{cardUser.description}</p>
+        <p className="text-pretty text-sm">{cardUser.description}</p>
         <div className="flex gap-3 w-full overflow-y-scroll">
           {cardUser.skills?.map((pos, index) => {
             return (

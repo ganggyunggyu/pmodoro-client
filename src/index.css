@@ -44,7 +44,7 @@ input {
   outline: none; /* 포커스 시 아웃라인 제거 */
 }
 p {
-  line-height: 26px;
+  line-height: 24px;
 }
 
 textarea {

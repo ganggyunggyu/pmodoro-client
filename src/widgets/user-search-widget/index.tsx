@@ -27,6 +27,7 @@ export const UserSearchWidget: React.FC = () => {
         {tabs.map((tab) => (
           <TabItem
             tab={tab}
+            key={tab.id}
             onClick={() => handleTabClick(tab.label)}
             isActive={selectedPosition === tab.label}
           />

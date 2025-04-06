@@ -77,7 +77,9 @@ export const DropDownOverlay: React.FC<DropDownOverlayProps> = ({
         <TabComponent tabOptionList={tabOptionList} />
         <ul className="pt-3 bg-white flex flex-col gap-2">
           {mainOptionList.map((op) => {
-            return <DropDownItem label={op.label} isActive={true} />;
+            return (
+              <DropDownItem key={op.label} label={op.label} isActive={true} />
+            );
           })}
         </ul>
       </article>

@@ -29,6 +29,7 @@ export const UserSearchForm = () => {
       {options.map((op) => {
         return (
           <DropDownButton
+            key={op.id}
             onClick={handleDropdownClick}
             label={op.label}
             isActive={op.label === '디자이너'}

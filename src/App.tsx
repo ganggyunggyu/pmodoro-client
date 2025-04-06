@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Route, Routes, useLocation } from 'react-router';
+import { Link, Route, Routes, useLocation } from 'react-router';
 import './App.css';
 
 import { OnboardingWidget } from './widgets/onboarding';
@@ -11,14 +11,28 @@ import { Header } from './widgets/header';
 import { useWidgetStore } from './app/store';
 import { Mypage } from './pages/Mypage';
 import { ProfilePage } from './pages/ProfilePage';
+import { axios } from './app/config';
+import { useUserStore } from './app/store/useUserStore';
 
 export const Footer = () => {
   return (
     <footer className="absolute bottom-0 w-screen h-20 px-[10%] flex justify-between bg-primary-mute text-white text-xs">
       <article className="flex items-center gap-3">
-        <button>개인정보 처리방침</button>
+        <Link
+          to={
+            'https://tidal-oval-d41.notion.site/1bdf990b675180859bade3a99096c1fd?pvs=4'
+          }
+        >
+          개인정보 처리방침
+        </Link>
         <div className="h-3 w-[1px] bg-white" />
-        <button>이용 약관</button>
+        <Link
+          to={
+            'https://tidal-oval-d41.notion.site/1bdf990b6751808089e3cd50b9f78af4?pvs=4'
+          }
+        >
+          이용 약관
+        </Link>
       </article>
 
       <article className="flex items-center justify-center">
@@ -45,10 +59,41 @@ function App() {
   const { pathname } = location;
   const { isLoginWidgetOpen, setIsLoginWidgetOpen } = useWidgetStore();
 
+  const { setIsAuth, setUserInfo, userInfo } = useUserStore();
+
+  const getKakaoLoginCheck = async (authTime, userId) => {
+    try {
+      const result = await axios.get(
+        `/auth/login-check/kakao?auth_time=${authTime}&userId=${userId}`,
+      );
+      console.log(result);
+
+      const userInfo = result.data;
+
+      setUserInfo(userInfo);
+      setIsAuth(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   React.useEffect(() => {
     if (isLoginWidgetOpen) setIsLoginWidgetOpen(false);
   }, [pathname]);
 
+  React.useEffect(() => {
+    const authTime = localStorage.getItem('auth_time');
+    const userId = localStorage.getItem('userId');
+
+    console.log(userInfo);
+    console.log(authTime);
+    if (authTime) {
+      getKakaoLoginCheck(authTime, userId);
+    }
+    if (!authTime) {
+      console.log('정보 없음');
+    }
+  }, []);
   return (
     <React.Fragment>
       <Header />

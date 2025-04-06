@@ -25,6 +25,10 @@ export const KakaoCallbackPage = () => {
 
     if (isUser) {
       const { userInfo } = result.data;
+
+      localStorage.setItem('auth_time', userInfo.kakaoAuthInfo.auth_time);
+      localStorage.setItem('userId', userInfo._id);
+
       setUserInfo(userInfo);
       setIsAuth(true);
       navigate('/');

@@ -1,12 +1,89 @@
 import { axios } from '@/app/config';
 import { useChatStore } from '@/app/store/useChatStore';
 import { UserInfo, useUserStore } from '@/app/store/useUserStore';
-import { UserSearchForm } from '@/features/user';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
+import { useUserSearchQuery } from '@/shared/components/TabComponent';
 import { UserSearchWidget } from '@/widgets/user-search-widget';
-import { useQuery } from '@tanstack/react-query';
-import { CSSProperties } from 'react';
 import { useNavigate } from 'react-router';
+
+export const UserCard = ({ cardUser }) => {
+  const navigate = useNavigate();
+  const { userInfo } = useUserStore();
+  const { setRoomId } = useChatStore();
+  const handleProfileClick = (userId) => {
+    navigate(`/profile/${userId}`);
+  };
+  return (
+    <article
+      key={cardUser._id}
+      className="relative flex flex-col gap-3 py-3 px-5 rounded-lg border border-neutral-300 min-w-full lg:min-w-80"
+    >
+      <div className="flex gap-3">
+        <div className="w-12 h-12 bg-alt rounded-full"></div>
+        <div className="flex flex-col justify-center">
+          <span className="flex-1 text-sm">{cardUser.displayName}</span>
+          <span className="text-xs">{cardUser.position}</span>
+        </div>
+        <div className="flex-1 relative">
+          <p className="w-full text-right absolute bottom-0 text-xs">
+            {cardUser?.firstArea} {cardUser?.secondArea}
+          </p>
+        </div>
+      </div>
+      <div className="flex flex-col gap-5">
+        <p className="text-pretty ">{cardUser.description}</p>
+        <div className="flex gap-3 w-full overflow-y-scroll">
+          {cardUser.skills?.map((pos, index) => {
+            return (
+              <figure
+                key={index}
+                className="min-w-fit px-3 py-2 border border-alt rounded-full text-xs"
+              >
+                {pos}
+              </figure>
+            );
+          })}
+        </div>
+      </div>
+      <div className="w-full flex items-center justify-between gap-5">
+        <button
+          className="w-full flex items-center justify-center border py-1 rounded-md border-alt"
+          onClick={() => handleProfileClick(cardUser._id)}
+        >
+          프로필 보기
+        </button>
+        <button
+          type="button"
+          className="w-full flex items-center justify-center py-1 rounded-md border border-primary text-primary cursor-pointer"
+          // onClick={() => handleChatClick(user)}
+          onClick={async () => {
+            const isMe = userInfo._id === cardUser._id;
+            if (isMe) {
+              navigate(`chat/${userInfo._id}`);
+            } else {
+              try {
+                const result = await axios.post('/chat/room', {
+                  userId: userInfo._id,
+                  otherUserId: cardUser._id,
+                });
+
+                const roomId = result.data.roomId;
+                console.log('채팅방 생성 성공, roomId:', roomId); // roomId 로그로 확인
+
+                setRoomId(roomId); // 상태 업데이트
+                navigate(`/chat/${userInfo._id}/${roomId}`); // 채팅 페이지로 이동
+              } catch (error) {
+                console.error('채팅방 생성 중 오류 발생:', error); // 오류 발생 시 콘솔에 로그 출력
+              }
+            }
+          }}
+        >
+          채팅하기
+        </button>
+      </div>
+    </article>
+  );
+};
 
 export const ChatIcon = () => {
   return (
@@ -32,18 +109,7 @@ export const HomePage = () => {
   const { userInfo } = useUserStore();
   const { setRoomId } = useChatStore();
 
-  const getUsers = async () => {
-    return await axios.get('/users');
-  };
-
-  const userUsersQuery = () => {
-    return useQuery({
-      queryKey: ['user-list'],
-      queryFn: getUsers,
-    });
-  };
-  axios;
-  const { data: users, isLoading } = userUsersQuery();
+  const { data: users, isLoading } = useUserSearchQuery();
 
   const handleChatClick = (user: UserInfo) => async () => {
     console.log('click'); // 버튼 클릭 확인을 위해 로그 찍어보기
@@ -70,87 +136,19 @@ export const HomePage = () => {
     navigate(`/profile/${userId}`);
   };
 
-  if (isLoading) {
-    return <PulseLoaderSpinner />;
-  }
   return (
     <main className="max-w-6xl mx-auto">
       <UserSearchWidget />
-      <section className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 transition-all">
-        {users.data?.map((cardUser: UserInfo) => (
-          <article
-            key={cardUser._id}
-            className="relative flex flex-col gap-3 py-3 px-5 rounded-lg border border-neutral-300"
-          >
-            <div className="flex gap-3">
-              <div className="w-12 h-12 bg-alt rounded-full"></div>
-              <div className="flex flex-col justify-center">
-                <span className="flex-1 text-sm">{cardUser.displayName}</span>
-                <span className="text-xs">{cardUser.position}</span>
-              </div>
-              <div className="flex-1 relative">
-                <p className="w-full text-right absolute bottom-0 text-xs">
-                  {cardUser?.firstArea} {cardUser?.secondArea}
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-5">
-              <p className="text-balance overflow-hidden">
-                {cardUser.description}
-              </p>
-              <div className="flex gap-3 w-full overflow-y-scroll">
-                {cardUser.skills?.map((pos, index) => {
-                  return (
-                    <figure
-                      key={index}
-                      className=" min-w-fit px-3 py-2 border border-alt rounded-full text-xs"
-                    >
-                      {pos}
-                    </figure>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="w-full flex items-center justify-between gap-5">
-              <button
-                className="w-full flex items-center justify-center border py-1 rounded-md border-alt"
-                onClick={() => handleProfileClick(cardUser._id)}
-              >
-                프로필 보기
-              </button>
-              <button
-                type="button"
-                className="w-full flex items-center justify-center py-1 rounded-md border border-primary text-primary cursor-pointer"
-                // onClick={() => handleChatClick(user)}
-                onClick={async () => {
-                  const isMe = userInfo._id === cardUser._id;
-                  if (isMe) {
-                    navigate(`chat/${userInfo._id}`);
-                  } else {
-                    console.log('click'); // 버튼 클릭 확인을 위해 로그 찍어보기
-
-                    try {
-                      const result = await axios.post('/chat/room', {
-                        userId: userInfo._id,
-                        otherUserId: cardUser._id,
-                      });
-
-                      const roomId = result.data.roomId;
-                      console.log('채팅방 생성 성공, roomId:', roomId); // roomId 로그로 확인
-
-                      setRoomId(roomId); // 상태 업데이트
-                      navigate(`/chat/${userInfo._id}/${roomId}`); // 채팅 페이지로 이동
-                    } catch (error) {
-                      console.error('채팅방 생성 중 오류 발생:', error); // 오류 발생 시 콘솔에 로그 출력
-                    }
-                  }
-                }}
-              >
-                채팅하기
-              </button>
-            </div>
-          </article>
-        ))}
+      <section className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 transition-all pb-20">
+        {isLoading ? (
+          <div className="flex">
+            <PulseLoaderSpinner />
+          </div>
+        ) : (
+          users?.map((cardUser: UserInfo) => (
+            <UserCard key={cardUser._id} cardUser={cardUser} />
+          ))
+        )}
       </section>
     </main>
   );

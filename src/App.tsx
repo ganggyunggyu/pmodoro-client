@@ -1,6 +1,6 @@
 import './App.css';
 import React, { ReactNode } from 'react';
-import { Link, Route, Routes, useLocation } from 'react-router';
+import { Link, Route, Routes, useLocation, useParams } from 'react-router';
 
 import { OnboardingWidget } from './widgets/onboarding';
 import { LoginPage } from './pages/LoginPage';
@@ -16,10 +16,17 @@ import { useUserStore } from './app/store/useUserStore';
 import { useChatStore } from './app/store/useChatStore';
 import { LeftArrow } from './shared/icons';
 import { getIsMobile } from './shared/lib';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export const Footer = () => {
   return (
-    <footer className="absolute bottom-0 w-screen h-20 px-[10%] flex justify-between bg-primary-mute text-white text-xs">
+    <motion.footer
+      initial={{ translateY: 30, opacity: 0 }}
+      animate={{ translateY: 0, opacity: 1 }}
+      exit={{ translateY: -30, opacity: 0, position: 'fixed' }}
+      transition={{ duration: 0.5 }}
+      className="absolute bottom-0 w-screen h-20 px-[10%] flex justify-between bg-primary-mute text-white text-xs"
+    >
       <article className="flex items-center gap-3">
         <Link
           to={
@@ -41,7 +48,7 @@ export const Footer = () => {
       <article className="flex items-center justify-center">
         <button>문제 신고</button>
       </article>
-    </footer>
+    </motion.footer>
   );
 };
 
@@ -50,13 +57,25 @@ interface RouteProviderProps {
 }
 
 export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
+  const routeProviderRef = React.useRef<HTMLElement | null>(null);
+
+  const { pathname } = useLocation(); // useLocation 사용하여 pathname 가져오기
+
+  React.useEffect(() => {
+    if (routeProviderRef.current) {
+      routeProviderRef.current.scrollTo(0, 0); // 페이지 이동 시 스크롤 상단으로 이동
+    }
+  }, [pathname]);
+
   return (
-    <main className="fixed w-screen h-[calc(100vh-var(--spacing)*16)] overflow-y-scroll pt-24 pb-20 lg:px-[10%] px-[7%]">
+    <main
+      ref={routeProviderRef}
+      className="fixed w-screen h-[calc(100vh-var(--spacing)*16)] overflow-y-scroll pt-24 pb-20 lg:px-[10%] px-[7%]"
+    >
       {children}
     </main>
   );
 };
-
 export const AuthProvider: React.FC = () => {
   return <main></main>;
 };
@@ -122,20 +141,94 @@ function App() {
   const isChat = location.pathname.includes('chat');
 
   const isMobile = getIsMobile();
+
   return (
     <React.Fragment>
       {isMobile && isChat && currentRoomId ? <ChatHeader /> : <Header />}
       {isLoginWidgetOpen && <LoginPage />}
       <RouteProvider>
-        <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/my-page/:userId" element={<Mypage />} />
-          <Route path="/profile/:userId" element={<ProfilePage />} />
-          <Route path="/auth/kakao-callback" element={<KakaoCallbackPage />} />
-          <Route path="/chat/:userId/:roomId?" element={<ChatPage />} />
-
-          <Route path="/onboarding/*" element={<OnboardingWidget />} />
-        </Routes>
+        <AnimatePresence>
+          <Routes location={location} key={pathname}>
+            <Route
+              path="/"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, position: 'fixed' }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <HomePage />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/my-page/:userId"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, position: 'fixed' }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Mypage />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/profile/:userId"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, position: 'fixed' }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <ProfilePage />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/auth/kakao-callback"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, position: 'fixed' }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <KakaoCallbackPage />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/chat/:userId/:roomId?"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, position: 'fixed' }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <ChatPage />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/onboarding/*"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, position: 'fixed' }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <OnboardingWidget />
+                </motion.div>
+              }
+            />
+          </Routes>
+        </AnimatePresence>
       </RouteProvider>
       {!isChat && <Footer />}
     </React.Fragment>

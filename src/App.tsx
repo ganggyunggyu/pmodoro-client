@@ -92,7 +92,6 @@ function App() {
       const result = await axios.get(
         `/auth/login-check/kakao?auth_time=${authTime}&userId=${userId}`,
       );
-      console.log(result);
 
       const userInfo = result.data;
 

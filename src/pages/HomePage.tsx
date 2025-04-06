@@ -68,7 +68,6 @@ export const UserCard = ({ cardUser }) => {
                 });
 
                 const roomId = result.data.roomId;
-                console.log('채팅방 생성 성공, roomId:', roomId); // roomId 로그로 확인
 
                 setRoomId(roomId); // 상태 업데이트
                 navigate(`/chat/${userInfo._id}/${roomId}`); // 채팅 페이지로 이동
@@ -112,8 +111,6 @@ export const HomePage = () => {
   const { data: users, isLoading } = useUserSearchQuery();
 
   const handleChatClick = (user: UserInfo) => async () => {
-    console.log('click'); // 버튼 클릭 확인을 위해 로그 찍어보기
-
     const userId = userInfo._id;
 
     try {
@@ -123,7 +120,6 @@ export const HomePage = () => {
       });
 
       const roomId = result.data.roomId;
-      console.log('채팅방 생성 성공, roomId:', roomId); // roomId 로그로 확인
 
       setRoomId(roomId); // 상태 업데이트
       navigate(`/chat/${userId}/${roomId}`); // 채팅 페이지로 이동

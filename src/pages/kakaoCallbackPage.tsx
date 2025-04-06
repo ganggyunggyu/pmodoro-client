@@ -18,7 +18,6 @@ export const KakaoCallbackPage = () => {
 
   const getKakaoAccessToken = async () => {
     hasFetched.current = true;
-    console.log(code);
     const result = await axios.get(`/auth/kakao-callback?code=${code}`);
 
     const { isUser } = result.data;

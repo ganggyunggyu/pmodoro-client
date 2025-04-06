@@ -12,7 +12,6 @@ import { axios } from '../app/config';
 
 export const getUser = async (userId: string): Promise<UserInfo> => {
   const result = await axios.get(`/user/${userId}`);
-  console.log(result);
   return result.data;
 };
 

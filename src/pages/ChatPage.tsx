@@ -146,7 +146,7 @@ export const ChatPage: React.FC = () => {
                 >
                   <div className="w-10 h-10 rounded-full bg-alt"></div>
                   <div className="flex flex-col text-sm">
-                    <span className="">{otherUser.displayName}</span>
+                    <span className="">{otherUser?.displayName}</span>
                     <span className="text-xs text-gray-500">
                       {lastMessage
                         ? lastMessage.content
@@ -167,7 +167,7 @@ export const ChatPage: React.FC = () => {
               msg.senderId === currentUserId ? (
                 <div key={idx} className="self-end mb-2">
                   <div className="text-xs text-gray-500 mb-1">
-                    {userInfo.displayName}
+                    {userInfo?.displayName}
                   </div>
 
                   <div className="bg-primary text-white rounded-md px-4 py-2 text-sm max-w-xs">
@@ -221,7 +221,7 @@ export const ChatPage: React.FC = () => {
                 msg.senderId === currentUserId ? (
                   <div key={idx} className="self-end mb-2">
                     <div className="text-xs text-gray-500 mb-1">
-                      {userInfo.displayName}
+                      {userInfo?.displayName}
                     </div>
 
                     <div className="bg-primary text-white rounded-md px-4 py-2 text-sm max-w-xs">

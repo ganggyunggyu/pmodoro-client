@@ -73,7 +73,7 @@ export const ChatHeader = () => {
       </button>
       <div className="flex flex-col   items-start justify-center">
         <p>{otherUserInfo?.position}</p>
-        <p>{otherUserInfo.displayName}</p>
+        <p>{otherUserInfo?.displayName}</p>
       </div>
     </header>
   );

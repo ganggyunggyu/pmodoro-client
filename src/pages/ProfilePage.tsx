@@ -10,8 +10,6 @@ export const ProfileImage = () => {
   const params = useParams();
   const { data: user, isLoading } = useGetUserQuery(params.userId);
   if (isLoading) return <PulseLoaderSpinner />;
-
-  console.log(user);
   return (
     <React.Fragment>
       {user?.kakaoAuthInfo?.profileImg ? (

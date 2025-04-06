@@ -62,13 +62,9 @@ export const Step1UserInfo: React.FC = () => {
 
   const handleCareearClick = (career) => {
     setOnboardingField('career', career);
-
-    console.log(onboardingData.career);
   };
   const handleCloseCareearSelect = () => {
     setIsCareearSelect(false); // 이 함수로 클릭 시 상태 변경
-
-    console.log(isCareearSelect);
   };
 
   return (

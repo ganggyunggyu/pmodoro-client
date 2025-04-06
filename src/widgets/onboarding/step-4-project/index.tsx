@@ -37,11 +37,7 @@ export const Step4Project: React.FC = () => {
   };
 
   const handleResionClick = (resion) => {
-    console.log(resion);
-
     setOnboardingField('firstArea', resion.name);
-
-    console.log(citys);
   };
 
   const handleCityClick = (city) => {

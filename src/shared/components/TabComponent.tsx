@@ -13,7 +13,7 @@ export const TabComponent = ({ tabOptionList }) => {
   return (
     <div className="flex">
       {tabOptionList.map((tab) => (
-        <TabItem tab={tab} isActive={false} onClick={handleTabClick} />
+        <TabItem tab={tab} />
       ))}
     </div>
   );
@@ -21,8 +21,6 @@ export const TabComponent = ({ tabOptionList }) => {
 
 interface TabItemProps {
   tab: any;
-  isActive: boolean;
-  onClick: (tabId) => void;
 }
 
 export const useUserSearchQuery = () => {
@@ -39,7 +37,7 @@ export const getSearchUsers = async (searchQuery: Record<string, any>) => {
   return data;
 };
 
-export const TabItem: React.FC<TabItemProps> = ({ tab, isActive, onClick }) => {
+export const TabItem: React.FC<TabItemProps> = ({ tab }) => {
   const { setSearchQueryField, searchQuery } = useSearchStore();
 
   const handleTabClick = (position) => {

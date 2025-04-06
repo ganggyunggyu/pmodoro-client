@@ -12,7 +12,7 @@ export const ActionButtonList = () => {
   const postJoin = async (onboardingData: any) => {
     try {
       const res = await axios.post('/user/join', { ...onboardingData });
-      console.log(res);
+
       return res.data;
     } catch (error) {
       console.error('회원가입 요청 실패:', error);
@@ -27,9 +27,7 @@ export const ActionButtonList = () => {
       onError: (error: any) => {
         console.error('회원가입 중 에러 발생:', error.message);
       },
-      onSuccess: (data: any) => {
-        console.log('회원가입 성공:', data);
-      },
+      onSuccess: (data: any) => {},
     });
   };
 
@@ -43,7 +41,6 @@ export const ActionButtonList = () => {
       navigate(`/onboarding/other-info`);
     }
     if (pathname.includes('other-info')) {
-      console.log(onboardingData);
       mutate(onboardingData);
       await delay(1000);
       navigate('/onboarding/final');
@@ -67,8 +64,6 @@ export const ActionButtonList = () => {
     }
   };
   const isActive = getIsActive();
-
-  console.log(onboardingData);
 
   return (
     <section className="absolute lg:bottom-3/12 bottom-1/12 w-full flex itmes-center justify-between left-1/2 -translate-x-1/2 px-[10%] lg:px-[20%]">

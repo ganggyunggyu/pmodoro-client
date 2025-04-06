@@ -7,7 +7,6 @@ const KakaoLoginButton = () => {
   const handleKakaoLogin = () => {
     window.location.href = CALLBACK;
   };
-  console.log(CALLBACK);
 
   return (
     <button

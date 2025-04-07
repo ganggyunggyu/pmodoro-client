@@ -1,13 +1,14 @@
 import { useChatStore } from '@/app/store/useChatStore';
 import { UserInfo, useUserStore } from '@/app/store/useUserStore';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { io } from 'socket.io-client';
 import { getUser } from './Mypage';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 import { getIsMobile } from '@/shared/lib';
+import { axios } from '../app/config';
 
 export type Message = {
   content: string;
@@ -21,15 +22,11 @@ export type ChatRoom = {
 };
 
 export const fetchMessages = async (roomId: string) => {
-  const res = await axios.get(
-    `http://localhost:3000/chat/messages?roomId=${roomId}`,
-  );
+  const res = await axios.get(`/chat/messages?roomId=${roomId}`);
   return res.data;
 };
 export const fetchChatRooms = async (userId: string): Promise<ChatRoom[]> => {
-  const res = await axios.get(
-    `http://localhost:3000/chat/rooms?userId=${userId}`,
-  );
+  const res = await axios.get(`/chat/rooms?userId=${userId}`);
 
   return res.data;
 };
@@ -116,7 +113,7 @@ export const ChatPage: React.FC = () => {
     return <PulseLoaderSpinner />;
   }
 
-  if (chatRooms.length === 0) {
+  if (!chatRooms) {
     return <div>기존채팅방없음</div>;
   }
 
@@ -132,7 +129,7 @@ export const ChatPage: React.FC = () => {
             ({ otherUser: otherUserList, members, roomId, lastMessage }) => {
               const otherUser = otherUserList[0];
 
-              if (curOtherName === '') setCurOtherName(otherUser?.displayName);
+              if (!otherUser) setCurOtherName(otherUser?.displayName);
 
               if (!otherUser) setOtherUserInfo(otherUser);
 

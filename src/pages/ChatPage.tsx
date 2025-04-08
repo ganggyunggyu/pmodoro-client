@@ -67,7 +67,7 @@ export const ChatPage: React.FC = () => {
   React.useEffect(() => {
     if (!currentRoomId) return;
 
-    socketRef.current = io('http://localhost:3001');
+    socketRef.current = io(import.meta.env.VITE_API_URL);
 
     socketRef.current.emit('joinRoom', currentRoomId);
 

@@ -14,6 +14,7 @@ import { getIsMobile } from './shared/lib';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Footer } from './widgets/footer';
 import { Routing } from './pages';
+import { LoginPage } from './pages/login-page';
 
 interface RouteProviderProps {
   children: ReactNode;

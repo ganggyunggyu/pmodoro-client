@@ -29,7 +29,8 @@ export const LoginPage = () => {
         setUserInfo(userInfo);
         setIsAuth(true);
 
-        navigate(`/profile/${userInfo._id}`);
+        navigate(`/`);
+        setIsLoginWidgetOpen(false);
       }
     } catch (error) {
       alert('이메일과 비밀번호를 확인해주세요.');

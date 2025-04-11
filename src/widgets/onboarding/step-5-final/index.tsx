@@ -1,8 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserStore } from '@/app/store/useUserStore';
-import { useOnboardingStore } from '@/app/store/useOnboardingStore';
-import { axios } from '@/app/config';
 
 export const Step5Final: React.FC = () => {
   const navigate = useNavigate();

@@ -12,8 +12,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { setIsAuth, setUserInfo } = useUserStore();
 
   const init = async () => {
-    const data = await getKakaoLoginCheck(authTime, userId);
-    setUserInfo(data);
+    const userInfo = await getKakaoLoginCheck(authTime, userId);
+    setUserInfo(userInfo);
     setIsAuth(true);
   };
 

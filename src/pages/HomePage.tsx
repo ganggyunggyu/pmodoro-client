@@ -16,7 +16,7 @@ export const UserCard = ({ cardUser }) => {
   return (
     <article
       key={cardUser._id}
-      className="relative flex flex-col justify-between gap-3 py-3 px-5 rounded-lg border border-neutral-300 min-w-full lg:min-w-80"
+      className="relative flex flex-col justify-between gap-3 py-3 px-5 rounded-lg border border-neutral-300 min-w-full lg:min-w-70"
     >
       <div className="flex gap-3">
         <div className="w-12 h-12 bg-alt rounded-full"></div>

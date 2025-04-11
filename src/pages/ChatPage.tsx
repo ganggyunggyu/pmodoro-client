@@ -119,7 +119,7 @@ export const ChatPage: React.FC = () => {
 
   return (
     <main className="flex w-full justify-center gap-5">
-      <aside className="w-full lg:w-3/12 overflow-y-auto">
+      <aside className="w-full lg:min-w-3/12 overflow-y-auto">
         <div className="w-full flex gap-5 py-3 text-gray-500">
           <p>채팅</p>
           <p>채팅 요청</p>

@@ -6,9 +6,6 @@
   font-weight: 400;
   font-style: normal;
 }
-@import 'tailwindcss';
-@import './app/style/color.css';
-
 @font-face {
   font-family: 'Ownglyph_StudyHard-Rg';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_StudyHard-Rg.woff2')
@@ -16,6 +13,11 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@import 'tailwindcss';
+@import './App.css';
+@import './color.css';
+
 body {
   font-family: 'Pretendard-Regular', sans-serif;
   /* font-family: 'BMHANNAPro', sans-serif; */

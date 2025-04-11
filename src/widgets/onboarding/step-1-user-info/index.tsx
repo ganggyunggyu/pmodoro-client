@@ -109,7 +109,7 @@ export const Step1UserInfo: React.FC = () => {
               className="fixed top-0 left-0 w-screen h-screen bg-black opacity-30 z-10"
             />
             <article className="z-10">
-              <div className="absolute w-full h-90  bg-white left-0 lg:top-10 -top-30 rounded-md">
+              <div className="absolute w-full h-90  bg-white left-0 lg:-top-10 -top-30 rounded-md">
                 <header className="py-3 px-3 w-full flex justify-between">
                   <p className="text-black text-lg font-semibold">경력</p>
                   <button onClick={handleCloseCareearSelect}>

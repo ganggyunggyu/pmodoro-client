@@ -42,7 +42,7 @@ export const Step2Position: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col w-full justify-center items-center gap-6 px-[10%] lg:px[20%]">
+    <div className="flex flex-col w-full justify-center items-center gap-6 px-[10%] lg:px-[20%]">
       <article className="w-full flex flex-col gap-3 ">
         <p className="text-lg">어떤 직무를 희망하시나요?</p>
       </article>

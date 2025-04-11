@@ -60,11 +60,12 @@ export const Step4Project: React.FC = () => {
     skills,
     isOnline,
   }): string => {
-    return `${career}차 ${position}, ${displayName}입니다.
+    return `${
+      career === '신입' ? career : `${career}차`
+    } ${position}, ${displayName}입니다.
 
-${skills.join(', ')}을 사용하고 ${
-      isOnline ? '온라인' : '오프라인'
-    } 참여를 선호해요.`;
+사용 가능한 기술과 상세 포지션은 ${skills.join(', ')}이며,
+${isOnline ? '온라인' : '오프라인'} 참여를 선호해요.`;
   };
 
   React.useEffect(() => {
@@ -77,7 +78,7 @@ ${skills.join(', ')}을 사용하고 ${
   }, [onboardingData.isOnline]);
 
   return (
-    <section className=" lg:text-md w-full flex flex-col items-center justify-center">
+    <section className=" lg:text-md w-full flex flex-col items-center justify-center px-[10%] lg:px-[20%]">
       <article className="flex flex-col gap-3 w-full relative">
         <p className="text-lg">온/오프라인 선호도가 있나요?</p>
 
@@ -177,7 +178,7 @@ ${skills.join(', ')}을 사용하고 ${
         )}
       </article>
 
-      {!onboardingData.isOnline && (
+      {true && (
         <article className="flex flex-col gap-3 pt-4 w-full relative">
           <p className="text-lg">선호하는 지역이 있나요?</p>
 

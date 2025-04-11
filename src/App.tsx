@@ -3,14 +3,9 @@ import React, { ReactNode } from 'react';
 import { Link, Route, Routes, useLocation, useParams } from 'react-router';
 
 import { OnboardingWidget } from './widgets/onboarding';
-import { LoginPage } from './pages/LoginPage';
-import { KakaoCallbackPage } from './pages/kakaoCallbackPage';
-import { HomePage } from './pages/HomePage';
-import { ChatPage } from './pages/ChatPage';
 import { Header } from './widgets/header';
 import { useWidgetStore } from './app/store';
-import { Mypage } from './pages/Mypage';
-import { ProfilePage } from './pages/ProfilePage';
+
 import { axios } from './app/config';
 import { useUserStore } from './app/store/useUserStore';
 import { useChatStore } from './app/store/useChatStore';
@@ -18,6 +13,7 @@ import { LeftArrow } from './shared/icons';
 import { getIsMobile } from './shared/lib';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Footer } from './widgets/footer';
+import { Routing } from './pages';
 
 interface RouteProviderProps {
   children: ReactNode;
@@ -114,19 +110,7 @@ function App() {
       {isMobile && isChat && currentRoomId ? <ChatHeader /> : <Header />}
       {isLoginWidgetOpen && <LoginPage />}
       <RouteProvider>
-        <AnimatePresence>
-          <Routes location={location} key={pathname}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/my-page/:userId" element={<Mypage />} />
-            <Route path="/profile/:userId" element={<ProfilePage />} />
-            <Route
-              path="/auth/kakao-callback"
-              element={<KakaoCallbackPage />}
-            />
-            <Route path="/chat/:userId/:roomId?" element={<ChatPage />} />
-            <Route path="/onboarding/*" element={<OnboardingWidget />} />
-          </Routes>
-        </AnimatePresence>
+        <Routing />
       </RouteProvider>
       {!isChat && <Footer />}
     </React.Fragment>

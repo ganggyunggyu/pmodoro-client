@@ -1,108 +1,85 @@
-import { useChatStore } from '@/app/store/useChatStore';
-import { UserInfo, useUserStore } from '@/app/store/useUserStore';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-
 import React from 'react';
 import { useNavigate } from 'react-router';
-import { io } from 'socket.io-client';
-import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
+import { useQueryClient } from '@tanstack/react-query';
+import { useChatStore } from '@/app/store/useChatStore';
+import { useUserStore } from '@/app/store/useUserStore';
+
+import { ChatInput } from '@/features';
+import {
+  useGetChatRoomListQuery,
+  useGetMessageQuery,
+  socketService,
+} from '@/entities';
+
 import { getIsMobile } from '@/shared/lib';
-import { axios } from '@/app/config';
-import { getUser } from '@/entities';
-
-export type Message = {
-  content: string;
-};
-//redeploy
-export type ChatRoom = {
-  roomId: string;
-  members: string[];
-  otherUser: UserInfo;
-  lastMessage: Message;
-};
-
-export const fetchMessages = async (roomId: string) => {
-  const res = await axios.get(`/chat/messages?roomId=${roomId}`);
-  return res.data;
-};
-export const fetchChatRooms = async (userId: string): Promise<ChatRoom[]> => {
-  const res = await axios.get(`/chat/rooms?userId=${userId}`);
-
-  return res.data;
-};
+import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 
 export const ChatPage: React.FC = () => {
-  const [curOtherName, setCurOtherName] = React.useState('');
-  const { currentRoomId, setRoomId, setOtherUserInfo } = useChatStore();
-
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const socket = socketService.connect();
+
+  const bottomRef = React.useRef<HTMLDivElement | null>(null);
+
+  const {
+    currentRoomId,
+    otherUserInfo,
+    setRoomId,
+    setOtherUserInfo,
+    setChatInputValue,
+  } = useChatStore();
   const { userInfo, isAuth } = useUserStore();
 
   const currentUserId = userInfo?._id;
-
-  const navigate = useNavigate();
-
-  const socketRef = React.useRef<any>(null);
-  const bottomRef = React.useRef<HTMLDivElement | null>(null);
-
-  const [input, setInput] = React.useState('');
 
   const {
     data: chatRooms,
     isLoading,
     refetch: chatRoomsFetch,
-  } = useQuery({
-    queryKey: ['chatRooms', currentUserId],
-    queryFn: () => fetchChatRooms(currentUserId),
-    enabled: !!currentUserId,
-  });
+  } = useGetChatRoomListQuery();
 
-  const { data: messages = [], isSuccess: isMessages } = useQuery({
-    queryKey: ['messages', currentRoomId],
-    queryFn: () => fetchMessages(currentRoomId),
-    enabled: !!currentRoomId,
-  });
+  const { data: messages } = useGetMessageQuery();
 
   React.useEffect(() => {
-    if (!currentRoomId) return;
+    if (!currentRoomId) {
+      return;
+    }
+    if (currentRoomId) {
+      socket.connect();
 
-    socketRef.current = io(import.meta.env.VITE_API_URL);
+      socket.emit('joinRoom', currentRoomId);
 
-    socketRef.current.emit('joinRoom', currentRoomId);
-
-    socketRef.current.on(
-      'receiveMessage',
-      (data: { senderId: string; content: string }) => {
-        queryClient.setQueryData(['messages', currentRoomId], (old: any) => {
-          if (!old) return [];
-          return [...old, data];
-        });
-      },
-    );
+      socket.on(
+        'receiveMessage',
+        (data: { senderId: string; content: string }) => {
+          queryClient.setQueryData(['messages', currentRoomId], (old: any) => {
+            if (!old) return [];
+            return [...old, data];
+          });
+        },
+      );
+    }
 
     return () => {
-      socketRef.current.disconnect();
+      setChatInputValue('');
+      socketService.disconnect();
     };
   }, [currentRoomId]);
+
   React.useEffect(() => {
     chatRoomsFetch();
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
 
-    socketRef.current.emit('sendMessage', {
-      roomId: currentRoomId,
-      senderId: currentUserId,
-      content: input,
-    });
-
-    setInput('');
-  };
+  // React.useEffect(() => {
+  //   socketService.connect();
+  //   return () => {
+  //     socketService.disconnect();
+  //   };
+  // }, []);
 
   const isMobile = getIsMobile();
 
@@ -129,15 +106,12 @@ export const ChatPage: React.FC = () => {
             ({ otherUser: otherUserList, members, roomId, lastMessage }) => {
               const otherUser = otherUserList[0];
 
-              if (!otherUser) setCurOtherName(otherUser?.displayName);
-
               if (!otherUser) setOtherUserInfo(otherUser);
 
               return (
                 <li
                   key={roomId}
                   onClick={async () => {
-                    setCurOtherName(otherUser?.displayName);
                     setOtherUserInfo(otherUser);
                     setRoomId(roomId);
                     navigate(`/chat/${currentUserId}/${roomId}`);
@@ -155,7 +129,6 @@ export const ChatPage: React.FC = () => {
                         : '채팅을 시작해보세요.'}
                     </span>
                   </div>
-                  {/* <span className="ml-auto text-xs text-gray-400">11:55</span> */}
                 </li>
               );
             },
@@ -181,7 +154,7 @@ export const ChatPage: React.FC = () => {
                   <div className="w-8 h-8 rounded-full bg-alt"></div>
                   <div className="flex flex-col">
                     <div className="text-xs text-gray-500 mb-1">
-                      {curOtherName}
+                      {otherUserInfo?.displayName}
                     </div>
                     <div className="bg-primary-opacity rounded-md px-4 py-2 text-sm max-w-xs">
                       {msg.content}
@@ -193,26 +166,7 @@ export const ChatPage: React.FC = () => {
             <div ref={bottomRef} />
           </div>
 
-          <form
-            className="flex gap-5 items-center rounded-md"
-            onSubmit={handleSubmit}
-          >
-            <div className="p-3 flex-1 w-full rounded-md border border-primary">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="입력하기"
-                className=" focus:outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="rounded-md p-3 bg-primary text-white"
-            >
-              전송
-            </button>
-          </form>
+          <ChatInput />
         </section>
       )}
       {isMobile && currentRoomId && (
@@ -235,7 +189,7 @@ export const ChatPage: React.FC = () => {
                     <div className="w-8 h-8 rounded-full bg-alt"></div>
                     <div className="flex flex-col">
                       <div className="text-xs text-gray-500 mb-1">
-                        {curOtherName}
+                        {otherUserInfo?.displayName}
                       </div>
                       <div className="bg-primary-opacity rounded-md px-4 py-2 text-sm max-w-xs">
                         {msg.content}
@@ -247,26 +201,7 @@ export const ChatPage: React.FC = () => {
               <div ref={bottomRef} />
             </div>
 
-            <form
-              className="flex gap-5 items-center rounded-md px-4"
-              onSubmit={handleSubmit}
-            >
-              <div className="p-3 flex-1 w-full rounded-md border border-primary">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="입력하기"
-                  className=" focus:outline-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="rounded-md p-3 bg-primary text-white"
-              >
-                전송
-              </button>
-            </form>
+            <ChatInput />
           </section>
         </React.Fragment>
       )}

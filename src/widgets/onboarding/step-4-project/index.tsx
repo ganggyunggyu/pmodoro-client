@@ -317,7 +317,7 @@ ${skills.join(', ')}을 사용하고 ${
           )}
         </article>
       )}
-      <article className="flex flex-col gap-3 w-full py-5">
+      <article className="flex flex-col gap-3 w-full py-2">
         <p className="text-lg">
           당신은 어떤 사람인가요? 간단한 자기 소개를 적어주세요!
         </p>

@@ -55,7 +55,7 @@ export const ActionButtonList = () => {
       return onboardingData.displayName && onboardingData.career;
     }
     if (pathname.includes('position')) {
-      return onboardingData.position && onboardingData.skills;
+      return onboardingData.position && onboardingData.skills.length !== 0;
     }
     if (pathname.includes('other-info')) {
       return (
@@ -66,7 +66,7 @@ export const ActionButtonList = () => {
   const isActive = getIsActive();
 
   return (
-    <section className="absolute lg:bottom-3/12 bottom-1/12 w-full flex itmes-center justify-between left-1/2 -translate-x-1/2 px-[10%] lg:px-[20%]">
+    <section className="absolute lg:bottom-4/12 md:bottom-1/12 bottom-1/12 w-full flex itmes-center justify-between left-1/2 -translate-x-1/2 px-[10%] lg:px-[20%]">
       <button
         onClick={handlePrevClick}
         className="border border-primary text-primary px-3 py-1 text-sm rounded-lg"

@@ -19,7 +19,7 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
   return (
     <main
       ref={routeProviderRef}
-      className="fixed w-screen h-[calc(100vh-var(--spacing)*16)] overflow-y-scroll pt-24 pb-20 lg:px-[10%] px-[7%]"
+      className="fixed w-screen h-[calc(100vh-var(--spacing)*16)] overflow-y-scroll pt-24 pb-20 lg:px-[5%] px-[7%]"
     >
       {children}
     </main>

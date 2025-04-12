@@ -33,7 +33,7 @@ export const Header = () => {
   if (isMobile) return null;
 
   return (
-    <header className="fixed  top-0 left-0 bg-white z-10 w-screen flex justify-between items-cetner h-16 px-[10%] border-b border-primary-mute">
+    <header className="fixed  top-0 left-0 bg-white/70 z-10 w-screen flex justify-between items-cetner h-16 px-[5%] border-b border-primary-mute">
       <button
         onClick={handleLogoClick}
         type="button"

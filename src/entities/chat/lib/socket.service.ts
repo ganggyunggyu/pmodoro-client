@@ -47,6 +47,11 @@ class SocketService {
       this.socket.emit(event, data);
     }
   }
+
+  getSocket(): Socket {
+    console.log(this.socket);
+    return this.socket;
+  }
 }
 
 export const socketService = SocketService.getInstance();

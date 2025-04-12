@@ -330,7 +330,7 @@ ${isOnline ? '온라인' : '오프라인'} 참여를 선호해요.`;
           onChange={(event) => {
             setOnboardingField('description', event.target.value);
           }}
-          placeholder="닉네임"
+          placeholder="자기소개"
           className="w-full border border-alt rounded-lg p-3"
         />
       </section>

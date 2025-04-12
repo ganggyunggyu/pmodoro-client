@@ -37,13 +37,10 @@ div ::-webkit-scrollbar {
 }
 
 input {
-  all: unset; /* 모든 기본 스타일을 제거 */
   width: 100%; /* 원하는 너비 설정 */
-  padding: 0; /* 여백 초기화 */
-  border: none; /* 테두리 없애기 */
-  background: transparent; /* 배경 투명화 */
   font-size: 16px; /* 기본 폰트 크기 설정 */
   outline: none; /* 포커스 시 아웃라인 제거 */
+  border: none;
 }
 p {
   line-height: 24px;
@@ -54,7 +51,6 @@ textarea {
   resize: none; /* 크기 조정 비활성화 (선택사항) */
   width: 100%; /* 원하는 너비 설정 */
   height: 150px; /* 원하는 높이 설정 */
-  padding: 10px; /* 원하는 여백 설정 */
   background: transparent; /* 배경 투명 */
   font-size: 16px; /* 글꼴 크기 설정 */
   line-height: 1.5; /* 줄 간격 설정 */

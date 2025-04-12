@@ -13,10 +13,20 @@ export const UserCard = ({ cardUser }) => {
   return (
     <article
       key={cardUser._id}
-      className="relative flex flex-col justify-between gap-3 py-3 px-5 rounded-lg border border-neutral-300 min-w-full lg:min-w-70"
+      className="relative flex flex-col justify-between gap-3 p-3 rounded-lg border border-alt min-w-full lg:min-w-70 bg-gray-l
+      hover:shadow-lg hover:scale-105 transition-all cursor-pointer
+      "
     >
       <div className="flex gap-3">
-        <div className="w-12 h-12 bg-alt rounded-full"></div>
+        {cardUser.kakaoAuthInfo ? (
+          <img
+            className="w-12 h-12 rounded-full"
+            src={cardUser.kakaoAuthInfo.profileImg}
+            alt=""
+          />
+        ) : (
+          <div className="w-12 h-12 bg-alt rounded-full"></div>
+        )}
         <div className="flex flex-col justify-center">
           <span className="flex-1 font-semibold text-sm mt-2">
             {cardUser.displayName}

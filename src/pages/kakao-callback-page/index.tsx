@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
-import { useUserStore } from '../app/store/useUserStore';
-import { useOnboardingStore } from '../app/store/useOnboardingStore';
-import { useNavigate, useParams, useSearchParams } from 'react-router';
+
+import { useNavigate, useSearchParams } from 'react-router';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
-import { axios } from '../app/config';
+import { axios } from '@/app/config';
+import { useOnboardingStore } from '@/app/store/useOnboardingStore';
+import { useUserStore } from '@/app/store/useUserStore';
 
 export const KakaoCallbackPage = () => {
   const [searchParams] = useSearchParams();

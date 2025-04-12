@@ -1,32 +1,12 @@
 import { useParams } from 'react-router';
-import { getUser, ProjectCard, useGetUserQuery } from './Mypage';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 import React from 'react';
 import { UserInfo } from '@/app/store/useUserStore';
 import { useUserSearchQuery } from '@/shared/components/TabComponent';
-import { UserCard } from './HomePage';
-import { useWidgetStore } from '@/app/store';
-import { useGetProjectByUser } from '@/entities';
-
-export const ProfileImage = () => {
-  const params = useParams();
-  const { data: user, isLoading } = useGetUserQuery(params.userId);
-
-  if (isLoading) return <PulseLoaderSpinner />;
-  return (
-    <React.Fragment>
-      {user?.kakaoAuthInfo?.profileImg ? (
-        <img
-          className="w-20 h-20 rounded-full"
-          src={user.kakaoAuthInfo.profileImg}
-          alt=""
-        />
-      ) : (
-        <div className="w-20 h-20 rounded-full bg-alt" />
-      )}
-    </React.Fragment>
-  );
-};
+import { useGetProjectByUser, useGetUserQuery } from '@/entities';
+import { UserCard } from '@/features/user/ui/user-card';
+import { ProfileImage } from '@/entities/user/ui/profile-image';
+import { ProjectCard } from '@/features/project/ui/project-card';
 
 export const UserProfileCard = () => {
   const params = useParams();

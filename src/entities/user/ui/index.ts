@@ -1,1 +1,1 @@
-export * from './user.ui';
+export * from './profile-image';

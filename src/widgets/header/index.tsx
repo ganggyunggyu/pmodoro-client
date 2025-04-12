@@ -1,12 +1,15 @@
 import { useWidgetStore } from '@/app/store';
 import { useUserStore } from '@/app/store/useUserStore';
-import { ChatIcon } from '@/pages/HomePage';
+
 import { PROJECT_NAME } from '@/shared/constants/core';
+import { getIsMobile } from '@/shared/lib';
 import { useNavigate } from 'react-router';
 
 export const Header = () => {
   const navigate = useNavigate();
   const { setIsLoginWidgetOpen } = useWidgetStore();
+
+  const isMobile = getIsMobile();
 
   const { isAuth, userInfo } = useUserStore();
 
@@ -18,15 +21,16 @@ export const Header = () => {
     navigate(`/chat/${userInfo._id}`);
   };
 
-  const handleLoginClick = () => {
-    setIsLoginWidgetOpen(true);
-  };
-
-  const handleNoticeClick = () => {};
-
   const handleProfileClick = () => {
     navigate(`/my-page/${userInfo._id}`);
   };
+
+  const handleLoginClick = () => {
+    setIsLoginWidgetOpen(true);
+  };
+  const handleNoticeClick = () => {};
+
+  if (isMobile) return null;
 
   return (
     <header className="fixed  top-0 left-0 bg-white z-10 w-screen flex justify-between items-cetner h-16 px-[10%] border-b border-primary-mute">

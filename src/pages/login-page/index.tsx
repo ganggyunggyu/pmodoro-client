@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router';
 import { useUserStore } from '@/app/store/useUserStore';
 import { XIcon } from '@/widgets/onboarding/step-1-user-info';
 import { useWidgetStore } from '@/app/store';
-import { axios } from '../app/config';
+import { axios } from '@/app/config';
 
 export const LoginPage = () => {
   const [isLocalLogin, setIsLocalLogin] = React.useState(false);

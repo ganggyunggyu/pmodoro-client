@@ -1,9 +1,6 @@
 import { axios } from '@/app/config';
 import { useChatStore } from '@/app/store/useChatStore';
-import { UserInfo, useUserStore } from '@/app/store/useUserStore';
-import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
-import { useUserSearchQuery } from '@/shared/components/TabComponent';
-import { UserSearchWidget } from '@/widgets/user-search-widget';
+import { useUserStore } from '@/app/store/useUserStore';
 import { useNavigate } from 'react-router';
 
 export const UserCard = ({ cardUser }) => {
@@ -83,71 +80,5 @@ export const UserCard = ({ cardUser }) => {
         </button>
       </div>
     </article>
-  );
-};
-
-export const ChatIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="size-6"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-      />
-    </svg>
-  );
-};
-
-export const HomePage = () => {
-  const navigate = useNavigate();
-  const { userInfo } = useUserStore();
-  const { setRoomId } = useChatStore();
-
-  const { data: users, isLoading } = useUserSearchQuery();
-
-  const handleChatClick = (user: UserInfo) => async () => {
-    const userId = userInfo._id;
-
-    try {
-      const result = await axios.post('http://localhost:3000/chat/room', {
-        userId: userId,
-        otherUserId: user._id,
-      });
-
-      const roomId = result.data.roomId;
-
-      setRoomId(roomId); // 상태 업데이트
-      navigate(`/chat/${userId}/${roomId}`); // 채팅 페이지로 이동
-    } catch (error) {
-      console.error('채팅방 생성 중 오류 발생:', error); // 오류 발생 시 콘솔에 로그 출력
-    }
-  };
-
-  const handleProfileClick = (userId) => {
-    navigate(`/profile/${userId}`);
-  };
-
-  return (
-    <main className="max-w-6xl mx-auto">
-      <UserSearchWidget />
-      <section className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 transition-all pb-20">
-        {isLoading ? (
-          <div className="flex">
-            <PulseLoaderSpinner />
-          </div>
-        ) : (
-          users?.map((cardUser: UserInfo) => (
-            <UserCard key={cardUser._id} cardUser={cardUser} />
-          ))
-        )}
-      </section>
-    </main>
   );
 };

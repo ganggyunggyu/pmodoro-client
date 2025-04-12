@@ -84,7 +84,6 @@ export const Footer = () => {
       const windowHeight = window.innerHeight;
       const fullHeight = document.body.scrollHeight;
 
-      // 스크롤이 하단 150px 이내로 오면 Footer 보여주기
       if (scrollY + windowHeight >= fullHeight - 150) {
         setShowFooter(true);
       } else {
@@ -93,6 +92,9 @@ export const Footer = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+
+    handleScroll();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -109,7 +111,7 @@ export const Footer = () => {
               : { translateY: 100, opacity: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="fixed bottom-0 w-screen h-20 px-[10%] flex justify-between bg-primary-mute text-white text-xs"
+          className="absolute bottom-0 w-screen h-20 px-[10%] flex justify-between bg-primary-mute text-white text-xs z-50"
         >
           <article className="flex items-center gap-3">
             <Link to="https://tidal-oval-d41.notion.site/1bdf990b675180859bade3a99096c1fd?pvs=4">

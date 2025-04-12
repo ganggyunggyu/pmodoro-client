@@ -13,12 +13,11 @@ import {
 
 import { getIsMobile } from '@/shared/lib';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
+import { ChatRoomList } from '@/features/chat/ui/chat-room-list';
 
 export const ChatPage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  const socket = socketService.connect();
 
   const bottomRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -46,11 +45,12 @@ export const ChatPage: React.FC = () => {
       return;
     }
     if (currentRoomId) {
-      socket.connect();
+      // console.log(socketService.getSocket());
+      // socketService.connect();
 
-      socket.emit('joinRoom', currentRoomId);
+      socketService.emit('joinRoom', currentRoomId);
 
-      socket.on(
+      socketService.on(
         'receiveMessage',
         (data: { senderId: string; content: string }) => {
           queryClient.setQueryData(['messages', currentRoomId], (old: any) => {
@@ -63,7 +63,6 @@ export const ChatPage: React.FC = () => {
 
     return () => {
       setChatInputValue('');
-      socketService.disconnect();
     };
   }, [currentRoomId]);
 
@@ -74,12 +73,12 @@ export const ChatPage: React.FC = () => {
     }
   }, [messages]);
 
-  // React.useEffect(() => {
-  //   socketService.connect();
-  //   return () => {
-  //     socketService.disconnect();
-  //   };
-  // }, []);
+  React.useEffect(() => {
+    socketService.connect();
+    return () => {
+      socketService.disconnect();
+    };
+  }, []);
 
   const isMobile = getIsMobile();
 
@@ -101,39 +100,7 @@ export const ChatPage: React.FC = () => {
           <p>채팅</p>
           <p>채팅 요청</p>
         </div>
-        <ul className="w-full flex flex-col gap-2">
-          {chatRooms.map(
-            ({ otherUser: otherUserList, members, roomId, lastMessage }) => {
-              const otherUser = otherUserList[0];
-
-              if (!otherUser) setOtherUserInfo(otherUser);
-
-              return (
-                <li
-                  key={roomId}
-                  onClick={async () => {
-                    setOtherUserInfo(otherUser);
-                    setRoomId(roomId);
-                    navigate(`/chat/${currentUserId}/${roomId}`);
-                  }}
-                  className={`flex items-center gap-3 px-2 py-3 hover:bg-gray-100 cursor-pointer border rounded-md
-                  ${roomId === currentRoomId ? 'border-primary' : 'border-alt'}
-                  `}
-                >
-                  <div className="min-w-10 h-10 rounded-full bg-alt"></div>
-                  <div className="flex w-10/12  flex-col text-sm">
-                    <span className="">{otherUser?.displayName}</span>
-                    <span className="text-xs w-full h-4 text-ellipsis overflow-hidden text-gray-500">
-                      {lastMessage
-                        ? lastMessage.content
-                        : '채팅을 시작해보세요.'}
-                    </span>
-                  </div>
-                </li>
-              );
-            },
-          )}
-        </ul>
+        <ChatRoomList />
       </aside>
       {!isMobile && (
         <section className="flex flex-col gap-5 min-w-9/12 h-[70vh] py-10">

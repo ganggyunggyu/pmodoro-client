@@ -1,22 +1,24 @@
 import { useChatStore } from '@/app/store/useChatStore';
+import { useUserStore } from '@/app/store/useUserStore';
 import { useGetChatRoomListQuery } from '@/entities';
 import { useNavigate } from 'react-router';
 
 export const ChatRoomList = () => {
   const navigate = useNavigate();
   const { data: chatRoomList } = useGetChatRoomListQuery();
+  const { userInfo } = useUserStore();
   const {
     otherUserInfo,
     setOtherUserInfo,
     setRoomId,
-    currentUserId,
+
     currentRoomId,
   } = useChatStore();
 
   const handleRoomClick = async (otherUser, roomId) => {
     setOtherUserInfo(otherUser);
     setRoomId(roomId);
-    navigate(`/chat/${currentUserId}/${roomId}`);
+    navigate(`/chat/${userInfo._id}/${roomId}`);
   };
 
   return (

@@ -9,4 +9,5 @@ export type ChatRoom = {
   members: string[];
   otherUser: UserInfo;
   lastMessage: Message;
+  createdAt: string;
 };

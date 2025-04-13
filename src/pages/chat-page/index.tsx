@@ -9,29 +9,12 @@ import { io } from 'socket.io-client';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 import { getIsMobile } from '@/shared/lib';
 import { axios } from '@/app/config';
-import { getUser } from '@/entities';
+import { getChatRoomList, getMessageList, getUser } from '@/entities';
 
 export type Message = {
   content: string;
 };
 //redeploy
-export type ChatRoom = {
-  roomId: string;
-  members: string[];
-  otherUser: UserInfo;
-  lastMessage: Message;
-  createdAt: string;
-};
-
-export const fetchMessages = async (roomId: string) => {
-  const res = await axios.get(`/chat/messages?roomId=${roomId}`);
-  return res.data;
-};
-export const fetchChatRooms = async (userId: string): Promise<ChatRoom[]> => {
-  const res = await axios.get(`/chat/rooms?userId=${userId}`);
-
-  return res.data;
-};
 
 export const ChatPage: React.FC = () => {
   const [curOtherName, setCurOtherName] = React.useState('');
@@ -56,13 +39,13 @@ export const ChatPage: React.FC = () => {
     refetch: chatRoomsFetch,
   } = useQuery({
     queryKey: ['chatRooms', currentUserId],
-    queryFn: () => fetchChatRooms(currentUserId),
+    queryFn: () => getChatRoomList(currentUserId),
     enabled: !!currentUserId,
   });
 
   const { data: messages = [], isSuccess: isMessages } = useQuery({
     queryKey: ['messages', currentRoomId],
-    queryFn: () => fetchMessages(currentRoomId),
+    queryFn: () => getMessageList(currentRoomId),
     enabled: !!currentRoomId,
   });
 

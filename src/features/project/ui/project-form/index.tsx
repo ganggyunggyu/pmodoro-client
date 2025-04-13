@@ -1,10 +1,7 @@
 import { useUserStore } from '@/app/store/useUserStore';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { axios } from '@/app/config'; // axios 인스턴스 가져오기
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { useGetProjectByUser, usePostProject } from '@/entities';
-import { describe } from 'node:test';
 import { useWidgetStore } from '@/app/store';
 
 export const ProjectForm = () => {
@@ -15,7 +12,7 @@ export const ProjectForm = () => {
     refetch: projectFetch,
   } = useGetProjectByUser(userInfo?._id);
 
-  const { isProjectForm, setIsProjectForm } = useWidgetStore();
+  const { setIsProjectForm } = useWidgetStore();
 
   const { mutate: addProject } = usePostProject();
 
@@ -62,7 +59,9 @@ export const ProjectForm = () => {
 
   return (
     <motion.div
-      className="p-4 rounded-md border border-alt mt-7"
+      className={`p-4 rounded-md border border-alt mt-7
+        
+        `}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}

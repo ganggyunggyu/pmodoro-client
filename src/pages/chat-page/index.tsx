@@ -20,6 +20,7 @@ export type ChatRoom = {
   members: string[];
   otherUser: UserInfo;
   lastMessage: Message;
+  createdAt: string;
 };
 
 export const fetchMessages = async (roomId: string) => {
@@ -126,41 +127,46 @@ export const ChatPage: React.FC = () => {
           <p>채팅 요청</p>
         </div>
         <ul className="w-full flex flex-col gap-2">
-          {chatRooms.map(
-            ({ otherUser: otherUserList, members, roomId, lastMessage }) => {
-              const otherUser = otherUserList[0];
+          {chatRooms
+            .slice() // 원본 변형 막기 (선택)
+            .sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime(),
+            ) // 최신순 정렬
+            .map(
+              ({ otherUser: otherUserList, members, roomId, lastMessage }) => {
+                const otherUser = otherUserList[0];
 
-              if (!otherUser) setCurOtherName(otherUser?.displayName);
+                if (!otherUser) setCurOtherName(otherUser?.displayName);
+                if (!otherUser) setOtherUserInfo(otherUser);
 
-              if (!otherUser) setOtherUserInfo(otherUser);
-
-              return (
-                <li
-                  key={roomId}
-                  onClick={async () => {
-                    setCurOtherName(otherUser?.displayName);
-                    setOtherUserInfo(otherUser);
-                    setRoomId(roomId);
-                    navigate(`/chat/${currentUserId}/${roomId}`);
-                  }}
-                  className={`flex items-center gap-3 px-2 py-3 hover:bg-gray-100 cursor-pointer border rounded-md
-                  ${roomId === currentRoomId ? 'border-primary' : 'border-alt'}
-                  `}
-                >
-                  <div className="min-w-10 h-10 rounded-full bg-alt"></div>
-                  <div className="flex w-10/12  flex-col text-sm">
-                    <span className="">{otherUser?.displayName}</span>
-                    <span className="text-xs w-full h-4 text-ellipsis overflow-hidden text-gray-500">
-                      {lastMessage
-                        ? lastMessage.content
-                        : '채팅을 시작해보세요.'}
-                    </span>
-                  </div>
-                  {/* <span className="ml-auto text-xs text-gray-400">11:55</span> */}
-                </li>
-              );
-            },
-          )}
+                return (
+                  <li
+                    key={roomId}
+                    onClick={async () => {
+                      setCurOtherName(otherUser?.displayName);
+                      setOtherUserInfo(otherUser);
+                      setRoomId(roomId);
+                      navigate(`/chat/${currentUserId}/${roomId}`);
+                    }}
+                    className={`flex items-center gap-3 px-2 py-3 hover:bg-gray-100 cursor-pointer border rounded-md
+          ${roomId === currentRoomId ? 'border-primary' : 'border-alt'}
+          `}
+                  >
+                    <div className="min-w-10 h-10 rounded-full bg-alt"></div>
+                    <div className="flex w-10/12 flex-col text-sm">
+                      <span>{otherUser?.displayName}</span>
+                      <span className="text-xs w-full h-4 text-ellipsis overflow-hidden text-gray-500">
+                        {lastMessage
+                          ? lastMessage.content
+                          : '채팅을 시작해보세요.'}
+                      </span>
+                    </div>
+                  </li>
+                );
+              },
+            )}
         </ul>
       </aside>
       {!isMobile && (

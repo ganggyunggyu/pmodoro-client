@@ -7,13 +7,36 @@ export const UserCard = ({ cardUser }) => {
   const navigate = useNavigate();
   const { userInfo } = useUserStore();
   const { setRoomId } = useChatStore();
+
   const handleProfileClick = (userId) => {
     navigate(`/profile/${userId}`);
+  };
+
+  const handleChatClick = async () => {
+    const isMe = userInfo._id === cardUser._id;
+    if (isMe) {
+      navigate(`chat/${userInfo._id}`);
+    } else {
+      try {
+        const result = await axios.post('/chat/room', {
+          userId: userInfo._id,
+          otherUserId: cardUser._id,
+        });
+
+        const roomId = result.data.roomId;
+
+        setRoomId(roomId); // 상태 업데이트
+        navigate(`/chat/${userInfo._id}/${roomId}`); // 채팅 페이지로 이동
+      } catch (error) {
+        console.error('채팅방 생성 중 오류 발생:', error); // 오류 발생 시 콘솔에 로그 출력
+      }
+    }
   };
   return (
     <article
       key={cardUser._id}
-      className="relative flex flex-col justify-between gap-3 p-3 rounded-lg border border-alt min-w-full lg:min-w-70 bg-gray-l
+      className="relative flex flex-col justify-between gap-3 p-3 rounded-lg border border-alt min-w-11/12 lg:min-w-70 bg-gray-l
+
       hover:shadow-lg hover:scale-105 transition-all
       "
     >
@@ -64,27 +87,7 @@ export const UserCard = ({ cardUser }) => {
         <button
           type="button"
           className="w-full flex items-center justify-center py-1 rounded-md border border-primary text-primary cursor-pointer"
-          // onClick={() => handleChatClick(user)}
-          onClick={async () => {
-            const isMe = userInfo._id === cardUser._id;
-            if (isMe) {
-              navigate(`chat/${userInfo._id}`);
-            } else {
-              try {
-                const result = await axios.post('/chat/room', {
-                  userId: userInfo._id,
-                  otherUserId: cardUser._id,
-                });
-
-                const roomId = result.data.roomId;
-
-                setRoomId(roomId); // 상태 업데이트
-                navigate(`/chat/${userInfo._id}/${roomId}`); // 채팅 페이지로 이동
-              } catch (error) {
-                console.error('채팅방 생성 중 오류 발생:', error); // 오류 발생 시 콘솔에 로그 출력
-              }
-            }
-          }}
+          onClick={handleChatClick}
         >
           채팅하기
         </button>

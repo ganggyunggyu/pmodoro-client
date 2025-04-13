@@ -1,18 +1,45 @@
-import { useParams } from 'react-router';
-import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 import React from 'react';
-import { UserInfo } from '@/app/store/useUserStore';
+import { useNavigate, useParams } from 'react-router';
+import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
+import { UserInfo, useUserStore } from '@/app/store/useUserStore';
 import { useUserSearchQuery } from '@/shared/components/TabComponent';
 import { useGetProjectByUser, useGetUserQuery } from '@/entities';
 import { UserCard } from '@/features/user/ui/user-card';
 import { ProfileImage } from '@/entities/user/ui/profile-image';
 import { ProjectCard } from '@/features/project/ui/project-card';
+import { axios } from '@/app/config';
+import { useChatStore } from '@/app/store/useChatStore';
 
 export const UserProfileCard = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const { data: user, isLoading } = useGetUserQuery(params.userId);
+  const { userInfo } = useUserStore();
+
+  const { setRoomId } = useChatStore();
 
   if (isLoading) return <PulseLoaderSpinner />;
+  const handleChatClick = async () => {
+    const isMe = userInfo._id === user?._id;
+    if (isMe) {
+      navigate(`chat/${userInfo._id}`);
+    } else {
+      try {
+        const result = await axios.post('/chat/room', {
+          userId: userInfo._id,
+          otherUserId: user?._id,
+        });
+
+        const roomId = result.data.roomId;
+
+        setRoomId(roomId); // 상태 업데이트
+        navigate(`/chat/${userInfo?._id}/${roomId}`); // 채팅 페이지로 이동
+      } catch (error) {
+        console.error('채팅방 생성 중 오류 발생:', error); // 오류 발생 시 콘솔에 로그 출력
+      }
+    }
+  };
+
   return (
     <article className={`flex gap-3 lg:flex-col lg:gap-7 lg:w-3/12`}>
       <div className="flex items-end gap-5">
@@ -24,7 +51,10 @@ export const UserProfileCard = () => {
           <p>{user.position}</p>
         </div>
       </div>
-      <button className="lg:block hidden bg-primary text-white rounded-md py-2 px-10">
+      <button
+        onClick={handleChatClick}
+        className="lg:block hidden bg-primary text-white rounded-md py-2 px-10"
+      >
         채팅하기
       </button>
     </article>
@@ -48,7 +78,7 @@ export const ProfilePage = () => {
   return (
     <main className="flex flex-col gap-10 h-screen">
       <section
-        className={`gap-4 lg:gap-10 p-6 border border-alt
+        className={`w-full gap-4 lg:gap-10 p-6 border border-alt rounded-lg
         lg:flex 
         flex flex-col `}
       >

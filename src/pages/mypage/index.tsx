@@ -1,129 +1,25 @@
-import React, { Fragment } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { UserInfo, useUserStore } from '@/app/store/useUserStore';
-import { useQuery } from '@tanstack/react-query';
+import { useUserStore } from '@/app/store/useUserStore';
+
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 import { getIsMobile } from '@/shared/lib';
 
 import { ProjectForm } from '@/features/project/ui/project-form';
 import { useWidgetStore } from '@/app/store';
 import {
-  Project,
-  useDeleteProject,
   useGetProjectByUser,
   useGetUserQuery,
   usePatchUserMutation,
 } from '@/entities';
 import { ProfileImage } from '@/entities/user/ui/profile-image';
 import { ProjectCard } from '@/features/project/ui/project-card';
-import { NextIcon, XIcon } from '@/widgets/onboarding/step-1-user-info';
-import { DEVELOPER_POSITIONS } from '@/shared/constants/positions';
+
 import { PositionSelector } from '@/widgets/selector/position';
 import { MainSidebar } from '@/widgets/side-bar/main-side-bar';
-
-interface EditInputProps {
-  label: string;
-  value: string;
-  isEditing: boolean;
-  onChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
-}
-
-export const EditInput: React.FC<EditInputProps> = ({
-  label,
-  value,
-  isEditing,
-  onChange,
-}) => {
-  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  React.useEffect(() => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = 'auto'; // 일단 높이 초기화
-      textarea.style.height = `${textarea.scrollHeight}px`; // 스크롤 높이만큼 다시 설정
-    }
-  }, [value]);
-  return (
-    <div className="flex w-full justify-start lg:gap-30 items-center">
-      <p className="w-40 text-black-alt">{label}</p>
-      <div
-        className={`w-full p-2 ${
-          isEditing ? 'border border-alt rounded-md' : ''
-        }`}
-      >
-        {label === '자기소개' ? (
-          <textarea
-            ref={textareaRef}
-            value={value}
-            onChange={onChange}
-            placeholder="자기소개"
-            className="w-full rounded-lg"
-          />
-        ) : (
-          <input
-            type="text"
-            value={value}
-            className="w-full"
-            disabled={!isEditing}
-            onChange={onChange}
-          />
-        )}
-      </div>
-    </div>
-  );
-};
-export const PositionLabelList = () => {
-  const { userInfo } = useUserStore();
-  const userId = userInfo._id;
-  const userQuery = useGetUserQuery(userId);
-
-  if (userQuery.isLoading) return <p>loading</p>;
-
-  return (
-    <React.Fragment>
-      <div className="flex w-full justify-start lg:gap-25 items-center">
-        <p className="w-30 text-black-alt">상세 포지션</p>
-        <div className="flex gap-3">
-          {userInfo.skills?.map((position, index) => {
-            return (
-              <button
-                key={index}
-                className="text-xs py-2 px-3 rounded-full bg-white border border-alt"
-              >
-                {position}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </React.Fragment>
-  );
-};
-
-export const PositionSelectorButton = () => {
-  const { userInfo } = useUserStore();
-
-  const { setIsPositionSelector } = useWidgetStore();
-
-  return (
-    <article className="flex w-full justify-start lg:gap-30 items-center">
-      <p className="w-40 text-black-alt">상세 포지션</p>
-      <button
-        onClick={() => {
-          setIsPositionSelector(true);
-        }}
-        className="flex justify-between p-3 w-full text-left border border-alt rounded-lg"
-      >
-        <p className={`${userInfo.skills ? 'text-black-alt' : 'text-black'}`}>
-          {userInfo.skills ? userInfo.skills?.join(', ') : '기술 스택'}
-        </p>
-        <NextIcon />
-      </button>
-    </article>
-  );
-};
+import { EditInput } from '@/shared/components/EditInput';
+import { PositionLabelList } from '@/features/position/ui/position-label-list';
 
 export const Mypage: React.FC = () => {
   const isMobile = getIsMobile();
@@ -280,7 +176,7 @@ export const Mypage: React.FC = () => {
                 disabled={!isEditing}
               />
             </div>
-            {!isEditing ? <PositionLabelList /> : <PositionSelectorButton />}
+            {!isEditing ? <PositionLabelList /> : <PositionSelector />}
           </article>
         </div>
         <p className="w-full text-left text-xl font-bold py-5">프로젝트 이력</p>

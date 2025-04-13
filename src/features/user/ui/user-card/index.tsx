@@ -14,7 +14,7 @@ export const UserCard = ({ cardUser }) => {
     <article
       key={cardUser._id}
       className="relative flex flex-col justify-between gap-3 p-3 rounded-lg border border-alt min-w-full lg:min-w-70 bg-gray-l
-      hover:shadow-lg hover:scale-105 transition-all cursor-pointer
+      hover:shadow-lg hover:scale-105 transition-all
       "
     >
       <div className="flex gap-3">
@@ -56,7 +56,7 @@ export const UserCard = ({ cardUser }) => {
       </div>
       <div className="w-full flex items-center justify-between gap-5">
         <button
-          className="w-full flex items-center justify-center border py-1 rounded-md border-alt"
+          className="w-full flex items-center justify-center border py-1 rounded-md border-alt cursor-pointer hover:bg-black-alt"
           onClick={() => handleProfileClick(cardUser._id)}
         >
           프로필 보기

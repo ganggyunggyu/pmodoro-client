@@ -76,27 +76,40 @@ export const MobileBottomNavigation = () => {
 
 export const Footer = () => {
   const isMobile = getIsMobile();
-  const [showFooter, setShowFooter] = React.useState(true);
+  const [showFooter, setShowFooter] = React.useState(false);
+  const location = useLocation();
+  const { pathname } = location;
 
   React.useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const fullHeight = document.body.scrollHeight;
+    const observer = new MutationObserver(() => {
+      const routerProvider = document.getElementById('route-provider');
+      if (!routerProvider) return;
 
-      if (scrollY + windowHeight >= fullHeight - 150) {
-        setShowFooter(true);
-      } else {
-        setShowFooter(false);
-      }
-    };
+      const handleScroll = () => {
+        const scrollTop = routerProvider.scrollTop;
+        const clientHeight = routerProvider.clientHeight;
+        const scrollHeight = routerProvider.scrollHeight;
 
-    window.addEventListener('scroll', handleScroll);
+        if (scrollTop + clientHeight >= scrollHeight - 150) {
+          setShowFooter(true);
+        } else {
+          setShowFooter(false);
+        }
+      };
 
-    handleScroll();
+      routerProvider.addEventListener('scroll', handleScroll);
+      handleScroll();
 
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+      observer.disconnect(); // 찾으면 감시 종료
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
+  }, [pathname]);
 
   return (
     <>
@@ -111,7 +124,7 @@ export const Footer = () => {
               : { translateY: 100, opacity: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="absolute bottom-0 w-screen h-20 px-[10%] flex justify-between bg-primary-mute text-white text-xs z-50"
+          className="absolute bottom-0 w-screen h-20 px-[10%] flex justify-between bg-primary-mute text-white text-xs z-0"
         >
           <article className="flex items-center gap-3">
             <Link to="https://tidal-oval-d41.notion.site/1bdf990b675180859bade3a99096c1fd?pvs=4">

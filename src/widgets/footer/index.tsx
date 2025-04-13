@@ -77,30 +77,39 @@ export const MobileBottomNavigation = () => {
 export const Footer = () => {
   const isMobile = getIsMobile();
   const [showFooter, setShowFooter] = React.useState(false);
+  const location = useLocation();
+  const { pathname } = location;
 
   React.useEffect(() => {
-    const routerProvider = document.querySelector('#route-provider');
+    const observer = new MutationObserver(() => {
+      const routerProvider = document.getElementById('route-provider');
+      if (!routerProvider) return;
 
-    if (!routerProvider) return;
+      const handleScroll = () => {
+        const scrollTop = routerProvider.scrollTop;
+        const clientHeight = routerProvider.clientHeight;
+        const scrollHeight = routerProvider.scrollHeight;
 
-    const handleScroll = () => {
-      const scrollTop = routerProvider.scrollTop;
-      const clientHeight = routerProvider.clientHeight;
-      const scrollHeight = routerProvider.scrollHeight;
+        if (scrollTop + clientHeight >= scrollHeight - 150) {
+          setShowFooter(true);
+        } else {
+          setShowFooter(false);
+        }
+      };
 
-      if (scrollTop + clientHeight >= scrollHeight - 150) {
-        setShowFooter(true);
-      } else {
-        setShowFooter(false);
-      }
-    };
+      routerProvider.addEventListener('scroll', handleScroll);
+      handleScroll();
 
-    routerProvider.addEventListener('scroll', handleScroll);
+      observer.disconnect(); // 찾으면 감시 종료
+    });
 
-    handleScroll(); // 처음에도 호출해서 상태 초기화
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
 
-    return () => routerProvider.removeEventListener('scroll', handleScroll);
-  }, []);
+    return () => observer.disconnect();
+  }, [pathname]);
 
   return (
     <>

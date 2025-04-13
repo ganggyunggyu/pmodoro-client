@@ -20,6 +20,7 @@ import { PositionSelector } from '@/widgets/selector/position';
 import { MainSidebar } from '@/widgets/side-bar/main-side-bar';
 import { EditInput } from '@/shared/components/EditInput';
 import { PositionLabelList } from '@/features/position/ui/position-label-list';
+import { PositionSelectorButton } from '@/features';
 
 export const Mypage: React.FC = () => {
   const isMobile = getIsMobile();
@@ -176,7 +177,7 @@ export const Mypage: React.FC = () => {
                 disabled={!isEditing}
               />
             </div>
-            {!isEditing ? <PositionLabelList /> : <PositionSelector />}
+            {!isEditing ? <PositionLabelList /> : <PositionSelectorButton />}
           </article>
         </div>
         <p className="w-full text-left text-xl font-bold py-5">프로젝트 이력</p>

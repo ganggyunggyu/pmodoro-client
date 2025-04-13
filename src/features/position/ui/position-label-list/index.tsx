@@ -13,14 +13,14 @@ export const PositionLabelList = () => {
     <React.Fragment>
       <div className="flex w-full justify-start lg:gap-25 items-center">
         <p className="w-30 text-black-alt">상세 포지션</p>
-        <div className="flex gap-3">
+        <div className="flex gap-3 w-9/12 overflow-scroll">
           {userInfo.skills?.map((position, index) => {
             return (
               <button
                 key={index}
-                className="text-xs py-2 px-3 rounded-full bg-white border border-alt"
+                className="min-w-fit text-xs py-2 px-3 rounded-full bg-white border border-alt"
               >
-                {position}
+                <p className="min-w-fit">{position}</p>
               </button>
             );
           })}

@@ -112,7 +112,7 @@ export const Footer = () => {
   }, [pathname]);
 
   return (
-    <>
+    <React.Fragment>
       {isMobile ? (
         <MobileBottomNavigation />
       ) : (
@@ -123,7 +123,7 @@ export const Footer = () => {
               ? { translateY: 0, opacity: 1 }
               : { translateY: 100, opacity: 0 }
           }
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
           className="absolute bottom-0 w-screen h-20 px-[10%] flex justify-between bg-primary-mute text-white text-xs z-0"
         >
           <article className="flex items-center gap-3">
@@ -141,6 +141,6 @@ export const Footer = () => {
           </article>
         </motion.footer>
       )}
-    </>
+    </React.Fragment>
   );
 };

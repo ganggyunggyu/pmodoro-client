@@ -1,15 +1,18 @@
+import { useUserStore } from '@/app/store/useUserStore';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Step5Final: React.FC = () => {
   const navigate = useNavigate();
 
+  const { userInfo } = useUserStore();
+
   const handleHomeClick = () => {
     navigate('/');
   };
 
   const handleOtherInfoClick = () => {
-    navigate(`/my-page`);
+    navigate(`/my-page/${userInfo?._id}`);
   };
 
   return (
@@ -20,7 +23,10 @@ export const Step5Final: React.FC = () => {
         <p className="text-black-alt">더 많은 채팅을 받을 수 있어요!</p>
       </div>
       <div className="w-full flex justify-center gap-5 pt-10">
-        <button className="bg-primary px-4 py-2 text-white rounded-md text-sm">
+        <button
+          onClick={handleOtherInfoClick}
+          className="bg-primary px-4 py-2 text-white rounded-md text-sm"
+        >
           세부 정보 입력하기
         </button>
         <button

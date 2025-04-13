@@ -1,6 +1,6 @@
 export const Banner: React.FC = () => {
   return (
-    <div className="absolute top-16 left-0 w-screen bg-gradient-to-b from-[#D87C73] via-[#CFEBCB] to-[#FDF8D8] flex flex-col items-center justify-center text-center py-20 overflow-x-hidden">
+    <div className="absolute top-16 left-0 w-screen bg-gradient-to-b from-[#D87C73] via-[#CFEBCB] to-[#FDF8D8] flex flex-col items-center justify-center text-center py-15 lg:py-20 overflow-x-hidden">
       <h1 className="text-2xl md:text-4xl font-bold mb-2">
         프모도로 서비스가 정식 오픈했어요!
       </h1>

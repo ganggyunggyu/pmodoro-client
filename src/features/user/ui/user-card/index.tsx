@@ -35,7 +35,7 @@ export const UserCard = ({ cardUser }) => {
   return (
     <article
       key={cardUser._id}
-      className="relative flex flex-col justify-between gap-3 p-3 rounded-lg border border-alt min-w-11/12 lg:min-w-70 bg-gray-l
+      className="relative flex flex-col justify-between gap-3 p-3 rounded-lg border border-alt min-w-11/12 md:min-w-4/12 lg:min-w-70 bg-gray-l
 
       hover:shadow-lg hover:scale-105 transition-all
       "

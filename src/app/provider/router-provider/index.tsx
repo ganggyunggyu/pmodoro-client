@@ -15,11 +15,12 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
       routeProviderRef.current.scrollTo(0, 0); // 페이지 이동 시 스크롤 상단으로 이동
     }
   }, [pathname]);
-
+  // h-[calc(100vh-var(--spacing)*16)]
   return (
     <main
       ref={routeProviderRef}
-      className="fixed w-screen h-[calc(100vh-var(--spacing)*16)] overflow-y-scroll pt-24 pb-20 lg:px-[5%] px-[7%]"
+      id="route-provider"
+      className="fixed w-screen h-screen  overflow-y-scroll pt-24 pb-20 lg:px-[5%] px-[7%]"
     >
       {children}
     </main>

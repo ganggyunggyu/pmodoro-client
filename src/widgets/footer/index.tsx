@@ -76,26 +76,30 @@ export const MobileBottomNavigation = () => {
 
 export const Footer = () => {
   const isMobile = getIsMobile();
-  const [showFooter, setShowFooter] = React.useState(true);
+  const [showFooter, setShowFooter] = React.useState(false);
 
   React.useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const fullHeight = document.body.scrollHeight;
+    const routerProvider = document.querySelector('#route-provider');
 
-      if (scrollY + windowHeight >= fullHeight - 150) {
+    if (!routerProvider) return;
+
+    const handleScroll = () => {
+      const scrollTop = routerProvider.scrollTop;
+      const clientHeight = routerProvider.clientHeight;
+      const scrollHeight = routerProvider.scrollHeight;
+
+      if (scrollTop + clientHeight >= scrollHeight - 150) {
         setShowFooter(true);
       } else {
         setShowFooter(false);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    routerProvider.addEventListener('scroll', handleScroll);
 
-    handleScroll();
+    handleScroll(); // 처음에도 호출해서 상태 초기화
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => routerProvider.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -111,7 +115,7 @@ export const Footer = () => {
               : { translateY: 100, opacity: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="absolute bottom-0 w-screen h-20 px-[10%] flex justify-between bg-primary-mute text-white text-xs z-50"
+          className="absolute bottom-0 w-screen h-20 px-[10%] flex justify-between bg-primary-mute text-white text-xs z-0"
         >
           <article className="flex items-center gap-3">
             <Link to="https://tidal-oval-d41.notion.site/1bdf990b675180859bade3a99096c1fd?pvs=4">

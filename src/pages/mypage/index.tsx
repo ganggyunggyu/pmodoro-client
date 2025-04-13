@@ -60,6 +60,7 @@ export const EditInput: React.FC<EditInputProps> = ({
             onChange={onChange}
             placeholder="자기소개"
             className="w-full rounded-lg"
+            disabled={!isEditing}
           />
         ) : (
           <input

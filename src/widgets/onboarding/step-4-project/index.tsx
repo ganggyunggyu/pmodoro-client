@@ -132,11 +132,7 @@ ${isOnline ? '온라인' : '오프라인'} 참여를 선호해요.`;
                                             ? 'border-primary'
                                             : 'border-alt'
                                         }
-                                        ${
-                                          index === CAREERS.length - 1
-                                            ? 'last:opacity-50'
-                                            : ''
-                                        }
+                                        
                 `}
                         key={onOff.label}
                         onClick={() => handleOnOffClick(onOff)}
@@ -230,11 +226,7 @@ ${isOnline ? '온라인' : '오프라인'} 참여를 선호해요.`;
                                             ? 'border-primary'
                                             : 'border-alt'
                                         }
-                                        ${
-                                          index === CAREERS.length - 1
-                                            ? 'last:opacity-50'
-                                            : ''
-                                        }
+                                        
                 `}
                             key={regions.name}
                             onClick={() => handleResionClick(regions)}
@@ -272,11 +264,7 @@ ${isOnline ? '온라인' : '오프라인'} 참여를 선호해요.`;
                                             ? 'border-primary'
                                             : 'border-alt'
                                         }
-                                        ${
-                                          index === CAREERS.length - 1
-                                            ? 'last:opacity-50'
-                                            : ''
-                                        }
+                                        
                 `}
                             key={city}
                             onClick={() => handleCityClick(city)}

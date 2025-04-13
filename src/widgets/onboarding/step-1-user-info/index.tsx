@@ -126,11 +126,6 @@ export const Step1UserInfo: React.FC = () => {
                                     ? 'border-primary'
                                     : 'border-alt'
                                 }
-                                ${
-                                  index === CAREERS.length - 1
-                                    ? 'last:opacity-50'
-                                    : ''
-                                }
         `}
                         key={career}
                         onClick={() => handleCareearClick(career)}

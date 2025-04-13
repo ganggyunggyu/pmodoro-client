@@ -108,11 +108,7 @@ export const Step2Position: React.FC = () => {
                                             ? 'border-primary'
                                             : 'border-alt'
                                         }
-                                        ${
-                                          index === getPositions().length - 1
-                                            ? 'last:opacity-50'
-                                            : ''
-                                        }
+                                        
                 `}
                         key={position}
                         onClick={() => toggleSkill(position)}

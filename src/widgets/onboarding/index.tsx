@@ -8,6 +8,7 @@ import { Step5Final } from './step-5-final';
 import { Step0Auth } from './step-0-auth';
 
 import { StatusBar, ActionButtonList } from './ui';
+import { useUserStore } from '@/app/store/useUserStore';
 
 export const OnboardingProvider = ({ children }) => {
   <div className="pt-20">{children}</div>;
@@ -17,7 +18,11 @@ export const OnboardingWidget = () => {
   const location = useLocation();
   const { pathname } = location;
 
+  const { isAuth } = useUserStore();
+
   const isFinalStep = !pathname.includes('final');
+
+  if (isAuth) return '잘못된 접근입니다.';
 
   return (
     <React.Fragment>

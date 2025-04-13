@@ -15,7 +15,15 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
 
   const { pathname } = useLocation();
 
+  const isOnboardingWidgets = pathname.includes('onboarding');
+
   const initPage = async () => {
+    if (isOnboardingWidgets) {
+      setIsView(true);
+      setIsOpacity(false);
+      return;
+    }
+
     await delay(450);
     setIsView(true);
 

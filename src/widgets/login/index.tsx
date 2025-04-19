@@ -1,5 +1,5 @@
-import KakaoLoginButton from '@/shared/components/KakaoLoginButton';
 import { Link } from 'react-router';
+import { KakaoLoginButton } from '@/shared';
 
 export const Login = () => {
   return (

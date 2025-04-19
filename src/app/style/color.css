@@ -1,9 +1,81 @@
 @import 'tailwindcss';
 
 @theme {
+  /* Caption 1 M */
+  --text-caption1-m: 12px;
+  --text-caption1-m--line-height: 130%;
+  --text-caption1-m--letter-spacing: 0%;
+  --text-caption1-m--font-weight: 500;
+
+  /* Caption 1 SB */
+  --text-caption1-sb: 12px;
+  --text-caption1-sb--line-height: 130%;
+  --text-caption1-sb--letter-spacing: 0%;
+  --text-caption1-sb--font-weight: 600;
+
+  /* Body Normal M */
+  --text-body-normal-m: 16px;
+  --text-body-normal-m--line-height: 150%;
+  --text-body-normal-m--letter-spacing: 0%;
+  --text-body-normal-m--font-weight: 500;
+
+  /* Body Normal SB */
+  --text-body-normal-sb: 16px;
+  --text-body-normal-sb--line-height: 150%;
+  --text-body-normal-sb--letter-spacing: 0%;
+  --text-body-normal-sb--font-weight: 600;
+
+  /* Body Reading M */
+  --text-body-reading-m: 16px;
+  --text-body-reading-m--line-height: 160%;
+  --text-body-reading-m--letter-spacing: 0%;
+  --text-body-reading-m--font-weight: 500;
+
+  /* Body Reading SB */
+  --text-body-reading-sb: 16px;
+  --text-body-reading-sb--line-height: 160%;
+  --text-body-reading-sb--letter-spacing: 0%;
+  --text-body-reading-sb--font-weight: 600;
+
+  /* Heading 2 M */
+  --text-heading2-m: 21px;
+  --text-heading2-m--line-height: 130%;
+  --text-heading2-m--letter-spacing: 0%;
+  --text-heading2-m--font-weight: 500;
+
+  /* Heading 2 SB */
+  --text-heading2-sb: 22px;
+  --text-heading2-sb--line-height: 130%;
+  --text-heading2-sb--letter-spacing: 0%;
+  --text-heading2-sb--font-weight: 600;
+
+  /* Headline M */
+  --text-headline-m: 18px;
+  --text-headline-m--line-height: 140%;
+  --text-headline-m--letter-spacing: 0%;
+  --text-headline-m--font-weight: 500;
+
+  /* Headline SB */
+  --text-headline-sb: 18px;
+  --text-headline-sb--line-height: 140%;
+  --text-headline-sb--letter-spacing: 0%;
+  --text-headline-sb--font-weight: 600;
+
+  /* Title 1 M */
+  --text-title1-m: 36px;
+  --text-title1-m--line-height: 135%;
+  --text-title1-m--letter-spacing: 0%;
+  --text-title1-m--font-weight: 500;
+
+  /* Title 2 M */
+  --text-title2-m: 27px;
+  --text-title2-m--line-height: 135%;
+  --text-title2-m--letter-spacing: 0%;
+  --text-title2-m--font-weight: 500;
+
   /* 🎨 Background Colors */
-  --color-background-normal: #fcfcfc;
-  --color-background-alt: #eaeaea;
+  --color-normal: #fcfcfc;
+  --color-alt: #eaeaea;
 
   /* 🎨 Black Variants */
   --color-black-normal: #131415;

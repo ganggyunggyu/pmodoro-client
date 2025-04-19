@@ -1,68 +1,83 @@
-.bg-green {
+:root {
+  /* ✅ Background Colors */
+  --color-background-normal: #ffffff;
+  --color-background-alt: #f5f5f5;
+
+  /* ✅ Black / Text / Neutral Colors */
+  --color-black-normal: #121212;
+  --color-black-strong: #000000;
+  --color-black-neutral: #3a3a3a;
+  --color-black-alt: #5a5a5a;
+  --color-black-assist: #aaaaaa;
+  --color-black-disable: #e0e0e0;
+
+  /* ✅ Primary Colors */
+  --color-primary: #e57373;
+  --color-primary-transparent: rgba(229, 115, 115, 0.1);
+  --color-primary-mute: #d38174;
 }
-.bg-yellow {
+
+/* 🧱 분류별 사용 예시 */
+
+/* Backgrounds */
+.bg-normal {
+  background-color: var(--color-background-normal);
+}
+.bg-alt {
+  background-color: var(--color-background-alt);
 }
 .bg-primary {
-  background: #f25e51;
+  background-color: var(--color-primary);
 }
-.text-primary {
-  color: #f25e51;
-}
-.border-primary {
-  border-color: #f25e51;
-}
-.border-alt {
-  border-color: #eaeaea;
-}
-
-.bg-alt {
-  background-color: #eaeaea;
-}
-bg-gray-l {
-  background-color: #fcfcfc;
-}
-.text-alt {
-  color: #eaeaea;
-}
-
-.border-primary-mute {
-  border-color: rgba(242, 160, 152, 0.15);
-}
-.text-black-alt {
-  color: rgba(55, 56, 60, 0.61); /* 텍스트 색상에 투명도 */
-  opacity: 61%;
-}
-
-.text-black-assist {
-  color: #37383c;
-  opacity: 28%;
-}
-.bg-black-assist {
-  background-color: #37383c;
-  opacity: 28%;
+.bg-primary-transparent {
+  background-color: var(--color-primary-transparent);
 }
 .bg-primary-mute {
-  background-color: #ea877a;
+  background-color: var(--color-primary-mute);
 }
 
-.bg-primary-opacity {
-  background-color: rgba(
-    243,
-    184,
-    179,
-    0.27
-  ); /* #f3b8b3의 RGBA 값으로 투명도만 조정 */
+/* Borders */
+.border-black-neutral {
+  border-color: var(--color-black-neutral);
 }
-
 .border-black-alt {
-  border-color: rgba(55, 56, 60, 0.61); /* 텍스트 색상에 투명도 */
+  border-color: var(--color-black-alt);
+}
+.border-black-assist {
+  border-color: var(--color-black-assist);
+}
+.border-black-disable {
+  border-color: var(--color-black-disable);
+}
+.border-primary {
+  border-color: var(--color-primary);
+}
+.border-primary-transparent {
+  border-color: var(--color-primary-transparent);
 }
 
-.border-primary-opacity {
-  border-color: rgba(
-    243,
-    184,
-    179,
-    0.27
-  ); /* #f3b8b3의 RGBA 값으로 투명도만 조정 */
+/* Texts */
+.text-black-normal {
+  color: var(--color-black-normal);
+}
+.text-black-strong {
+  color: var(--color-black-strong);
+}
+.text-black-neutral {
+  color: var(--color-black-neutral);
+}
+.text-black-alt {
+  color: var(--color-black-alt);
+}
+.text-black-assist {
+  color: var(--color-black-assist);
+}
+.text-black-disable {
+  color: var(--color-black-disable);
+}
+.text-primary {
+  color: var(--color-primary);
+}
+.text-primary-mute {
+  color: var(--color-primary-mute);
 }

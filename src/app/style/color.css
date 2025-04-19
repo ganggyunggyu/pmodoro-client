@@ -1,7 +1,11 @@
-:root {
+@import 'tailwindcss';
+
+@theme {
+  /* 🎨 Background Colors */
   --color-background-normal: #fcfcfc;
   --color-background-alt: #eaeaea;
 
+  /* 🎨 Black Variants */
   --color-black-normal: #131415;
   --color-black-strong: #111111;
   --color-black-neutral: rgba(46, 47, 51, 0.88);
@@ -9,72 +13,8 @@
   --color-black-assist: rgba(55, 56, 60, 0.28);
   --color-black-disable: #dfdfe0;
 
+  /* 🎨 Primary Variants */
   --color-primary: #f25e51;
   --color-primary-transparent: rgba(243, 184, 179, 0.27);
   --color-primary-mute: #ea877a;
-}
-
-/* 🧱 분류별 사용 예시 */
-
-/* Backgrounds */
-.bg-normal {
-  background-color: var(--color-background-normal);
-}
-.bg-alt {
-  background-color: var(--color-background-alt);
-}
-.bg-primary {
-  background-color: var(--color-primary);
-}
-.bg-primary-transparent {
-  background-color: var(--color-primary-transparent);
-}
-.bg-primary-mute {
-  background-color: var(--color-primary-mute);
-}
-
-/* Borders */
-.border-black-neutral {
-  border-color: var(--color-black-neutral);
-}
-.border-black-alt {
-  border-color: var(--color-black-alt);
-}
-.border-black-assist {
-  border-color: var(--color-black-assist);
-}
-.border-black-disable {
-  border-color: var(--color-black-disable);
-}
-.border-primary {
-  border-color: var(--color-primary);
-}
-.border-primary-transparent {
-  border-color: var(--color-primary-transparent);
-}
-
-/* Texts */
-.text-black-normal {
-  color: var(--color-black-normal);
-}
-.text-black-strong {
-  color: var(--color-black-strong);
-}
-.text-black-neutral {
-  color: var(--color-black-neutral);
-}
-.text-black-alt {
-  color: var(--color-black-alt);
-}
-.text-black-assist {
-  color: var(--color-black-assist);
-}
-.text-black-disable {
-  color: var(--color-black-disable);
-}
-.text-primary {
-  color: var(--color-primary);
-}
-.text-primary-mute {
-  color: var(--color-primary-mute);
 }

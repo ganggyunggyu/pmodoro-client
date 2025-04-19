@@ -1,7 +1,7 @@
 import React from 'react';
 import { useWidgetStore } from '@/app/store';
 import { useUserStore } from '@/app/store/useUserStore';
-import { NextIcon } from '@/widgets/onboarding/step-1-user-info';
+import { NextIcon } from '@/shared';
 
 export const PositionSelectorButton = () => {
   const { userInfo } = useUserStore();

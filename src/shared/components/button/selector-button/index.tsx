@@ -14,7 +14,7 @@ export const SelectorButton = ({
 }: SelectorButtonProps) => (
   <Button
     variant={isSelected ? 'outlinePrimary' : 'outlineAlt'}
-    className="flex w-full justify-between px-4 hover:bg-normal hover:border-primary hover:text-black-normal"
+    className="flex w-full justify-between px-4 hover:bg-primary-transparent hover:text-primary"
     {...props}
   >
     {children}

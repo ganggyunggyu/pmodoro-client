@@ -2,18 +2,18 @@ import { cn } from '@/shared/lib/cn';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 const buttonVariants = cva(
-  'items-center justify-center rounded-lg transition-colors disabled:opacity-50 disabled:pointer-events-none cursor-pointer box-border active:scale-95 transition-all',
+  'items-center justify-center rounded-lg transition-colors disabled:opacity-50 disabled:pointer-events-none cursor-pointer box-border hover:scale-[101%] active:scale-95 transition-all',
   {
     variants: {
       variant: {
-        primary: 'bg-primary text-white hover:bg-[#DD6257]',
+        primary: 'bg-primary text-white hover:bg-primary-mute',
         primaryTrans: 'bg-primary-transparent text-primary',
         secondary: 'bg-background-alt text-black-normal hover:bg-[#e0e0e0]',
 
         outlineAlt:
-          'border border-alt bg-normal text-black-neutral hover:bg-primary hover:text-normal',
+          'border border-alt bg-normal hover:bg-primary-transparent hover:text-primary',
         outlinePrimary:
-          'border border-primary text-primary hover:bg-primary hover:text-normal',
+          'border border-primary text-primary hover:bg-primary-transparent hover:text-primary',
         outlineBgPrimary1:
           'border border-primary text-primary bg-[#FFCCC8] hover:bg-primary hover:text-normal',
         outlineBgPrimary2:

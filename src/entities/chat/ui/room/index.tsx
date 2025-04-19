@@ -35,7 +35,7 @@ export const ChatRoom = ({
       size="lg"
       variant={variant}
       className={cn(
-        'flex items-center justify-start pl-3 gap-3 hover:bg-normal hover:text-black hover:border-primary hover:border-1',
+        'flex items-center justify-start pl-3 gap-3 hover:bg-normal hover:text-primary hover:border-primary hover:border-1',
         className,
       )}
       {...props}

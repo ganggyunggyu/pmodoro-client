@@ -17,12 +17,12 @@ export const ComponentsPage = () => {
   const { setUserInfo } = useUserStore();
   const mockUser: UserInfo = {
     _id: 'user123456',
-    displayName: '아즈사짱',
+    displayName: '강경규',
     position: 'Front-end Developer',
     skills: ['React', 'Vue', 'TypeScript', 'Tailwind CSS'],
     isOnline: true,
     career: 2,
-    description: '케이온 보면서 개발에 입문한 프론트엔드 개발자입니다.',
+    description: '개발에 입문한 프론트엔드 개발자입니다.',
 
     email: 'azusa@example.com',
     password: 'hashed_password_here',
@@ -32,7 +32,7 @@ export const ComponentsPage = () => {
     kakaoAuthInfo: {
       kakaoId: 'kakao987654321',
       profileImg:
-        'https://i.namu.wiki/i/eq_NNLF3b2WDd3ECHk2z3HWm7-g6LcsD8P3CzPlnwt6LPpRG_qFrZpokld1GSihb4G2gq5fuC72F5r0vC2oHpg.webp',
+        'https://mblogthumb-phinf.pstatic.net/20130604_7/five5808_1370313200155mQtpb_PNG/sdfgeth.PNG?type=w420',
       auth_time: 1710000000,
       exp: 1713600000,
       iat: 1710000000,

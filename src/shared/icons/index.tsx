@@ -262,3 +262,30 @@ export const CheckBox = () => {
     </svg>
   );
 };
+
+export const NextIcon = () => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M15 12L10 17"
+        stroke="#37383C"
+        strokeOpacity="0.28"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M15 12L10 7"
+        stroke="#37383C"
+        strokeOpacity="0.28"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};

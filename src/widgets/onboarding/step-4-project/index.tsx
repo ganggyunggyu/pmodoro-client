@@ -1,11 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
-import { NextIcon, XIcon } from '../step-1-user-info';
-import { CAREERS } from '@/shared/constants/positions';
+
 import { REGIONS } from '@/shared/constants/regions';
-import { axios } from '@/app/config';
-import { useMutation } from '@tanstack/react-query';
+import { NextIcon, XIcon } from '@/shared';
 
 export const Step4Project: React.FC = () => {
   const navigate = useNavigate();

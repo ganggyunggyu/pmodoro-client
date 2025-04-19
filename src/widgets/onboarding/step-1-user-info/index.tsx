@@ -1,60 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
-import { REGIONS } from '@/shared/constants/regions';
-import { CAREERS, JOBS } from '@/shared/constants/positions';
+import { CAREERS } from '@/shared/constants/positions';
 import { OnboardingInput } from '../ui';
-
-export const NextIcon = () => {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M15 12L10 17"
-        stroke="#37383C"
-        strokeOpacity="0.28"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M15 12L10 7"
-        stroke="#37383C"
-        strokeOpacity="0.28"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-};
-export const XIcon = () => {
-  return (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M25 7L7.00001 25"
-        stroke="#131415"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M25 25L7.00001 7.00001"
-        stroke="#131415"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-};
+import { NextIcon, XIcon } from '@/shared';
 
 export const Step1UserInfo: React.FC = () => {
   const [isCareearSelect, setIsCareearSelect] = React.useState(false);

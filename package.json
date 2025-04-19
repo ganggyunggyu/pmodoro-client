@@ -14,6 +14,8 @@
     "@tailwindcss/vite": "^4.0.15",
     "@tanstack/react-query": "^5.69.0",
     "axios": "^1.8.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "commander": "^13.1.0",
     "framer-motion": "^12.6.3",
     "fs": "^0.0.1-security",
@@ -24,6 +26,7 @@
     "react-router-dom": "^7.4.0",
     "react-spinners": "^0.15.0",
     "socket.io-client": "^4.8.1",
+    "tailwind-merge": "^3.2.0",
     "tailwindcss": "^4.0.15",
     "zustand": "^5.0.3"
   },

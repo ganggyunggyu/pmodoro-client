@@ -5,6 +5,7 @@ import { KakaoCallbackPage } from './kakao-callback-page';
 import { ProfilePage } from './profile-page';
 import { Route, Routes } from 'react-router';
 import { Mypage } from './mypage';
+import { ComponentsPage } from './components-page';
 
 export const Routing = () => {
   return (
@@ -14,6 +15,9 @@ export const Routing = () => {
       <Route path="/profile/:userId" element={<ProfilePage />} />
       <Route path="/auth/kakao-callback" element={<KakaoCallbackPage />} />
       <Route path="/chat/:userId/:roomId?" element={<ChatPage />} />
+
+      <Route path="/admin/components/" element={<ComponentsPage />} />
+
       <Route path="/onboarding/*" element={<OnboardingWidget />} />
     </Routes>
   );

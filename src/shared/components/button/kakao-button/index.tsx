@@ -1,5 +1,7 @@
-import kakaoButtonImage from '@/app/assets/kakao_login_medium_wide.png';
-const KakaoLoginButton = () => {
+import { KakaoIcon } from '@/shared/icons';
+import { Button } from '../atom-button';
+
+export const KakaoLoginButton = () => {
   const CALLBACK = `https://kauth.kakao.com/oauth/authorize?client_id=${
     import.meta.env.VITE_KAKAO_CLIENT_ID
   }&redirect_uri=${import.meta.env.VITE_KAKAO_REDIRECT_URI}&response_type=code`;
@@ -8,10 +10,9 @@ const KakaoLoginButton = () => {
   };
 
   return (
-    <button type="button" onClick={handleKakaoLogin} className="">
-      <img src={kakaoButtonImage} alt="" />
-    </button>
+    <Button onClick={handleKakaoLogin} className="flex gap-2" variant="kakao">
+      <KakaoIcon />
+      카카오 계정으로 로그인
+    </Button>
   );
 };
-
-export default KakaoLoginButton;

@@ -46,6 +46,7 @@ export interface ButtonProps
 export const Button = ({ className, variant, size, ...props }: ButtonProps) => {
   return (
     <button
+      type="button"
       className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     />

@@ -1,5 +1,6 @@
 import { useUserStore } from '@/app/store/useUserStore';
 import { useGetUserQuery } from '@/entities';
+import { LabelButton } from '@/shared';
 import React from 'react';
 
 export const PositionLabelList = () => {
@@ -16,12 +17,12 @@ export const PositionLabelList = () => {
         <div className="flex gap-3 w-9/12 overflow-scroll">
           {userInfo.skills?.map((position, index) => {
             return (
-              <button
+              <LabelButton
+                size="xs"
+                variant="outlineAlt"
                 key={index}
-                className="min-w-fit text-xs py-2 px-3 rounded-full bg-white border border-alt"
-              >
-                <p className="min-w-fit">{position}</p>
-              </button>
+                label={position}
+              />
             );
           })}
         </div>

@@ -24,8 +24,11 @@ export const App = () => {
   }, [pathname]);
 
   const isChat = location.pathname.includes('chat');
+  const isAdmin = location.pathname.includes('admin');
 
   const isMobile = getIsMobile();
+
+  const isFooter = !isChat && !isAdmin;
 
   return (
     <AuthProvider>
@@ -34,7 +37,7 @@ export const App = () => {
       <RouteProvider>
         <Routing />
       </RouteProvider>
-      {!isChat && <Footer />}
+      {isFooter && <Footer />}
     </AuthProvider>
   );
 };

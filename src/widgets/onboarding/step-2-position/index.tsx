@@ -1,13 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
-import { NextIcon, XIcon } from '../step-1-user-info';
+
 import {
   DESIGNER_POSITIONS,
   DEVELOPER_POSITIONS,
   MARKETER_POSITIONS,
   PLANNER_POSITIONS,
 } from '@/shared/constants/positions';
+import { NextIcon, XIcon } from '@/shared';
 
 export const Step2Position: React.FC = () => {
   const navigate = useNavigate();

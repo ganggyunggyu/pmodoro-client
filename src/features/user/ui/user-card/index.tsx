@@ -1,6 +1,7 @@
 import { axios } from '@/app/config';
 import { useChatStore } from '@/app/store/useChatStore';
 import { useUserStore } from '@/app/store/useUserStore';
+import { Button, LabelButton, MinMarker } from '@/shared';
 import { useNavigate } from 'react-router';
 
 export const UserCard = ({ cardUser }) => {
@@ -35,13 +36,12 @@ export const UserCard = ({ cardUser }) => {
   return (
     <article
       key={cardUser._id}
-      className="relative flex flex-col justify-between gap-3 p-3 rounded-lg border border-alt min-w-11/12 md:min-w-4/12 lg:min-w-70 bg-gray-l
-
-      hover:shadow-lg hover:scale-105 transition-all
+      className="relative flex flex-col justify-between gap-4 p-4 rounded-lg border border-alt min-w-11/12 md:min-w-4/12 lg:min-w-70 bg-gray-l
+      hover:shadow-lg hover:scale-105 transition-all cursor-pointer
       "
     >
       <div className="flex gap-3">
-        {cardUser.kakaoAuthInfo ? (
+        {cardUser?.kakaoAuthInfo ? (
           <img
             className="w-12 h-12 rounded-full"
             src={cardUser.kakaoAuthInfo.profileImg}
@@ -57,8 +57,13 @@ export const UserCard = ({ cardUser }) => {
           <span className="text-sm text-black-alt">{cardUser.position}</span>
         </div>
         <div className="flex-1 relative">
-          <p className="w-full text-right text-black-alt absolute -bottom-1 text-xs">
-            {cardUser?.firstArea} {cardUser?.secondArea}
+          <p className="w-full flex gap-1 items-center justify-end text-black-alt absolute -bottom-1 text-xs">
+            <span>
+              <MinMarker />
+            </span>
+            <span className="text-[10px]">
+              {cardUser?.firstArea} {cardUser?.secondArea}
+            </span>
           </p>
         </div>
       </div>
@@ -67,30 +72,35 @@ export const UserCard = ({ cardUser }) => {
         <div className="flex gap-3 w-full overflow-y-scroll">
           {cardUser.skills?.map((pos, index) => {
             return (
-              <figure
+              <LabelButton
                 key={index}
                 className="min-w-fit px-3 py-2 border border-alt rounded-full text-xs"
-              >
-                {pos}
-              </figure>
+                label={pos}
+                variant="outlineAlt"
+                size="xs"
+              />
             );
           })}
         </div>
       </div>
       <div className="w-full flex items-center justify-between gap-5">
-        <button
-          className="w-full flex items-center justify-center border py-1 rounded-md border-alt cursor-pointer hover:bg-black-alt"
+        <Button
+          variant="outlineAlt"
+          size="sm"
+          className="w-full"
           onClick={() => handleProfileClick(cardUser._id)}
         >
           프로필 보기
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
-          className="w-full flex items-center justify-center py-1 rounded-md border border-primary text-primary cursor-pointer"
+          variant="outlinePrimary"
+          size="sm"
+          className="w-full border-2"
           onClick={handleChatClick}
         >
           채팅하기
-        </button>
+        </Button>
       </div>
     </article>
   );

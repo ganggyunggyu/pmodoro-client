@@ -16,7 +16,10 @@ import {
 import { ProfileImage } from '@/entities/user/ui/profile-image';
 import { ProjectCard } from '@/features/project/ui/project-card';
 
-import { PositionSelector } from '@/widgets/selector/position';
+import {
+  PositionSelector,
+  PositionSelectorWrapper,
+} from '@/widgets/selector/position';
 import { MainSidebar } from '@/widgets/side-bar/main-side-bar';
 import { EditInput } from '@/shared/components/EditInput';
 import { PositionLabelList } from '@/features/position/ui/position-label-list';
@@ -123,7 +126,7 @@ export const Mypage: React.FC = () => {
             />
 
             <EditInput
-              label="닉네임"
+              label="주소"
               onChange={(event) => {
                 const value = event.target.value;
                 setUserInfoField('firstArea', value);
@@ -207,7 +210,7 @@ export const Mypage: React.FC = () => {
           <p>로그아웃</p>
         </button>
       </section>
-      {isPositionSelector && <PositionSelector />}
+      {isPositionSelector && <PositionSelectorWrapper />}
     </main>
   );
 };

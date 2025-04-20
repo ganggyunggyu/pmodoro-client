@@ -1,68 +1,92 @@
-.bg-green {
-}
-.bg-yellow {
-}
-.bg-primary {
-  background: #f25e51;
-}
-.text-primary {
-  color: #f25e51;
-}
-.border-primary {
-  border-color: #f25e51;
-}
-.border-alt {
-  border-color: #eaeaea;
-}
+@import 'tailwindcss';
 
-.bg-alt {
-  background-color: #eaeaea;
-}
-bg-gray-l {
-  background-color: #fcfcfc;
-}
-.text-alt {
-  color: #eaeaea;
-}
+@theme {
+  /* Caption 1 M */
+  --text-caption1-m: 12px;
+  --text-caption1-m--line-height: 130%;
+  --text-caption1-m--letter-spacing: 0%;
+  --text-caption1-m--font-weight: 500;
 
-.border-primary-mute {
-  border-color: rgba(242, 160, 152, 0.15);
-}
-.text-black-alt {
-  color: rgba(55, 56, 60, 0.61); /* 텍스트 색상에 투명도 */
-  opacity: 61%;
-}
+  /* Caption 1 SB */
+  --text-caption1-sb: 12px;
+  --text-caption1-sb--line-height: 130%;
+  --text-caption1-sb--letter-spacing: 0%;
+  --text-caption1-sb--font-weight: 600;
 
-.text-black-assist {
-  color: #37383c;
-  opacity: 28%;
-}
-.bg-black-assist {
-  background-color: #37383c;
-  opacity: 28%;
-}
-.bg-primary-mute {
-  background-color: #ea877a;
-}
+  /* Body Normal M */
+  --text-body-normal-m: 16px;
+  --text-body-normal-m--line-height: 150%;
+  --text-body-normal-m--letter-spacing: 0%;
+  --text-body-normal-m--font-weight: 500;
 
-.bg-primary-opacity {
-  background-color: rgba(
-    243,
-    184,
-    179,
-    0.27
-  ); /* #f3b8b3의 RGBA 값으로 투명도만 조정 */
-}
+  /* Body Normal SB */
+  --text-body-normal-sb: 16px;
+  --text-body-normal-sb--line-height: 150%;
+  --text-body-normal-sb--letter-spacing: 0%;
+  --text-body-normal-sb--font-weight: 600;
 
-.border-black-alt {
-  border-color: rgba(55, 56, 60, 0.61); /* 텍스트 색상에 투명도 */
-}
+  /* Body Reading M */
+  --text-body-reading-m: 16px;
+  --text-body-reading-m--line-height: 160%;
+  --text-body-reading-m--letter-spacing: 0%;
+  --text-body-reading-m--font-weight: 500;
 
-.border-primary-opacity {
-  border-color: rgba(
-    243,
-    184,
-    179,
-    0.27
-  ); /* #f3b8b3의 RGBA 값으로 투명도만 조정 */
+  /* Body Reading SB */
+  --text-body-reading-sb: 16px;
+  --text-body-reading-sb--line-height: 160%;
+  --text-body-reading-sb--letter-spacing: 0%;
+  --text-body-reading-sb--font-weight: 600;
+
+  /* Heading 2 M */
+  --text-heading2-m: 21px;
+  --text-heading2-m--line-height: 130%;
+  --text-heading2-m--letter-spacing: 0%;
+  --text-heading2-m--font-weight: 500;
+
+  /* Heading 2 SB */
+  --text-heading2-sb: 22px;
+  --text-heading2-sb--line-height: 130%;
+  --text-heading2-sb--letter-spacing: 0%;
+  --text-heading2-sb--font-weight: 600;
+
+  /* Headline M */
+  --text-headline-m: 18px;
+  --text-headline-m--line-height: 140%;
+  --text-headline-m--letter-spacing: 0%;
+  --text-headline-m--font-weight: 500;
+
+  /* Headline SB */
+  --text-headline-sb: 18px;
+  --text-headline-sb--line-height: 140%;
+  --text-headline-sb--letter-spacing: 0%;
+  --text-headline-sb--font-weight: 600;
+
+  /* Title 1 M */
+  --text-title1-m: 36px;
+  --text-title1-m--line-height: 135%;
+  --text-title1-m--letter-spacing: 0%;
+  --text-title1-m--font-weight: 500;
+
+  /* Title 2 M */
+  --text-title2-m: 27px;
+  --text-title2-m--line-height: 135%;
+  --text-title2-m--letter-spacing: 0%;
+  --text-title2-m--font-weight: 500;
+
+  /* 🎨 Background Colors */
+  --color-normal: #fcfcfc;
+  --color-alt: #eaeaea;
+
+  /* 🎨 Black Variants */
+  --color-black-normal: #131415;
+  --color-black-strong: #111111;
+  --color-black-neutral: rgba(46, 47, 51, 0.88);
+  --color-black-alt: rgba(55, 56, 60, 0.61);
+  --color-black-assist: rgba(55, 56, 60, 0.28);
+  --color-black-disable: #dfdfe0;
+
+  /* 🎨 Primary Variants */
+  --color-primary: #f25e51;
+  --color-primary-transparent: rgba(243, 184, 179, 0.27);
+  --color-primary-mute: #ea877a;
 }

@@ -1,1 +1,2 @@
-export * from './chat.ui';
+export * from './room';
+export * from './message';

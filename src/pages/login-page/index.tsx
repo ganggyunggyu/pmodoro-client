@@ -1,10 +1,11 @@
-import KakaoLoginButton from '@/shared/components/KakaoLoginButton';
 import React from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useUserStore } from '@/app/store/useUserStore';
-import { XIcon } from '@/widgets/onboarding/step-1-user-info';
+
 import { useWidgetStore } from '@/app/store';
 import { axios } from '@/app/config';
+import { XIcon } from '@/shared';
+import { KakaoLoginButton } from '@/shared/components/button/kakao-button';
 
 export const LocalLoginForm = () => {
   const [email, setEmail] = React.useState('');

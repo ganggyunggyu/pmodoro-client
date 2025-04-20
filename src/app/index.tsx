@@ -27,8 +27,9 @@ export const App = () => {
   const isAdmin = location.pathname.includes('admin');
 
   const isMobile = getIsMobile();
+  const isOnboarding = location.pathname.includes('onboarding');
 
-  const isFooter = !isChat && !isAdmin;
+  const isFooter = !isChat && !isAdmin && !isOnboarding;
 
   return (
     <AuthProvider>

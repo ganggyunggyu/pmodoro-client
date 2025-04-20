@@ -61,7 +61,7 @@ export const Step4Project: React.FC = () => {
       career === '신입' ? career : `${career}차`
     } ${position}, ${displayName}입니다.
 
-사용 가능한 기술과 상세 포지션은 ${skills.join(', ')}이며,
+사용 가능한 기술과 상세 포지션은 ${skills?.join(', ')}이며,
 ${isOnline ? '온라인' : '오프라인'} 참여를 선호해요.`;
   };
 
@@ -240,7 +240,7 @@ ${isOnline ? '온라인' : '오프라인'} 참여를 선호해요.`;
 
       <section className="w-full flex flex-col gap-3">
         <textarea
-          value={onboardingData.description}
+          value={onboardingData?.description ?? ''}
           onChange={(event) => {
             setOnboardingField('description', event.target.value);
           }}

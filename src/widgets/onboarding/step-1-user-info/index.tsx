@@ -25,7 +25,7 @@ export const Step1UserInfo: React.FC = () => {
 
       <div className="w-full">
         <Input
-          value={onboardingData.displayName}
+          value={onboardingData?.displayName ?? ''}
           onChange={(event) => {
             setOnboardingField('displayName', event.target.value);
           }}

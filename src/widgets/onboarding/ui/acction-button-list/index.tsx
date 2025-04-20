@@ -1,12 +1,12 @@
 import { axios } from '@/app/config';
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
 import { useUserStore } from '@/app/store/useUserStore';
+import { Button } from '@/shared';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 import { delay } from '@/shared/lib/delay';
 import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import PulseLoader from 'react-spinners/PulseLoader';
 
 export const ActionButtonList = () => {
   const { pathname } = useLocation();
@@ -100,13 +100,17 @@ export const ActionButtonList = () => {
         </div>
       )}
       <section className="absolute lg:bottom-2/12 md:bottom-1/12 bottom-1/12 w-full flex itmes-center justify-between left-1/2 -translate-x-1/2 px-[10%] lg:px-[20%] transition-all">
-        <button
+        <Button
+          size="sm"
+          variant="outlineAlt"
           onClick={handlePrevClick}
           className="border border-primary text-primary px-3 py-1 text-sm rounded-lg"
         >
           이전
-        </button>
-        <button
+        </Button>
+        <Button
+          size="sm"
+          variant={isActive ? 'primary' : 'ghost'}
           onClick={handleNextClick}
           className={` text-white px-3 py-1 text-sm rounded-lg transition-colors
           ${isActive ? 'bg-primary border border-primary' : 'bg-neutral-300'}
@@ -114,7 +118,7 @@ export const ActionButtonList = () => {
           disabled={!isActive}
         >
           다음
-        </button>
+        </Button>
       </section>
     </React.Fragment>
   );

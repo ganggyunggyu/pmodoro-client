@@ -33,12 +33,14 @@ type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> &
   VariantProps<typeof inputVariants> & {
     label?: string;
     alertMessage?: string;
+    helperMessage?: string; // ✅ 추가
     isArrow?: boolean;
   };
 
 export const Input: React.FC<InputProps> = ({
   label,
   alertMessage,
+  helperMessage, // ✅ 추가
   className,
   id,
   variant,
@@ -46,7 +48,7 @@ export const Input: React.FC<InputProps> = ({
   isArrow,
   ...props
 }) => {
-  const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`; // fallback id
+  const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
 
   return (
     <>
@@ -73,11 +75,16 @@ export const Input: React.FC<InputProps> = ({
           </figure>
         )}
       </div>
-      {alertMessage && (
+      {/* ✅ 경고 메시지 & 헬퍼 메시지 따로 렌더링 */}
+      {alertMessage ? (
         <p className="text-red-400 text-xs mt-1 transition-all">
           {alertMessage}
         </p>
-      )}
+      ) : helperMessage ? (
+        <p className="text-gray-400 text-xs mt-1 transition-all">
+          {helperMessage}
+        </p>
+      ) : null}
     </>
   );
 };

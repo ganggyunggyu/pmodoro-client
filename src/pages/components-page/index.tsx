@@ -41,7 +41,7 @@ export const DropdownWrapper: React.FC<DropdownWrapperProps> = ({
   }, [isOpen]);
 
   return (
-    <section className="relative w-full max-w-xs">
+    <section className="relative w-full">
       {trigger}
       <AnimatePresence>
         {isVisible && (

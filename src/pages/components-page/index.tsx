@@ -13,8 +13,56 @@ import {
 import { Input } from '@/shared/components/input';
 import React from 'react';
 
+import { motion, AnimatePresence } from 'framer-motion';
+import { delay } from '@/shared/lib/delay';
+
+interface DropdownWrapperProps {
+  isOpen: boolean;
+  onClose: () => void;
+  trigger: React.ReactNode;
+  children: React.ReactNode;
+}
+
+export const DropdownWrapper: React.FC<DropdownWrapperProps> = ({
+  isOpen,
+  onClose,
+  trigger,
+  children,
+}) => {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+    } else {
+      const timer = setTimeout(() => setIsVisible(false), 200);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  return (
+    <section className="relative w-full max-w-xs">
+      {trigger}
+      <AnimatePresence>
+        {isVisible && (
+          <motion.article
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-10 overflow-hidden p-4 flex flex-col gap-3"
+          >
+            {children}
+          </motion.article>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+};
+
 export const ComponentsPage = () => {
   const { setUserInfo } = useUserStore();
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
   const mockUser: UserInfo = {
     _id: 'user123456',
     displayName: '강경규',
@@ -87,13 +135,34 @@ export const ComponentsPage = () => {
 
       <div className="flex flex-col gap-3">
         <p className="text-lg font-bold">DropdownButton</p>
+        <DropdownWrapper
+          isOpen={isDropdownOpen}
+          onClose={() => setIsDropdownOpen(false)}
+          trigger={
+            <DropdownButton
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              label="드롭다운"
+              direction={isDropdownOpen ? 'up' : 'down'}
+              variant="outlineAlt"
+            />
+          }
+        >
+          <section className="flex flex-col gap-3">
+            <header className="w-full flex justify-between">
+              <p className="text-black text-lg font-semibold">기술 스택</p>
+              <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                <XIcon />
+              </button>
+            </header>
+            {['항목 1', '항목 2', '항목 3', '항목 4'].map((item, idx) => (
+              <SelectorButton key={idx} icon="check" isSelected={idx === 0}>
+                {item}
+              </SelectorButton>
+            ))}
+          </section>
+        </DropdownWrapper>
+        <p>버튼을 눌러볼수 있습니다.</p>
 
-        <DropdownButton
-          variant="outlineAlt"
-          size="md"
-          label="드롭다운"
-          direction="down"
-        />
         <DropdownButton
           variant="outlinePrimary"
           size="md"

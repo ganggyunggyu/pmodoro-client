@@ -4,8 +4,9 @@ type WidgetState = {
   step: number;
   isWidgetOpen: boolean;
   isLoginWidgetOpen: boolean;
-  isSearchDropDownOpen: boolean; // 드롭다운 상태 추가
-  isProjectForm: boolean; // 프로젝트 폼 상태 추가
+  isSearchDropDownOpen: boolean;
+  isProjectForm: boolean;
+  isProjectFormVisible: boolean;
   isPositionSelector: boolean;
 };
 
@@ -13,18 +14,22 @@ type WidgetActions = {
   setStep: (step: number) => void;
   setIsWidgetOpen: (isOpen: boolean) => void;
   setIsLoginWidgetOpen: (isOpen: boolean) => void;
-  setIsSearchDropDownOpen: (isOpen: boolean) => void; // 드롭다운 상태를 변경하는 액션 추가
-  setIsProjectForm: (isOpen: boolean) => void; // 프로젝트 폼 상태 변경하는 액션 추가
-  setIsPositionSelector: (isOpen: boolean) => void; // 프로젝트 폼 상태 변경하는 액션 추가
+  setIsSearchDropDownOpen: (isOpen: boolean) => void;
+  setIsProjectForm: (isOpen: boolean) => void;
+  setIsProjectFormVisible: (isVisible: boolean) => void;
+  setIsPositionSelector: (isOpen: boolean) => void;
+  closeProjectFormWithDelay: () => void;
   resetWidget: () => void;
 };
+
 export const useWidgetStore = create<WidgetState & WidgetActions>((set) => ({
   step: 1,
   isWidgetOpen: false,
   isLoginWidgetOpen: false,
   isSearchDropDownOpen: false,
   isProjectForm: false,
-  isPositionSelector: false, // ✅ 포지션 셀렉터 초기 상태 추가
+  isProjectFormVisible: false,
+  isPositionSelector: false,
 
   setStep: (step) => set(() => ({ step })),
   setIsWidgetOpen: (isOpen) => set(() => ({ isWidgetOpen: isOpen })),
@@ -32,8 +37,18 @@ export const useWidgetStore = create<WidgetState & WidgetActions>((set) => ({
   setIsSearchDropDownOpen: (isOpen) =>
     set(() => ({ isSearchDropDownOpen: isOpen })),
   setIsProjectForm: (isOpen) => set(() => ({ isProjectForm: isOpen })),
+  setIsProjectFormVisible: (isVisible) =>
+    set(() => ({ isProjectFormVisible: isVisible })),
   setIsPositionSelector: (isOpen) =>
-    set(() => ({ isPositionSelector: isOpen })), // ✅ 액션 추가
+    set(() => ({ isPositionSelector: isOpen })),
+
+  closeProjectFormWithDelay: () => {
+    // 애니메이션 exit 시간을 고려한 딜레이 제거
+    set(() => ({ isProjectForm: false }));
+    setTimeout(() => {
+      set(() => ({ isProjectFormVisible: false }));
+    }, 500); // framer-motion의 exit duration과 맞추기
+  },
 
   resetWidget: () =>
     set(() => ({
@@ -42,6 +57,7 @@ export const useWidgetStore = create<WidgetState & WidgetActions>((set) => ({
       isLoginWidgetOpen: false,
       isSearchDropDownOpen: false,
       isProjectForm: false,
-      isPositionSelector: false, // ✅ 리셋할 때도 false로
+      isProjectFormVisible: false,
+      isPositionSelector: false,
     })),
 }));

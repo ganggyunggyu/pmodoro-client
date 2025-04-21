@@ -1,7 +1,7 @@
 import React from 'react';
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
 import { CAREERS } from '@/shared/constants/positions';
-import { SelectorButton, XIcon } from '@/shared';
+import { Button, SelectorButton, XIcon } from '@/shared';
 import { Input } from '@/shared/components/input';
 import { DropdownWrapper } from '@/pages/components-page';
 
@@ -85,12 +85,12 @@ export const Step1UserInfo: React.FC = () => {
           </div>
 
           <div className="px-3 pb-3">
-            <button
+            <Button
               onClick={() => setIsDropdownOpen(false)}
               className="w-full py-3 bg-primary text-white rounded-md text-sm"
             >
               선택완료
-            </button>
+            </Button>
           </div>
         </section>
       </DropdownWrapper>

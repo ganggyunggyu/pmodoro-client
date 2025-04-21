@@ -1,5 +1,6 @@
 import { useWidgetStore } from '@/app/store';
 import { useUserStore } from '@/app/store/useUserStore';
+import { Button } from '@/shared';
 
 import { PROJECT_NAME } from '@/shared/constants/core';
 import { BackIcon, LeftArrow } from '@/shared/icons';
@@ -58,13 +59,14 @@ export const Header = () => {
 
   return (
     <header className="fixed  top-0 left-0 bg-white/70 z-10 w-screen flex justify-between items-cetner h-16 px-[5%] border-b border-primary-mute">
-      <button
+      <Button
+        variant="secondary"
         onClick={handleLogoClick}
         type="button"
-        className="text-2xl font-bold text-primary logo-font"
+        className="flex text-2xl font-bold text-primary logo-font h-full"
       >
         {PROJECT_NAME}
-      </button>
+      </Button>
 
       {isAuth ? (
         <article className="flex items-center gap-5">

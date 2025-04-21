@@ -4,13 +4,14 @@ import { cn } from '@/shared/lib/cn';
 import { RightArrow } from '@/shared/icons';
 
 const inputVariants = cva(
-  'block w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-1 focus:ring-primary disabled:bg-[#D22828]/15  transition-all rounded-lg disabled:border-2',
+  'block w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-1 focus:ring-primary  transition-all rounded-lg ',
   {
     variants: {
       variant: {
         default: 'border border-alt',
         underline: 'border-0 border-b border-black-assist rounded-none',
         ghost: 'border-transparent bg-transparent',
+        disable: 'disabled:bg-[#D22828]/15 disabled:border-2',
       },
       inputSize: {
         sm: 'h-8 text-sm',
@@ -29,7 +30,7 @@ const inputLabelVariants = cva(
   'absolute top-1 left-4 text-sm text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 ',
 );
 
-type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> &
+export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> &
   VariantProps<typeof inputVariants> & {
     label?: string;
     alertMessage?: string;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input } from './input';
 
 interface EditInputProps {
   label: string;
@@ -24,32 +25,34 @@ export const EditInput: React.FC<EditInputProps> = ({
     }
   }, [value]);
   return (
-    <div className="flex w-full justify-start lg:gap-30 items-center">
-      <p className="w-40 text-black-alt">{label}</p>
-      <div
-        className={`w-full p-2 ${
-          isEditing ? 'border border-alt rounded-md' : ''
-        }`}
-      >
-        {label === '자기소개' ? (
+    <div className="flex w-full justify-start lg:gap-25 items-center">
+      <p className="w-40 min-w-40 text-black-alt">{label}</p>
+
+      {label === '자기소개' ? (
+        <div
+          className={`w-full rounded-md
+        ${isEditing ? 'border border-alt' : ''}
+        `}
+        >
           <textarea
             ref={textareaRef}
             value={value}
             onChange={onChange}
             placeholder="자기소개"
-            className="w-full rounded-lg"
+            className="w-full rounded-lg p-3"
             disabled={!isEditing}
           />
-        ) : (
-          <input
-            type="text"
-            value={value}
-            className="w-full"
-            disabled={!isEditing}
-            onChange={onChange}
-          />
-        )}
-      </div>
+        </div>
+      ) : (
+        <Input
+          variant={isEditing ? 'default' : 'ghost'}
+          type="text"
+          value={value}
+          disabled={!isEditing}
+          className="w-full "
+          onChange={onChange}
+        />
+      )}
     </div>
   );
 };

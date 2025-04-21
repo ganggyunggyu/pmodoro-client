@@ -9,19 +9,18 @@ import {
 } from '@/shared/constants/positions';
 import { Button, SelectorButton, XIcon } from '@/shared';
 import { DropdownWrapper } from '@/pages/components-page';
+export const positions = [
+  { id: 'developer', label: '개발자', icon: '💻' },
+  { id: 'designer', label: '디자이너', icon: '🎨' },
+  { id: 'planner', label: '기획자', icon: '📝' },
+  { id: 'marketer', label: '마케터', icon: '📢' },
+];
 
 export const Step2Position: React.FC = () => {
   const { onboardingData, setOnboardingField, toggleSkill } =
     useOnboardingStore();
 
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-
-  const positions = [
-    { id: 'developer', label: '개발자', icon: '💻' },
-    { id: 'designer', label: '디자이너', icon: '🎨' },
-    { id: 'planner', label: '기획자', icon: '📝' },
-    { id: 'marketer', label: '마케터', icon: '📢' },
-  ];
 
   const handleSelect = (position: string) => {
     setOnboardingField('position', position);

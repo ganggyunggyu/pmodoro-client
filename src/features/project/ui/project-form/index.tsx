@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useGetProjectByUser, usePostProject } from '@/entities';
 import { useWidgetStore } from '@/app/store';
+import { Input } from '@/shared/components/input';
 
 export const ProjectForm = () => {
   const { userInfo } = useUserStore();
@@ -69,7 +70,7 @@ export const ProjectForm = () => {
     >
       <div className="space-y-4">
         <div>
-          <input
+          <Input
             type="text"
             id="name"
             name="name"
@@ -81,7 +82,7 @@ export const ProjectForm = () => {
         </div>
 
         <div>
-          <input
+          <Input
             type="text"
             id="position"
             name="position"

@@ -22,7 +22,7 @@ export const OnboardingWidget = () => {
 
   const isFinalStep = !pathname.includes('final');
 
-  if (isAuth) return '잘못된 접근입니다.';
+  // if (isAuth) return '잘못된 접근입니다.';
 
   return (
     <React.Fragment>

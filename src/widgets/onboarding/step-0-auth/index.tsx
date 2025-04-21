@@ -1,4 +1,5 @@
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
+import { Input } from '@/shared/components/input';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +23,7 @@ export const Step0Auth = () => {
       className="flex flex-col gap-6 p-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg shadow-lg w-full max-w-md mx-auto"
       onSubmit={handleSubmit}
     >
-      <input
+      <Input
         type="text"
         placeholder="아이디 입력"
         value={id}

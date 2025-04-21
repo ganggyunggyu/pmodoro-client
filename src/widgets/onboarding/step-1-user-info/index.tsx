@@ -1,10 +1,12 @@
 import React from 'react';
 import { useOnboardingStore } from '@/app/store/useOnboardingStore';
 import { CAREERS } from '@/shared/constants/positions';
-import { OnboardingInput } from '../ui';
-import { NextIcon, XIcon } from '@/shared';
+import { SelectorButton, XIcon } from '@/shared';
+import { Input } from '@/shared/components/input';
+import { DropdownWrapper } from '@/pages/components-page';
 
 export const Step1UserInfo: React.FC = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
   const [isCareearSelect, setIsCareearSelect] = React.useState(false);
   const { onboardingData, setOnboardingField } = useOnboardingStore();
 
@@ -16,100 +18,82 @@ export const Step1UserInfo: React.FC = () => {
   };
 
   return (
-    <main className="w-full flex flex-col items-center gap-10 px-[5%] lg:px-[20%]">
+    <main className="w-full flex flex-col items-center gap-5 px-[5%] lg:px-[20%]">
       <article className="w-full flex flex-col gap-3">
-        <p className="text-lg">사이트에서 어떤 닉네임을 사용할까요?</p>
-        <p className="text-black-alt">닉네임은 몇 글자 이상으로 해주세요.</p>
+        <p className="text-headline-m">사이트에서 어떤 닉네임을 사용할까요?</p>
       </article>
 
-      <OnboardingInput
-        value={onboardingData.displayName}
-        onChange={(event) => {
-          setOnboardingField('displayName', event.target.value);
-        }}
-        type="text"
-        placeholder="닉네임"
-        className="w-full"
-        helper="닉네임은 몇 글자 이상으로 해주세요."
-      />
-      <article className="w-full flex flex-col gap-3 relative">
-        <p className="text-lg">현재 경력이 어떻게 되시나요?</p>
-        <p className="text-black-alt">
-          경력 정보는 세무적인 팀원을 찾는 데 도움이 돼요.
-        </p>
-        <button
-          onClick={() => setIsCareearSelect(true)}
-          className="flex justify-between p-3 w-full text-left border border-alt rounded-lg"
-        >
-          <p
-            className={`${
-              onboardingData.career ? 'text-black' : 'text-black-alt'
-            }`}
-          >
-            {onboardingData.career ? onboardingData.career : '경력'}
-          </p>
-          <NextIcon />
-        </button>
-        {isCareearSelect && (
-          <React.Fragment>
-            <div
-              onClick={handleCloseCareearSelect}
-              className="fixed top-0 left-0 w-screen h-screen bg-black opacity-30 z-10"
-            />
-            <article className="z-10">
-              <div className="absolute w-full h-90  bg-white left-0 lg:-top-10 -top-30 rounded-md">
-                <header className="py-3 px-3 w-full flex justify-between">
-                  <p className="text-black text-lg font-semibold">경력</p>
-                  <button onClick={handleCloseCareearSelect}>
-                    <XIcon />
-                  </button>
-                </header>
-                <ul className="p-3 h-60 flex flex-col gap-2 overflow-y-scroll ">
-                  {CAREERS.map((career, index) => {
-                    return (
-                      <li
-                        className={`p-3 border rounded-md text-sm flex justify-between items-center transition-all
-                                ${
-                                  career === onboardingData.career
-                                    ? 'border-primary'
-                                    : 'border-alt'
-                                }
-        `}
-                        key={career}
-                        onClick={() => handleCareearClick(career)}
-                      >
-                        <p
-                          className={`transition-all
-          ${career === onboardingData.career ? 'text-primary' : 'text-black'}`}
-                        >
-                          {career}
-                        </p>
-                        <div
-                          className={`w-5 h-5 border border-primary rounded-full transition-all
-                              ${
-                                career === onboardingData.career
-                                  ? 'border-4'
-                                  : 'border-1'
-                              }
-                              `}
-                        />
-                      </li>
-                    );
-                  })}
-                </ul>
-                <div
-                  onClick={handleCloseCareearSelect}
-                  className="w-full flex items-center justify-center"
-                >
-                  <button className="px-20 py-3 bg-primary text-white rounded-md text-sm">
-                    선택완료
-                  </button>
-                </div>
-              </div>
+      <div className="w-full">
+        <Input
+          value={onboardingData?.displayName ?? ''}
+          onChange={(event) => {
+            setOnboardingField('displayName', event.target.value);
+          }}
+          type="text"
+          placeholder="닉네임"
+          helperMessage="닉네임은 몇 글자 이상으로 해주세요."
+        />
+      </div>
+
+      <DropdownWrapper
+        isOpen={isDropdownOpen}
+        onClose={() => setIsDropdownOpen(false)}
+        trigger={
+          <div>
+            <article className="w-full flex flex-col mb-4 gap-1">
+              <p className="text-headline-m">현재 경력이 어떻게 되시나요?</p>
+              <p className="text-body-normal-m text-black-alt">
+                경력 정보는 세부적인 팀원을 찾는 데 도움이 돼요.
+              </p>
             </article>
-          </React.Fragment>
-        )}
-      </article>
+            <SelectorButton
+              variant="outlineAlt"
+              icon="arrow"
+              isSelected={isDropdownOpen}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              <p
+                className={`${
+                  onboardingData.career ? 'text-black' : 'text-black-alt'
+                }`}
+              >
+                {onboardingData.career ? onboardingData.career : '경력'}
+              </p>
+            </SelectorButton>
+          </div>
+        }
+      >
+        <section className="flex flex-col gap-3 p-3">
+          <header className="w-full flex justify-between sticky top-0 bg-white z-10">
+            <p className="text-black text-lg font-semibold">경력</p>
+            <button onClick={() => setIsDropdownOpen(false)}>
+              <XIcon />
+            </button>
+          </header>
+
+          <div className="flex flex-col gap-2 overflow-y-auto pr-1 max-h-[200px] md:max-h-[250px] lg:max-h-[300px]">
+            {CAREERS.map((career, idx) => (
+              <SelectorButton
+                key={idx}
+                icon="circle"
+                isSelected={career === onboardingData.career}
+                onClick={() => handleCareearClick(career)}
+              >
+                {career}
+              </SelectorButton>
+            ))}
+          </div>
+
+          <div className="px-3 pb-3">
+            <button
+              onClick={() => setIsDropdownOpen(false)}
+              className="w-full py-3 bg-primary text-white rounded-md text-sm"
+            >
+              선택완료
+            </button>
+          </div>
+        </section>
+      </DropdownWrapper>
     </main>
   );
 };

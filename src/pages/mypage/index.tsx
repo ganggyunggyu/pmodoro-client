@@ -19,17 +19,26 @@ import { ProjectCard } from '@/features/project/ui/project-card';
 import { MainSidebar } from '@/widgets/side-bar/main-side-bar';
 import { EditInput } from '@/shared/components/EditInput';
 import { PositionLabelList } from '@/features/position/ui/position-label-list';
-import { PositionSelectorButton } from '@/features';
 import { Button, SelectorButton, XIcon } from '@/shared';
 import { DropdownWrapper } from '../components-page';
-import { CAREERS, DEVELOPER_POSITIONS } from '@/shared/constants/positions';
+import {
+  ALL_POSITIONS,
+  CAREERS,
+  DESIGNER_POSITIONS,
+  DEVELOPER_POSITIONS,
+  MARKETER_POSITIONS,
+  PLANNER_POSITIONS,
+} from '@/shared/constants/positions';
 import { positions } from '@/widgets/onboarding/step-2-position';
 import { AnimatePresence } from 'framer-motion';
+import { tabs } from '@/widgets/user-search-widget';
+import { TabItem } from '@/shared/components/TabComponent';
 
 export const Mypage: React.FC = () => {
-  const isMobile = getIsMobile();
   const navigate = useNavigate();
   const { userId } = useParams();
+
+  const [selectedPosition, setSelectedPosition] = React.useState('');
 
   const [isEditing, setIsEditing] = React.useState(false);
   const [isPositionDropdownOpen, setIsPositionDropdownOpen] =
@@ -94,26 +103,48 @@ export const Mypage: React.FC = () => {
     { label: '설정', path: '/setting' },
   ];
 
+  const handleTabClick = (position) => {
+    setSelectedPosition(position);
+  };
+
+  const getSkillList = () => {
+    if (selectedPosition === '개발자') return DEVELOPER_POSITIONS;
+    if (selectedPosition === '디자이너') return DESIGNER_POSITIONS;
+    if (selectedPosition === '기획자') return PLANNER_POSITIONS;
+    if (selectedPosition === '마케터') return MARKETER_POSITIONS;
+    return ALL_POSITIONS;
+  };
+
+  const skillList = getSkillList();
+
+  React.useEffect(() => {
+    setSelectedPosition(userInfo?.position);
+  }, []);
+
   return (
     <main className="w-full flex lg:gap-5 pb-10">
-      {!isMobile && <MainSidebar sideItemList={sideItem} />}
+      <MainSidebar sideItemList={sideItem} />
       <section className="lg:flex-1 w-full">
-        <p className="lg:w-full text-left text-lg font-bold py-5">마이페이지</p>
+        <p className="lg:w-full text-center lg:text-left text-lg font-bold py-3 lg:py-5">
+          마이페이지
+        </p>
 
-        <div className="relative lg:w-full p-6 rounded-md border border-alt pb-20">
-          <h2 className="text-lg font-bold mb-4">기본 정보</h2>
+        <div className="relative lg:w-full lg:p-6 lg:pb-25 rounded-md lg:border border-alt">
+          <h2 className="hidden lg:block text-lg font-bold mb-4">정보</h2>
 
           <Button
             onClick={isEditing ? handleEditEndClick : handleEditStartClick}
-            className="absolute bottom-5 right-5 border border-alt rounded-md py-2 px-3"
+            className="absolute right-0 lg:bottom-5 lg:right-5 z-10"
           >
             {isEditing ? '저장하기' : '수정하기'}
           </Button>
 
           <article className="flex flex-col items-center gap-8">
-            <div className="flex w-full justify-start lg:gap-20 items-center">
-              <p className="w-30 text-black-alt">프로필 이미지</p>
-              <ProfileImage />
+            <div className="flex flex-row w-full justify-start lg:gap-40 items-start ">
+              <p className="w-30 text-black-alt hidden lg:block">
+                프로필 이미지
+              </p>
+              <ProfileImage src={userInfo?.kakaoAuthInfo?.profileImg} />
             </div>
 
             <EditInput
@@ -279,24 +310,26 @@ export const Mypage: React.FC = () => {
                   <p className="w-40 text-black-alt">상세 포지션</p>
                   <div className="w-full flex flex-col gap-3">
                     {isEditing && (
-                      <SelectorButton
-                        variant="outlineAlt"
-                        icon="arrow"
-                        isSelected={isUserSkillDropdownOpen}
-                        disabled={!isEditing}
-                        onClick={() =>
-                          isEditing &&
-                          setIsUserSkillDropdownOpen(!isUserSkillDropdownOpen)
-                        }
-                      >
-                        <p
-                          className={
-                            userInfo.career ? 'text-black' : 'text-black-alt'
+                      <React.Fragment>
+                        <SelectorButton
+                          variant="outlineAlt"
+                          icon="arrow"
+                          isSelected={isUserSkillDropdownOpen}
+                          disabled={!isEditing}
+                          onClick={() =>
+                            isEditing &&
+                            setIsUserSkillDropdownOpen(!isUserSkillDropdownOpen)
                           }
                         >
-                          상세 포지션 선택
-                        </p>
-                      </SelectorButton>
+                          <p
+                            className={
+                              userInfo.career ? 'text-black' : 'text-black-alt'
+                            }
+                          >
+                            상세 포지션 선택
+                          </p>
+                        </SelectorButton>
+                      </React.Fragment>
                     )}
                     <PositionLabelList />
                   </div>
@@ -312,20 +345,36 @@ export const Mypage: React.FC = () => {
                     <XIcon />
                   </button>
                 </header>
-
+                <div className="flex items-center justify-between w-full">
+                  {tabs.map((tab) => {
+                    console.log(tab);
+                    return (
+                      <TabItem
+                        isActive={tab.label === selectedPosition}
+                        onClick={() => {
+                          handleTabClick(tab.label);
+                        }}
+                        tab={tab}
+                        key={tab.id}
+                      />
+                    );
+                  })}
+                </div>
                 <div className="flex flex-col gap-2 overflow-y-auto pr-1 max-h-[300px]">
-                  {DEVELOPER_POSITIONS.map((skill, idx) => (
-                    <SelectorButton
-                      key={idx}
-                      icon="check"
-                      isSelected={userInfo?.skills?.includes(skill)}
-                      onClick={() => {
-                        toggleSkill(skill);
-                      }}
-                    >
-                      {skill}
-                    </SelectorButton>
-                  ))}
+                  {skillList.map((skill, idx) => {
+                    return (
+                      <SelectorButton
+                        key={idx}
+                        icon="check"
+                        isSelected={userInfo?.skills?.includes(skill)}
+                        onClick={() => {
+                          toggleSkill(skill);
+                        }}
+                      >
+                        {skill}
+                      </SelectorButton>
+                    );
+                  })}
                 </div>
 
                 <div className="px-3 pb-3">
@@ -355,19 +404,13 @@ export const Mypage: React.FC = () => {
         <AnimatePresence>
           {isProjectFormVisible && <ProjectForm />}
         </AnimatePresence>
-        <button
-          onClick={handleProjectAddClick}
-          className="w-full h-20 bg-primary-opacity text-primary mt-10"
-        >
-          <p>{isProjectForm ? '눌러서 추가하기' : '닫기'}</p>
-        </button>
+        <Button onClick={handleProjectAddClick} size="lg" className="mt-10">
+          <p>{isProjectForm ? '닫기' : '프로젝트 추가하기'}</p>
+        </Button>
 
-        <button
-          onClick={handleLogoutClick}
-          className="w-full h-20 bg-primary-opacity text-primary mt-10"
-        >
+        <Button onClick={handleLogoutClick} size="lg" className="mt-10">
           <p>로그아웃</p>
-        </button>
+        </Button>
       </section>
     </main>
   );

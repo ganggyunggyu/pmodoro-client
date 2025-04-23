@@ -4,7 +4,7 @@ import { cn } from '@/shared/lib/cn';
 import { RightArrow } from '@/shared/icons';
 
 const inputVariants = cva(
-  'block w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-1 focus:ring-primary  transition-all rounded-lg ',
+  'block w-full px-2 lg:px-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-1 focus:ring-primary  transition-all rounded-lg disabled:p-0',
   {
     variants: {
       variant: {

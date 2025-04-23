@@ -77,14 +77,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         value={projectState.name}
         onChange={(v) => handleChange('name', v)}
       />
-
       <InfoRow
         label="직무"
         isEditing={isEditing}
         value={projectState.position}
         onChange={(v) => handleChange('position', v)}
       />
-
       <InfoRow
         label="내용"
         isEditing={isEditing}
@@ -92,9 +90,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         onChange={(v) => handleChange('description', v)}
       />
 
-      <div className="flex w-full justify-start lg:gap-30 items-center">
-        <p className="min-w-30 text-black-alt">기간</p>
-        <div className="flex lg:flex-row flex-col w-full gap-2">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2 w-full">
+        <p className="w-20 font-medium text-gray-700 shrink-0">기간</p>
+        <div className="flex flex-col lg:flex-row w-full gap-2">
           {isEditing ? (
             <>
               <input
@@ -106,7 +104,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     startDate: e.target.value,
                   })
                 }
-                className="w-full p-2 rounded-lg border border-gray-300"
+                className="w-full p-2 rounded-md border border-gray-300"
               />
               <input
                 type="date"
@@ -117,15 +115,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     endDate: e.target.value,
                   })
                 }
-                className="w-full p-2 rounded-lg border border-gray-300"
+                className="w-full p-2 rounded-md border border-gray-300"
               />
             </>
           ) : (
             <>
-              <span className="w-full p-2 rounded-lg">
+              <span className="w-full p-2 text-gray-800 bg-gray-50 rounded-md">
                 {formatDate(project.duration.startDate)} 시작
               </span>
-              <span className="w-full p-2 rounded-lg">
+              <span className="w-full p-2 text-gray-800 bg-gray-50 rounded-md">
                 {formatDate(project.duration.endDate)} 끝
               </span>
             </>
@@ -134,8 +132,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       </div>
 
       {isMyPage && (
-        <div className="flex gap-3 w-full mt-2">
-          <div className="flex-1" />
+        <div className="flex justify-end gap-3 w-full mt-4">
           {isEditing ? (
             <Button variant="outlinePrimary" onClick={handlePatchClick}>
               저장하기
@@ -174,19 +171,19 @@ export const InfoRow: React.FC<InfoRowProps> = ({
   ...inputProps // InputProps에 있는 나머지 속성들을 다 받을 수 있음
 }: InfoRowProps) => {
   return (
-    <div className="flex w-full justify-start lg:gap-30 items-center">
+    <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2 w-full">
       <p className="min-w-30 text-black-alt">{label}</p>
       {isEditing ? (
         <Input
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="block w-full text-sm border rounded-md focus:outline-none focus:ring-1 focus:ring-primary transition-all rounded-lg"
+          className="block w-full text-sm border rounded-md focus:outline-none focus:ring-1 focus:ring-primary transition-all rounded-lg "
           placeholder=""
           autoComplete="off"
           {...inputProps} // InputProps로 받은 나머지 props 전달
         />
       ) : (
-        <p className="w-full p-2 rounded-lg">{value}</p>
+        <p className="w-full rounded-lg">{value}</p>
       )}
     </div>
   );

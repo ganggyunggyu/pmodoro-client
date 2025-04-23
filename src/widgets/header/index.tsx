@@ -63,35 +63,42 @@ export const Header = () => {
         variant="secondary"
         onClick={handleLogoClick}
         type="button"
-        className="flex text-2xl font-bold text-primary logo-font h-full"
+        className="flex text-2xl font-bold text-primary logo-font h-full hover:bg-normal"
       >
         {PROJECT_NAME}
       </Button>
 
       {isAuth ? (
         <article className="flex items-center gap-5">
-          {/* <button onClick={handleChatClick}>공지사항</button> */}
-          <button onClick={handleChatClick}>채팅</button>
+          <button className="cursor-pointer" onClick={handleChatClick}>
+            채팅
+          </button>
           {userInfo?.kakaoAuthInfo?.profileImg ? (
             <img
               onClick={handleProfileClick}
-              className="w-8 h-8 rounded-full"
+              className="w-8 h-8 rounded-full cursor-pointer"
               src={userInfo.kakaoAuthInfo.profileImg}
               alt=""
             />
           ) : (
             <div
               onClick={handleProfileClick}
-              className="w-8 h-8 rounded-full bg-alt"
+              className="w-8 h-8 rounded-full bg-alt cursor-pointer"
             />
           )}
         </article>
       ) : (
         <article className="flex items-center gap-5">
-          <button onClick={handleNoticeClick} className="h-8/12 text-xs">
+          <button
+            onClick={handleNoticeClick}
+            className="h-8/12 text-xs cursor-pointer"
+          >
             공지사항
           </button>
-          <button onClick={handleLoginClick} className="h-8/12 text-xs">
+          <button
+            onClick={handleLoginClick}
+            className="h-8/12 text-xs cursor-pointer"
+          >
             로그인
           </button>
         </article>

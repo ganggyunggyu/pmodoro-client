@@ -8,7 +8,7 @@ import { ProfileImage } from '@/entities/user/ui/profile-image';
 import { ProjectCard } from '@/features/project/ui/project-card';
 import { axios } from '@/app/config';
 import { useChatStore } from '@/app/store/useChatStore';
-import { Button } from '@/shared';
+import { Button, LeftArrow, RightArrow } from '@/shared';
 import { useUserSearchQuery } from '@/widgets/user-search-widget';
 
 export const UserProfileCard = () => {
@@ -71,6 +71,18 @@ export const ProfilePage = () => {
   const { data: users, isLoading: isUsersLoading } = useUserSearchQuery();
   const { data: projectList, isLoading: isProjectListLoading } =
     useGetProjectByUser(params.userId);
+
+  const scrollRef = React.useRef<HTMLDivElement | null>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    const scrollAmount = window?.innerWidth;
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   if (isLoading) return <PulseLoaderSpinner />;
 
@@ -158,17 +170,36 @@ export const ProfilePage = () => {
       <section className="flex flex-col gap-4 lg:gap-7">
         <p className="text-lg font-semibold">더 찾아보기</p>
 
-        <section className="flex gap-3 w-full overflow-x-scroll pb-20">
-          {isUsersLoading ? (
-            <div className="flex">
-              <PulseLoaderSpinner />
-            </div>
-          ) : (
-            users?.map((cardUser: UserInfo) => (
-              <UserCard key={cardUser._id} cardUser={cardUser} />
-            ))
-          )}
-        </section>
+        <div className="relative w-full">
+          {/* 왼쪽 버튼 */}
+          <Button
+            onClick={() => scroll('left')}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 "
+          >
+            <LeftArrow />
+          </Button>
+
+          <section
+            ref={scrollRef}
+            className="flex gap-3 w-full h-full overflow-x-scroll scroll-smooth px-10"
+          >
+            {isUsersLoading ? (
+              <div className="flex">
+                <PulseLoaderSpinner />
+              </div>
+            ) : (
+              users?.map((cardUser: UserInfo) => (
+                <UserCard key={cardUser._id} cardUser={cardUser} />
+              ))
+            )}
+          </section>
+          <Button
+            onClick={() => scroll('right')}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
+          >
+            <RightArrow />
+          </Button>
+        </div>
       </section>
     </main>
   );

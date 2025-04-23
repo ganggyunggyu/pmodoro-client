@@ -29,6 +29,8 @@ active:scale-[98%]
         muted: 'bg-primary-mute text-white hover:bg-[#bb7269]',
 
         kakao: 'bg-[#FFE812] border border-alt text-black-normal',
+
+        bgNone: 'bg-normal text-black-normal',
       },
       size: {
         xs: 'px-3 py-1.5 text-sm w-fit h-[28px] min-w-fit',

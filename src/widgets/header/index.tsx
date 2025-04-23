@@ -74,33 +74,43 @@ export const Header = () => {
             채팅
           </button>
           {userInfo?.kakaoAuthInfo?.profileImg ? (
-            <img
+            <Button
+              className="w-8 h-8 p-0"
+              variant="bgNone"
               onClick={handleProfileClick}
-              className="w-8 h-8 rounded-full cursor-pointer"
-              src={userInfo.kakaoAuthInfo.profileImg}
-              alt=""
-            />
+            >
+              <img
+                className="w-full h-full rounded-full cursor-pointer"
+                src={userInfo.kakaoAuthInfo.profileImg}
+                alt=""
+              />
+            </Button>
           ) : (
-            <div
+            <Button
+              className="w-8 h-8 p-0"
+              variant="bgNone"
               onClick={handleProfileClick}
-              className="w-8 h-8 rounded-full bg-alt cursor-pointer"
-            />
+            >
+              <div className="w-full h-full rounded-full bg-alt cursor-pointer" />
+            </Button>
           )}
         </article>
       ) : (
         <article className="flex items-center gap-5">
-          <button
+          <Button
+            variant="bgNone"
             onClick={handleNoticeClick}
             className="h-8/12 text-xs cursor-pointer"
           >
             공지사항
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="bgNone"
             onClick={handleLoginClick}
             className="h-8/12 text-xs cursor-pointer"
           >
             로그인
-          </button>
+          </Button>
         </article>
       )}
     </header>

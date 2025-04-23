@@ -93,6 +93,10 @@ export const Mypage: React.FC = () => {
     setUserInfoField('career', career);
   };
 
+  React.useEffect(() => {
+    setSelectedPosition(userInfo?.position);
+  }, []);
+
   if (userQuery.isLoading) {
     return <PulseLoaderSpinner />;
   }
@@ -117,21 +121,15 @@ export const Mypage: React.FC = () => {
 
   const skillList = getSkillList();
 
-  React.useEffect(() => {
-    setSelectedPosition(userInfo?.position);
-  }, []);
-
   return (
     <main className="w-full flex lg:gap-5 pb-10">
       <MainSidebar sideItemList={sideItem} />
       <section className="lg:flex-1 w-full">
         <p className="lg:w-full text-center lg:text-left text-lg font-bold py-3 lg:py-5">
-          마이페이지
+          유저 정보
         </p>
 
         <div className="relative lg:w-full lg:p-6 lg:pb-25 rounded-md lg:border border-alt">
-          <h2 className="hidden lg:block text-lg font-bold mb-4">정보</h2>
-
           <Button
             onClick={isEditing ? handleEditEndClick : handleEditStartClick}
             className="absolute right-0 lg:bottom-5 lg:right-5 z-10"
@@ -347,7 +345,6 @@ export const Mypage: React.FC = () => {
                 </header>
                 <div className="flex items-center justify-between w-full">
                   {tabs.map((tab) => {
-                    console.log(tab);
                     return (
                       <TabItem
                         isActive={tab.label === selectedPosition}

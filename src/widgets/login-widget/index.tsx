@@ -96,7 +96,7 @@ export const KakaoLoginForm = () => {
   );
 };
 
-export const LoginPage = () => {
+export const LoginWidget = () => {
   const [isLocalLogin, setIsLocalLogin] = React.useState(false);
 
   const { setIsLoginWidgetOpen } = useWidgetStore();

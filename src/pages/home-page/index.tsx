@@ -1,11 +1,13 @@
 import { UserInfo } from '@/app/store/useUserStore';
 
 import { Banner } from '@/widgets/banner';
-import { UserSearchWidget } from '@/widgets/user-search-widget';
+import {
+  UserSearchWidget,
+  useUserSearchQuery,
+} from '@/widgets/user-search-widget';
 
 import { UserCard } from '@/features/user/ui/user-card';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
-import { useUserSearchQuery } from '@/shared/components/TabComponent';
 
 export const HomePage = () => {
   const { data: userList, isLoading } = useUserSearchQuery();

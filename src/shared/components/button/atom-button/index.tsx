@@ -31,12 +31,15 @@ active:scale-[98%]
         kakao: 'bg-[#FFE812] border border-alt text-black-normal',
 
         bgNone: 'bg-normal text-black-normal',
+        round:
+          ' rounded-full p-3 bg-normal text-black-normal border border-alt',
       },
       size: {
         xs: 'px-3 py-1.5 text-sm w-fit h-[28px] min-w-fit',
         sm: 'px-4 py-2 text-md w-[60px] h-[40px]',
         md: 'px-5 py-3 text-base w-[68px] h-[48px] min-w-fit',
         lg: 'w-full text-lg py-3',
+        round: 'w-12 h-12',
       },
     },
     defaultVariants: {

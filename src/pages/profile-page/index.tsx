@@ -173,6 +173,8 @@ export const ProfilePage = () => {
         <div className="relative w-full">
           {/* 왼쪽 버튼 */}
           <Button
+            variant="round"
+            size="round"
             onClick={() => scroll('left')}
             className="absolute left-0 top-1/2 -translate-y-1/2 z-10 "
           >
@@ -194,6 +196,8 @@ export const ProfilePage = () => {
             )}
           </section>
           <Button
+            variant="round"
+            size="round"
             onClick={() => scroll('right')}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
           >

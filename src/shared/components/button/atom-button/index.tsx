@@ -2,7 +2,12 @@ import { cn } from '@/shared/lib/cn';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 const buttonVariants = cva(
-  'items-center justify-center rounded-lg transition-colors disabled:opacity-50 disabled:pointer-events-none cursor-pointer box-border hover:scale-[101%] active:scale-95 transition-all min-w-fit',
+  `
+items-center justify-center rounded-lg transition-colors cursor-pointer box-border transition-all min-w-fit
+disabled:opacity-50 disabled:pointer-events-none 
+hover:scale-[101%]
+active:scale-[98%]
+`,
   {
     variants: {
       variant: {
@@ -24,12 +29,17 @@ const buttonVariants = cva(
         muted: 'bg-primary-mute text-white hover:bg-[#bb7269]',
 
         kakao: 'bg-[#FFE812] border border-alt text-black-normal',
+
+        bgNone: 'bg-normal text-black-normal',
+        round:
+          ' rounded-full p-3 bg-normal text-black-normal border border-alt',
       },
       size: {
         xs: 'px-3 py-1.5 text-sm w-fit h-[28px] min-w-fit',
         sm: 'px-4 py-2 text-md w-[60px] h-[40px]',
         md: 'px-5 py-3 text-base w-[68px] h-[48px] min-w-fit',
         lg: 'w-full text-lg py-3',
+        round: 'w-12 h-12',
       },
     },
     defaultVariants: {

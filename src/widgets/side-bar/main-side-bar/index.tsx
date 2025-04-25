@@ -4,7 +4,7 @@ export const MainSidebar = ({ sideItemList }) => {
   const location = useLocation();
   const { pathname } = location;
   return (
-    <aside className=" w-3/12 text-xl">
+    <aside className="hidden lg:block w-3/12 text-xl">
       <ul className=" sticky top-0 flex flex-col gap-7 items-start">
         {sideItemList.map((item, index) => {
           return (

@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { useGetUserQuery } from '../../hooks';
 
-export const ProfileImage = () => {
+export const ProfileImage = ({ src }) => {
   const params = useParams();
   const { data: user, isLoading } = useGetUserQuery(params.userId);
 
@@ -13,7 +13,7 @@ export const ProfileImage = () => {
       {user?.kakaoAuthInfo?.profileImg ? (
         <img
           className="w-20 h-20 rounded-full"
-          src={user.kakaoAuthInfo.profileImg}
+          src={user.kakaoAuthInfo.profileImg ?? src}
           alt=""
         />
       ) : (

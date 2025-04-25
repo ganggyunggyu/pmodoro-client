@@ -25,8 +25,8 @@ export const EditInput: React.FC<EditInputProps> = ({
     }
   }, [value]);
   return (
-    <div className="flex w-full justify-start lg:gap-25 items-center">
-      <p className="w-40 min-w-40 text-black-alt">{label}</p>
+    <div className="flex flex-col w-full justify-start lg:flex-row lg:gap-25 lg:items-center">
+      <p className="w-40 lg:min-w-40 text-black-alt">{label}</p>
 
       {label === '자기소개' ? (
         <div
@@ -39,7 +39,7 @@ export const EditInput: React.FC<EditInputProps> = ({
             value={value}
             onChange={onChange}
             placeholder="자기소개"
-            className="w-full rounded-lg p-3"
+            className="w-full rounded-lg py-3 lg:p-3 disabled:p-0 transition-all"
             disabled={!isEditing}
           />
         </div>
@@ -49,7 +49,7 @@ export const EditInput: React.FC<EditInputProps> = ({
           type="text"
           value={value}
           disabled={!isEditing}
-          className="w-full "
+          className="w-full"
           onChange={onChange}
         />
       )}

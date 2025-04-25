@@ -82,3 +82,10 @@ export const CAREERS = [
   '9년',
   '10년 이상',
 ];
+
+export const ALL_POSITIONS = [
+  ...DEVELOPER_POSITIONS,
+  ...DESIGNER_POSITIONS,
+  ...PLANNER_POSITIONS,
+  ...MARKETER_POSITIONS,
+];

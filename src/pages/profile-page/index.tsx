@@ -2,13 +2,14 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { PulseLoaderSpinner } from '@/shared/components/PulseLoaderPage';
 import { UserInfo, useUserStore } from '@/app/store/useUserStore';
-import { useUserSearchQuery } from '@/shared/components/TabComponent';
 import { useGetProjectByUser, useGetUserQuery } from '@/entities';
 import { UserCard } from '@/features/user/ui/user-card';
 import { ProfileImage } from '@/entities/user/ui/profile-image';
 import { ProjectCard } from '@/features/project/ui/project-card';
 import { axios } from '@/app/config';
 import { useChatStore } from '@/app/store/useChatStore';
+import { Button, LeftArrow, RightArrow } from '@/shared';
+import { useUserSearchQuery } from '@/widgets/user-search-widget';
 
 export const UserProfileCard = () => {
   const params = useParams();
@@ -22,7 +23,7 @@ export const UserProfileCard = () => {
   const handleChatClick = async () => {
     const isMe = userInfo._id === user?._id;
     if (isMe) {
-      navigate(`chat/${userInfo._id}`);
+      navigate(`/chat/${userInfo._id}`);
     } else {
       try {
         const result = await axios.post('/chat/room', {
@@ -41,22 +42,20 @@ export const UserProfileCard = () => {
   };
 
   return (
-    <article className={`flex gap-3 lg:flex-col lg:gap-7 lg:w-3/12`}>
-      <div className="flex items-end gap-5">
-        <div>
-          <ProfileImage />
-        </div>
-        <div className="flex flex-col">
-          <p className="text-lg font-semibold">{user.displayName}</p>
-          <p>{user.position}</p>
+    <article
+      className={`flex flex-col items-center justify-center md:flex-col gap-3 w-full lg:gap-7 lg:w-3/12`}
+    >
+      <div className="flex items-center w-full justify-center lg:justify-start lg:flex-row gap-5">
+        <ProfileImage src={user?.kakaoAuthInfo?.profileImg} />
+
+        <div className="flex flex-col items-center">
+          <p className="text-headline-sb">{user.displayName}</p>
+          <p className="text-body-normal-m text-black-alt">{user.position}</p>
         </div>
       </div>
-      <button
-        onClick={handleChatClick}
-        className="lg:block hidden bg-primary text-white rounded-md py-2 px-10"
-      >
+      <Button className="w-full" onClick={handleChatClick}>
         채팅하기
-      </button>
+      </Button>
     </article>
   );
 };
@@ -73,17 +72,29 @@ export const ProfilePage = () => {
   const { data: projectList, isLoading: isProjectListLoading } =
     useGetProjectByUser(params.userId);
 
+  const scrollRef = React.useRef<HTMLDivElement | null>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    const scrollAmount = window?.innerWidth;
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   if (isLoading) return <PulseLoaderSpinner />;
 
   return (
     <main className="flex flex-col gap-10 h-screen">
       <section
         className={`w-full gap-4 lg:gap-10 p-6 border border-alt rounded-lg
-        lg:flex 
-        flex flex-col `}
+        lg:flex-row
+        flex flex-col`}
       >
         <UserProfileCard />
-        <article className="flex flex-col p-6 bg-primary-opacity flex-1">
+        <article className="flex flex-col p-6 bg-primary-transparent flex-1">
           <p className="text-primary">자기소개</p>
           <p>{user.description}</p>
         </article>
@@ -159,17 +170,40 @@ export const ProfilePage = () => {
       <section className="flex flex-col gap-4 lg:gap-7">
         <p className="text-lg font-semibold">더 찾아보기</p>
 
-        <section className="flex gap-3 w-full overflow-x-scroll pb-20">
-          {isUsersLoading ? (
-            <div className="flex">
-              <PulseLoaderSpinner />
-            </div>
-          ) : (
-            users?.map((cardUser: UserInfo) => (
-              <UserCard key={cardUser._id} cardUser={cardUser} />
-            ))
-          )}
-        </section>
+        <div className="relative w-full">
+          {/* 왼쪽 버튼 */}
+          <Button
+            variant="round"
+            size="round"
+            onClick={() => scroll('left')}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 "
+          >
+            <LeftArrow />
+          </Button>
+
+          <section
+            ref={scrollRef}
+            className="flex gap-3 w-full h-full overflow-x-scroll scroll-smooth px-10"
+          >
+            {isUsersLoading ? (
+              <div className="flex">
+                <PulseLoaderSpinner />
+              </div>
+            ) : (
+              users?.map((cardUser: UserInfo) => (
+                <UserCard key={cardUser._id} cardUser={cardUser} />
+              ))
+            )}
+          </section>
+          <Button
+            variant="round"
+            size="round"
+            onClick={() => scroll('right')}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
+          >
+            <RightArrow />
+          </Button>
+        </div>
       </section>
     </main>
   );

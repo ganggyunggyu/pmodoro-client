@@ -16,9 +16,10 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
   const { pathname } = useLocation();
 
   const isOnboardingWidgets = pathname.includes('onboarding');
+  const isChatPage = pathname.includes('chat');
 
   const initPage = async () => {
-    if (isOnboardingWidgets) {
+    if (isOnboardingWidgets || isChatPage) {
       setIsView(true);
       setIsOpacity(false);
       return;

@@ -21,7 +21,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (userId) {
       init();
     } else {
-      console.log('기존 로그인 정보 없음');
+      console.warn('기존 로그인 정보 없음');
     }
   }, []);
 

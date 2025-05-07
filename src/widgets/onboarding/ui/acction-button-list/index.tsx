@@ -50,8 +50,6 @@ export const ActionButtonList = () => {
     if (pathname.includes('other-info')) {
       mutate(onboardingData, {
         onSuccess: async (data) => {
-          console.log(data);
-
           const { userInfo } = data;
 
           localStorage.setItem('userId', userInfo._id);

@@ -29,8 +29,6 @@ export const Step4Project: React.FC = () => {
     setOnOffPreference(onOff);
 
     setOnboardingField('isOnline', onOff.isOnline);
-
-    console.log(onboardingData.isOnline);
   };
 
   const handleResionClick = (resion) => {

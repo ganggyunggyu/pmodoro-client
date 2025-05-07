@@ -18,7 +18,7 @@ export const ProjectForm = () => {
   const { mutate: addProject } = usePostProject();
 
   if (isProjectListLoading) {
-    console.log(projectList);
+    console.debug(projectList);
   }
   const [formData, setFormData] = useState({
     name: '',

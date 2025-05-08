@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router';
 
 export const Header = () => {
   const navigate = useNavigate();
-  const { setIsLoginWidgetOpen } = useWidgetStore();
+  const { setIsLoginWidgetOpen, isLoginWidgetOpen } = useWidgetStore();
 
   const isMobile = getIsMobile();
 

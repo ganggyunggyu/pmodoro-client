@@ -31,7 +31,7 @@ export const App = () => {
     if (isLoginWidgetOpen) {
       setIsLoginWidgetOpen(false);
     }
-  }, [pathname, isLoginWidgetOpen, setIsLoginWidgetOpen]);
+  }, [pathname]);
 
   return (
     <AuthProvider>

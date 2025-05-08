@@ -56,7 +56,6 @@ export const ChatPage: React.FC = () => {
   }, [currentRoomId]);
 
   React.useEffect(() => {
-    chatRoomsFetch();
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messageList]);
 
@@ -87,7 +86,7 @@ export const ChatPage: React.FC = () => {
   const MessageWrapper = () => {
     return (
       <React.Fragment>
-        {messageList.map((msg, idx) => (
+        {messageList?.map((msg, idx) => (
           <div
             key={idx}
             className={`flex ${
@@ -189,8 +188,23 @@ export const ChatPage: React.FC = () => {
               <MessageWrapper />
             )}
           </article>
-
-          {currentRoomId && <ChatForm />}
+          {currentRoomId && (
+            <form
+              className="flex gap-5 items-center rounded-md"
+              onSubmit={handleSubmit}
+            >
+              <Input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="입력하기"
+                className="h-full"
+              />
+              <Button type="submit" className="h-full min-w-fit">
+                전송
+              </Button>
+            </form>
+          )}
         </section>
       )}
 
@@ -198,9 +212,24 @@ export const ChatPage: React.FC = () => {
         <section className="fixed top-0 left-0 bg-white z-10 flex flex-col gap-5 w-full h-[95vh] py-10">
           <div className="flex flex-col flex-1 gap-3 p-6 overflow-y-auto border border-alt rounded-md min-h-full">
             <MessageWrapper />
+            {currentRoomId && (
+              <form
+                className="flex gap-5 items-center rounded-md"
+                onSubmit={handleSubmit}
+              >
+                <Input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="입력하기"
+                  className="h-full"
+                />
+                <Button type="submit" className="h-full min-w-fit">
+                  전송
+                </Button>
+              </form>
+            )}
           </div>
-
-          {currentRoomId && <ChatForm />}
         </section>
       )}
     </main>

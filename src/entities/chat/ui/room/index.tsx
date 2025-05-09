@@ -26,7 +26,7 @@ export const ChatRoom = ({
       break;
     case 'default':
     default:
-      variant = 'outlineAlt';
+      variant = 'outlinePrimary';
       break;
   }
 

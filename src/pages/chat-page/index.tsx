@@ -153,7 +153,7 @@ export const ChatPage: React.FC = () => {
                     }
                   }}
                   lastMessage={lastMessage?.content ?? '채팅을 시작해보세요.'}
-                  status="default"
+                  status={currentRoomId === roomId ? 'default' : 'read'}
                 />
               );
             },

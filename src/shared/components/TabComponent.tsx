@@ -35,7 +35,7 @@ export const TabItem: React.FC<TabItemProps> = ({
   return (
     <div
       key={tab.id}
-      className={`cursor-pointer p-2 lg:mx-2 text-caption1-m lg:text-headline-m ${
+      className={`cursor-pointer p-2 lg:mx-2 text-caption1-m lg:text-headline-m hover:text-primary transition-colors ${
         isActive ? 'text-red-500 border-b-2 border-red-500' : 'text-gray-500'
       } ${className ?? ''}`}
       {...props}

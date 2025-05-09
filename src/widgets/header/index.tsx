@@ -70,7 +70,10 @@ export const Header = () => {
 
       {isAuth ? (
         <article className="flex items-center gap-5">
-          <button className="cursor-pointer" onClick={handleChatClick}>
+          <button
+            className="cursor-pointer min-w-fit hover:text-primary transition-colors"
+            onClick={handleChatClick}
+          >
             채팅
           </button>
           {userInfo?.kakaoAuthInfo?.profileImg ? (

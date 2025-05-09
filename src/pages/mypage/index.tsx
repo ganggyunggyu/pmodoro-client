@@ -177,7 +177,6 @@ export const Mypage: React.FC = () => {
             {/* 직무 선택 */}
             <DropdownWrapper
               isOpen={isPositionDropdownOpen}
-              onClose={() => setIsPositionDropdownOpen(false)}
               trigger={
                 <article className="flex w-full justify-start lg:gap-40 items-center">
                   <p className="w-40 text-black-alt">직무</p>
@@ -240,7 +239,6 @@ export const Mypage: React.FC = () => {
             {/* 경력 선택 */}
             <DropdownWrapper
               isOpen={isCareerDropdownOpen}
-              onClose={() => setIsCareerDropdownOpen(false)}
               trigger={
                 <article className="flex w-full justify-start lg:gap-40 items-center">
                   <p className="w-40 text-black-alt">경력</p>
@@ -302,7 +300,6 @@ export const Mypage: React.FC = () => {
 
             <DropdownWrapper
               isOpen={isUserSkillDropdownOpen}
-              onClose={() => setIsUserSkillDropdownOpen(false)}
               trigger={
                 <article className="flex w-full justify-start lg:gap-40 items-center">
                   <p className="w-40 text-black-alt">상세 포지션</p>

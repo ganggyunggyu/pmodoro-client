@@ -14,18 +14,16 @@ import { Input } from '@/shared/components/input';
 import React from 'react';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { delay } from '@/shared/lib/delay';
 
 interface DropdownWrapperProps {
   isOpen: boolean;
-  onClose: () => void;
   trigger: React.ReactNode;
   children: React.ReactNode;
 }
 
 export const DropdownWrapper: React.FC<DropdownWrapperProps> = ({
   isOpen,
-  onClose,
+
   trigger,
   children,
 }) => {
@@ -35,7 +33,7 @@ export const DropdownWrapper: React.FC<DropdownWrapperProps> = ({
     if (isOpen) {
       setIsVisible(true);
     } else {
-      const timer = setTimeout(() => setIsVisible(false), 200);
+      const timer = setTimeout(() => setIsVisible(false), 300);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
@@ -50,7 +48,7 @@ export const DropdownWrapper: React.FC<DropdownWrapperProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -5 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-10 overflow-hidden p-4 flex flex-col gap-3"
+            className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden p-4 flex flex-col gap-3"
           >
             {children}
           </motion.article>
@@ -137,7 +135,6 @@ export const ComponentsPage = () => {
         <p className="text-lg font-bold">DropdownButton</p>
         <DropdownWrapper
           isOpen={isDropdownOpen}
-          onClose={() => setIsDropdownOpen(false)}
           trigger={
             <DropdownButton
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}

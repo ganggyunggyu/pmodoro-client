@@ -21,8 +21,6 @@ export const ChatRoomList = () => {
     navigate(`/chat/${userInfo._id}/${roomId}`);
   };
 
-  console.log(chatRoomList);
-
   return (
     <ul className="w-full flex flex-col gap-2">
       {chatRoomList.map(

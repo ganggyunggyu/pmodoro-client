@@ -13,7 +13,6 @@ export const useKakaoLoginCheck = (authTime: string, userId: string) => {
       onSuccess: (data) => {
         // 로그인 성공 시 userInfo와 isAuth 상태 업데이트
 
-        console.log(data);
         setUserInfo(data);
         setIsAuth(true);
       },

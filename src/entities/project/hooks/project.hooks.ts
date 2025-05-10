@@ -20,7 +20,7 @@ export const usePostProject = () => {
       console.error('프로젝트 추가 중 오류 발생:', error);
     },
     onSuccess: (data) => {
-      console.log('프로젝트 추가 성공:', data);
+      console.debug('프로젝트 추가 성공:', data);
     },
   });
 };
@@ -33,7 +33,7 @@ export const useDeleteProject = () => {
       console.error('프로젝트 삭제 중 오류 발생:', error);
     },
     onSuccess: (data) => {
-      console.log('프로젝트 삭제 성공:', data);
+      console.debug('프로젝트 삭제 성공:', data);
     },
   });
 };
@@ -44,7 +44,7 @@ export const usePatchProject = () => {
       console.error('프로젝트 수정 중 오류 발생:', error);
     },
     onSuccess: (data) => {
-      console.log('프로젝트 수정 성공:', data);
+      console.debug('프로젝트 수정 성공:', data);
     },
   });
 };

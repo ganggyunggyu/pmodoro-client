@@ -8,7 +8,7 @@ import { ProfileImage } from '@/entities/user/ui/profile-image';
 import { ProjectCard } from '@/features/project/ui/project-card';
 import { axios } from '@/app/config';
 import { useChatStore } from '@/app/store/useChatStore';
-import { Button, LeftArrow, RightArrow } from '@/shared';
+import { Button, LabelButton, LeftArrow, RightArrow } from '@/shared';
 import { useUserSearchQuery } from '@/widgets/user-search-widget';
 
 export const UserProfileCard = () => {
@@ -87,7 +87,7 @@ export const ProfilePage = () => {
   if (isLoading) return <PulseLoaderSpinner />;
 
   return (
-    <main className="flex flex-col gap-10 h-screen">
+    <main className="flex flex-col gap-10 ">
       <section
         className={`w-full gap-4 lg:gap-10 p-6 border border-alt rounded-lg
         lg:flex-row
@@ -103,25 +103,25 @@ export const ProfilePage = () => {
       <section className="flex flex-col gap-4 lg:gap-7">
         <p className="text-lg font-semibold">기본정보</p>
 
-        <article className="flex">
-          <p className="text-black-alt w-50">직무</p>
+        <article className="flex gap-15 lg:gap-40">
+          <p className="text-black-alt  min-w-fit">직무</p>
           <p>{user.position}</p>
         </article>
-        <article className="flex">
-          <p className="text-black-alt w-50">경력</p>
+        <article className="flex gap-15 lg:gap-40">
+          <p className="text-black-alt  min-w-fit">경력</p>
           <p>{user.career}</p>
         </article>
-        <article className="flex">
-          <p className="text-black-alt w-50">기술 스택</p>
+        <article className="flex gap-5 lg:gap-30">
+          <p className="text-black-alt  min-w-fit">기술 스택</p>
           <div className="flex gap-3">
             {user.skills.map((skill, index) => {
               return (
-                <figure
+                <LabelButton
+                  size="xs"
+                  variant="outlineAlt"
                   key={index}
-                  className="min-w-fit px-3 py-2 border border-alt rounded-full text-xs"
-                >
-                  {skill}
-                </figure>
+                  label={skill}
+                />
               );
             })}
           </div>
@@ -131,20 +131,20 @@ export const ProfilePage = () => {
       <section className="flex flex-col gap-4 lg:gap-7">
         <p className="text-lg font-semibold">프로젝트 참여 정보</p>
 
-        <article className="flex">
-          <p className="text-black-alt w-50">활동 지역</p>
+        <article className="flex gap-15 lg:gap-35">
+          <p className="text-black-alt ">활동 지역</p>
           <p>
             {user.firstArea
               ? user.firstArea + ' ' + user.secondArea
               : '정보 없음'}
           </p>
         </article>
-        <article className="flex">
-          <p className="text-black-alt w-50">참가 선호</p>
+        <article className="flex gap-15 lg:gap-35">
+          <p className="text-black-alt ">참가 선호</p>
           <p>{user.isOnline ? '온라인' : '오프라인'}</p>
         </article>
-        <article className="flex">
-          <p className="text-black-alt w-50">참가 경험</p>
+        <article className="flex gap-15 lg:gap-35">
+          <p className="text-black-alt ">참가 경험</p>
           <p>
             {isProjectListLoading
               ? '로딩 중...'

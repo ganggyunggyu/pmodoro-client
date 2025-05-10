@@ -301,8 +301,8 @@ export const Mypage: React.FC = () => {
             <DropdownWrapper
               isOpen={isUserSkillDropdownOpen}
               trigger={
-                <article className="flex w-full justify-start lg:gap-40 items-center">
-                  <p className="w-40 text-black-alt">상세 포지션</p>
+                <article className="flex w-full justify-start lg:gap-40 gap-10  items-center">
+                  <p className="w-40 text-black-alt min-w-fit">상세 포지션</p>
                   <div className="w-full flex flex-col gap-3">
                     {isEditing && (
                       <React.Fragment>

@@ -91,7 +91,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       />
 
       <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2 w-full">
-        <p className="w-20 font-medium text-gray-700 shrink-0">기간</p>
+        <p className="w-30 font-medium text-black-alt shrink-0">기간</p>
         <div className="flex flex-col lg:flex-row w-full gap-2">
           {isEditing ? (
             <>

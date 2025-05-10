@@ -28,7 +28,7 @@ export const DropdownButton = ({
   })();
   return (
     <Button
-      className={cn('flex gap-3 items-center w-fit', className)}
+      className={cn('flex gap-3 items-center w-fit min-w-fit', className)}
       {...props}
     >
       <p>{label}</p>
